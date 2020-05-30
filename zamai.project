@@ -8,6 +8,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/dag.cpp"/>
     <File Name="src/main.cpp"/>
     <VirtualDirectory Name="engine">
       <File Name="./thirdparty/simplex/src/engine/actor.cpp"/>
@@ -83,7 +84,6 @@
         <File Name="./thirdparty/simplex/include/trz/util/timer.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
-    <File Name="inc/logImp.h"/>
     <VirtualDirectory Name="enterprise">
       <File Name="./thirdparty/simplex/include/trz/enterprise/traceref.h"/>
     </VirtualDirectory>
@@ -91,6 +91,7 @@
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="-Wall;-pedantic;-Werror;-Wextra;-std=c++14;-Wno-unused-parameter" C_Options="" Assembler="">
+        <IncludePath Value="inc"/>
         <IncludePath Value="$(SIMPLX_DIR)/include"/>
         <IncludePath Value="$(LXUTILS)/inc"/>
         <IncludePath Value="./inc"/>

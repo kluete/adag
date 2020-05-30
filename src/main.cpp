@@ -1,6 +1,7 @@
 // main zama challenge
 #include <iostream>
 
+#include "zamai.h"
 #include "simplx.h"
 
 using namespace std;
