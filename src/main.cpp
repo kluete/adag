@@ -39,6 +39,7 @@ public:
 	}
 };
 
+#if 0
 //---- Writer Actor ------------------------------------------------------------
 
     // sends a PrintEvent containing a string to PrinterActor
@@ -58,6 +59,8 @@ public:
 		pipe.push<ComputeEvent>("Hello, World!");		// send PrintEvent through pipe
 	}
 };
+
+#endif
 
 //---- Main --------------------------------------------------------------------
 
