@@ -15,7 +15,7 @@ I use an Actor Framework: threads are ideally pinned on CPU cores (with said cor
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), which have been postponed to after C++ 20 (Kohlhoff wrote ASIO)
 * Mohamed B's [qb](https://github.com/isndev/qb), which is faster & more modern than Simplx
 
-* balancing CPU core load... but since data hopping cores means cash flushes/resyncs, it's a hard problem with computational nodes whose cost can't be quatified ahead of time
+* balancing CPU core load... but since hopping cores (with a significan payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quatified ahead of time
 
 
 ## Misc Notes
