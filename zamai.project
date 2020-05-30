@@ -10,8 +10,8 @@
   <VirtualDirectory Name="src">
     <File Name="src/main.cpp"/>
     <VirtualDirectory Name="engine">
-      <File Name="./thirdparty/simplexsrc/engine/actor.cpp"/>
-      <File Name="./thirdparty/simplexsrc/engine/e2econnector.cpp" ExcludeProjConfig=""/>
+      <File Name="./thirdparty/simplex/src/engine/actor.cpp"/>
+      <File Name="./thirdparty/simplex/src/engine/e2econnector.cpp" ExcludeProjConfig=""/>
       <File Name="./thirdparty/simplex/src/engine/engine.cpp"/>
       <File Name="./thirdparty/simplex/src/engine/node.cpp"/>
       <File Name="./thirdparty/simplex/src/engine/linux/platform_gcc.cpp"/>
