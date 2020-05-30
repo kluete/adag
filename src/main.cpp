@@ -1,5 +1,6 @@
 // main zama challenge
 #include <iostream>
+#include <random>
 
 #include "zamai.h"
 #include "simplx.h"

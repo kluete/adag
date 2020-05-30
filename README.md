@@ -20,5 +20,6 @@ I use an Actor Framework where threads are ideally pinned on CPU cores, i.e. one
 
 ## Misc Notes
 
-IDag's virtual interface *may* have a cost, but I won't fiddle with it until I get profiler reports.
+* the DAG generation is simplified so downstrream node are only DAG children. It'd be possible to have downstraem DAG nodes without cycles but it seems beyond the scope of this project
+* IDag's virtual interface *may* have a cost, but I won't fiddle with it until I get profiler reports.
 
