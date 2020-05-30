@@ -18,17 +18,8 @@
       <File Name="./thirdparty/simplex/src/engine/RefMapper.cpp"/>
       <File Name="./thirdparty/simplex/src/engine/e2e_stub.cpp"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="common">
-      <File Name="../../lxUtils/src/xstring.cpp"/>
-      <File Name="../../lxUtils/src/xutils.cpp"/>
-    </VirtualDirectory>
     <VirtualDirectory Name="util">
       <File Name="./thirdparty/simplex/src/util/waitcondition.cpp"/>
-      <VirtualDirectory Name="log">
-        <File Name="./thirdparty/simplex/src/util/log/logbackend.cpp"/>
-        <File Name="./thirdparty/simplex/src/util/log/logproxy.cpp"/>
-        <File Name="./thirdparty/simplex/src/util/log/logservice.cpp"/>
-      </VirtualDirectory>
       <VirtualDirectory Name="timer">
         <File Name="./thirdparty/simplex/src/util/timer/timeractor.cpp"/>
       </VirtualDirectory>
