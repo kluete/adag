@@ -21,5 +21,5 @@ I use an Actor Framework: threads are ideally pinned on CPU cores (with said cor
 ## Misc Notes
 
 * the randomized DAG generation is simplified so downstream nodes are only DAG descendents. It'd be possible to generate upstream DAG nodes while preveting cycles but it seems beyond the scope of this project
-* IDag's virtual interface *may* have a cost, but I generally don't speculate about performance without profiler reports at hand
+* IDag's virtual interface no doubt has a runtime cost, but I generally don't speculate about performance without profiler reports at hand
 
