@@ -20,7 +20,10 @@ struct PrintEvent : Actor::Event
 	const string message;
 };
 
-// when PrinterActor receives PrintEvents it displays them to the console
+//---- PrinterActor ------------------------------------------------------------
+
+    // when receives PrintEvents it displays them to the console
+    
 class PrinterActor : public Actor
 {
 public:
@@ -42,7 +45,10 @@ public:
 	}
 };
 
-// WriterActor sends a PrintEvent containing a string to PrinterActor
+//---- Writer Actor ------------------------------------------------------------
+
+    // sends a PrintEvent containing a string to PrinterActor
+    
 class WriterActor : public Actor
 {
 public:
