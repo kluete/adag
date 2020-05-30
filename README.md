@@ -4,7 +4,7 @@
 
 ## Overview
 
-Use an Actor Framework with threads pinned on CPU cores.
+I use an Actor Framework where threads are ideally pinned on CPU cores, i.e. one core = one thread.
 
 
 ## Build instructions
