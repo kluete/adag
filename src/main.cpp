@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace tredzone;
+using namespace zamai;
 
 // Event be sent between ComputeActors, payload is int32 value
 
@@ -38,29 +39,6 @@ public:
 		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
 	}
 };
-
-#if 0
-//---- Writer Actor ------------------------------------------------------------
-
-    // sends a PrintEvent containing a string to PrinterActor
-    
-class WriterActor : public Actor
-{
-public:
-    // ctor
-    WriterActor()
-    {
-		cout << "WriterActor::CTOR()" << endl;
-        
-        // retrieve PrinterActor's id from the ServiceIndex
-		const ActorId&   printerActorId = getEngine().getServiceIndex().getServiceActorId<ComputeActor::ServiceTag>();
-        
-		Event::Pipe pipe(*this, printerActorId);	// create uni-directional communication channel between WriterActor (this) and PrinterActor (printerActorId)
-		pipe.push<ComputeEvent>("Hello, World!");		// send PrintEvent through pipe
-	}
-};
-
-#endif
 
 //---- Main --------------------------------------------------------------------
 

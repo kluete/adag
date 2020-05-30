@@ -17,3 +17,8 @@ Use an Actor Framework with threads pinned on CPU cores.
 
 * balancing CPU core load... but since data hopping cores means cash flushes/resyncs, it's a hard problem with computational nodes whose cost can't be quatified ahead of time
 
+
+## Misc Notes
+
+IDag's virtual interface *may* have a cost, but I won't fiddle with it until I get profiler reports.
+
