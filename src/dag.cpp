@@ -2,8 +2,12 @@
 
 #include "zamai.h"
 
+#include "simplx.h"
+
 namespace zamai
 {
+using namespace tredzone;
+    
 //---- DAG imp -----------------------------------------------------------------
 
 class DAGImp : public IDag
@@ -15,6 +19,12 @@ public:
         
     }
     
+    void    SetIndexActorId(const size_t &i, const Actor::ActorId &actor_id) override
+    {
+        (void)i;
+        (void)actor_id;
+    }
+   
     void    next(void) override
     {
         
