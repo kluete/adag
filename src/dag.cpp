@@ -1,6 +1,7 @@
 // DAG implementation
 
 #include <vector>
+#include <unordered_map>
 
 #include "simplx.h"
 
@@ -8,6 +9,7 @@
 
 namespace zamai
 {
+using namespace std;
 using namespace tredzone;
     
 //---- DAG imp -----------------------------------------------------------------
@@ -27,11 +29,12 @@ public:
         
     }
     
-    
-    void    RegisterIndexActorId(const size_t &i, const Actor::ActorId &actor_id) override
+    void    RegisterIndexActorId(const size_t &index, const Actor::ActorId &actor_id) override
     {
-        (void)i;
-        (void)actor_id;
+        assert(!m_ActorIndexToIdMap.count(index));
+        
+        m_ActorIndexToIdMap.insert({index, actor_id});
+        
     }
    
     void    next(void) override
@@ -43,6 +46,8 @@ private:
     
     const size_t    m_MaxNodes;
     const size_t    m_MaxNodeFans;
+    
+    unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
 };
 
 //---- INSTANTIATION -----------------------------------------------------------
