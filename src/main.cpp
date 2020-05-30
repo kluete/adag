@@ -43,9 +43,9 @@ ComputeInit
     const uint32_t  m_OpMul;    
 };
 
-//---- Compute Node actor -----------------------------------------------------------
+//---- Compute Node actor ------------------------------------------------------
 
-class ComputeActor : public Actor
+class ComputeActor : public Actor, public Actor::Callback
 {
 public:
 
@@ -54,6 +54,8 @@ public:
         : m_Dag(init.m_IDag), m_OpMul(init.m_OpMul)
     {
 		cout << "ComputeActor::ComputeActor()" << endl;
+        
+        registerCallback(*this);	                // callback once is instantiated on right cpu/core
 		registerEventHandler<ComputeEvent>(*this);
     }
     
@@ -61,6 +63,11 @@ public:
 	void onEvent(const ComputeEvent& e)
     {
 		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
+	}
+    
+    void onCallback()
+    {
+		cout << "ComputeActor::init callback()" << endl;
 	}
     
 private:
