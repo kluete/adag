@@ -1,8 +1,10 @@
 // DAG implementation
 
-#include "zamai.h"
+#include <vector>
 
 #include "simplx.h"
+
+#include "zamai.h"
 
 namespace zamai
 {
@@ -14,7 +16,7 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t max_nodes)
+    DAGImp(const size_t max_nodes, const size_t max_node_fanning)
     {
         // generate index -> index graph
     }
@@ -39,9 +41,9 @@ private:
 
   
 // static
-IDag*    IDag::CreateDAG(const size_t max_nodes)
+IDag*    IDag::CreateDAG(const size_t max_nodes, const size_t max_node_fanning)
 {
-    return new DAGImp(max_nodes);
+    return new DAGImp(max_nodes, max_node_fanning);
 }
 
 } // namespace zamai
