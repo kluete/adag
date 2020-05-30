@@ -63,7 +63,7 @@ public:
 
 int main()
 {
-    cout << "tutorial #4 : printer actor service" << endl;
+    cout << "zamai DAG actor model" << endl;
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
