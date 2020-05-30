@@ -46,7 +46,7 @@ class ComputeActor : public Actor
 public:
 
     // ctor
-	ComputeActor()
+	ComputeActor(const ComputeInit &init)
     {
 		cout << "ComputeActor::ComputeActor()" << endl;
 		registerEventHandler<ComputeEvent>(*this);
@@ -69,8 +69,8 @@ int main()
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
-    startSequence.addActor<ComputeActor>(0/*CPU core*/);
-    startSequence.addActor<ComputeActor>(0/*CPU core*/);
+    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0x12));
+    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0x34));
 
     Engine engine(startSequence);	                // start above actors
 
