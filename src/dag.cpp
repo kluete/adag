@@ -10,7 +10,7 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp
+    DAGImp()
     {
         
     }
