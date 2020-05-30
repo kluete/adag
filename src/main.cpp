@@ -29,17 +29,26 @@ struct ComputeEvent : Actor::Event
 
 //---- Compute node initializer ------------------------------------------------
 
-struct
+class
 ComputeInit
 {
+public:
+
     // ctor
-    ComputeInit(IDag *dag, const uint32_t &opmul)
-        : m_IDag(dag), m_OpMul(opmul)
+    ComputeInit(IDag *dag, const size_t index, const uint32_t &opmul)
+        : m_IDag(dag), m_Index(index), m_OpMul(opmul)
     {
     }
     
+    void    RegisterActorId(void)
+    {
+        
+    }
     
+private:
+
     IDag            *m_IDag;
+    const size_t    m_Index;
     const uint32_t  m_OpMul;    
 };
 
@@ -86,8 +95,8 @@ int main()
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
-    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0x12));
-    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0x34));
+    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0, 0x12));
+    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 1, 0x34));
 
     Engine engine(startSequence);	                // start above actors
 
