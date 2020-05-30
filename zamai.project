@@ -245,7 +245,7 @@
       <General OutputFile="dtor_bugd.bin" IntermediateDirectory="./.Debug" Command="dtor_bugd.bin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments=" " WorkingDirectory="$(WorkspacePath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
-        <![CDATA[SIMPLX_DIR=./thirdpart/simple]]>
+        <![CDATA[SIMPLX_DIR=./thirdparty/simplex/]]>
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>
