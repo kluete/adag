@@ -23,6 +23,22 @@ struct ComputeEvent : Actor::Event
 	const uint32_t m_Val;
 };
 
+//---- Compute node initializer ------------------------------------------------
+
+struct
+ComputeInit
+{
+    // ctor
+    ComputeInit(IDag *dag, const uint32_t &opmul)
+        : m_IDag(dag), m_OpMul(opmul)
+    {
+    }
+    
+    
+    IDag            *m_IDag;
+    const uint32_t  m_OpMul;    
+};
+
 //---- Compute Actor -----------------------------------------------------------
 
 class ComputeActor : public Actor
