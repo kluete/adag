@@ -4,7 +4,7 @@
 
 ## Overview
 
-I use an Actor Framework where threads are ideally pinned on CPU cores, i.e. one core = one thread.
+I use an Actor Framework: threads are ideally pinned on CPU cores (with said core masked out from the kernel config), i.e. one core = one thread.
 
 
 ## Build instructions

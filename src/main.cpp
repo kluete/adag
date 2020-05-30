@@ -38,6 +38,7 @@ public:
     ComputeInit(IDag *dag, const size_t index, const uint32_t &opmul)
         : m_IDag(dag), m_Index(index), m_OpMul(opmul)
     {
+        assert(dag);
     }
     
     void    RegisterActorId(void)
