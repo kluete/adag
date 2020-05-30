@@ -12,8 +12,8 @@ I use an Actor Framework: threads are ideally pinned on CPU cores (with said cor
 
 ## What alternatives I would have considered with more time
 
-* Chris Kohlhoff's [executors](https://github.com/executors/executors), which have been postponed to after C++ 20 (Kohlhoff wrote ASIO)
-* Mohamed B's [qb](https://github.com/isndev/qb), which is faster & more modern than Simplx
+* Chris Kohlhoff's [executors](https://github.com/executors/executors), whcse integration into ISO C++ has been postponed to after C++ 20. Kohlhoff wrote ASIO, so he knows his stuff.
+* Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplx but he's lacking some features like computer clustering.
 
 * balancing CPU core load... but since hopping cores (with a significan payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quatified ahead of time
 
