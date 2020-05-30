@@ -14,9 +14,9 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp()
+    DAGImp(const size_t max_nodes)
     {
-        
+        // generate index -> index graph
     }
     
     void    SetIndexActorId(const size_t &i, const Actor::ActorId &actor_id) override
@@ -39,9 +39,9 @@ private:
 
   
 // static
-IDag*    IDag::CreateDAG(void)
+IDag*    IDag::CreateDAG(const size_t max_nodes)
 {
-    return new DAGImp();
+    return new DAGImp(max_nodes);
 }
 
 } // namespace zamai

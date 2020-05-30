@@ -67,11 +67,14 @@ private:
 
 //---- Main --------------------------------------------------------------------
 
+constexpr size_t    MAX_NODES   = 1000;
+
+
 int main()
 {
     cout << "zamai DAG w/ actor model" << endl;
     
-    unique_ptr<IDag>   IDag(IDag::CreateDAG());
+    unique_ptr<IDag>   IDag(IDag::CreateDAG(MAX_NODES));
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     

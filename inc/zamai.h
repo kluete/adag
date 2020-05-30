@@ -18,7 +18,7 @@ public:
     virtual void    next(void) = 0;
 
     static
-    IDag*   CreateDAG(void);
+    IDag*   CreateDAG(const size_t max_nodes);
 };
 
 } // namespace zamai
