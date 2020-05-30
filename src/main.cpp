@@ -8,7 +8,9 @@ using namespace std;
 using namespace tredzone;
 using namespace zamai;
 
-// Event be sent between ComputeActors, payload is int32 value
+//---- Compute Event -----------------------------------------------------------
+
+// Event sent between ComputeActors, payload is int32 value
 
 struct ComputeEvent : Actor::Event
 {
@@ -44,7 +46,9 @@ public:
 
 int main()
 {
-    cout << "zamai DAG actor model" << endl;
+    cout << "zamai DAG w/ actor model" << endl;
+    
+    unique_ptr<IDag>   IDag(IDag::CreateDAG());
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
