@@ -39,7 +39,7 @@ ComputeInit
     const uint32_t  m_OpMul;    
 };
 
-//---- Compute Actor -----------------------------------------------------------
+//---- Compute Node actor -----------------------------------------------------------
 
 class ComputeActor : public Actor
 {
@@ -47,6 +47,7 @@ public:
 
     // ctor
 	ComputeActor(const ComputeInit &init)
+        : m_Dag(init.m_IDag), m_OpMul(init.m_OpMul)
     {
 		cout << "ComputeActor::ComputeActor()" << endl;
 		registerEventHandler<ComputeEvent>(*this);
@@ -57,6 +58,11 @@ public:
     {
 		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
 	}
+    
+private:
+
+    IDag            *m_Dag;
+    const uint32_t  m_OpMul;
 };
 
 //---- Main --------------------------------------------------------------------
