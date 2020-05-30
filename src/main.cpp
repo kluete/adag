@@ -6,42 +6,35 @@
 using namespace std;
 using namespace tredzone;
 
-/*
- * Event that will be sent from the WriterActor to the PrinterActor.
- * The payload is a string that will be printed to the console.
- */
-struct PrintEvent : Actor::Event
+// Event be sent between ComputeActors, payload is int32 value
+
+struct ComputeEvent : Actor::Event
 {
-	PrintEvent(const string& message)
-        : message(message)
+	ComputeEvent(const uint32_t &v)
+        : m_Val(v)
     {
 	}
     
-	const string message;
+	const uint32_t m_Val;
 };
 
-//---- PrinterActor ------------------------------------------------------------
+//---- Compute Actor -----------------------------------------------------------
 
-    // when receives PrintEvents it displays them to the console
-    
-class PrinterActor : public Actor
+class ComputeActor : public Actor
 {
 public:
 
-	// service tag (or key) used to uniquely identify service
-	struct ServiceTag : Service {};
-
     // ctor
-	PrinterActor()
+	ComputeActor()
     {
-		cout << "PrinterActor::PrinterActor()" << endl;
-		registerEventHandler<PrintEvent>(*this);
+		cout << "ComputeActor::ComputeActor()" << endl;
+		registerEventHandler<ComputeEvent>(*this);
     }
     
 	// called when PrintEvent is received
-	void onEvent(const PrintEvent& event)
+	void onEvent(const ComputeEvent& e)
     {
-		cout << "PrinterActor::onEvent(): " << event.message << ", from " << event.getSourceActorId() << endl;
+		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
 	}
 };
 
@@ -58,10 +51,10 @@ public:
 		cout << "WriterActor::CTOR()" << endl;
         
         // retrieve PrinterActor's id from the ServiceIndex
-		const ActorId&   printerActorId = getEngine().getServiceIndex().getServiceActorId<PrinterActor::ServiceTag>();
+		const ActorId&   printerActorId = getEngine().getServiceIndex().getServiceActorId<ComputeActor::ServiceTag>();
         
 		Event::Pipe pipe(*this, printerActorId);	// create uni-directional communication channel between WriterActor (this) and PrinterActor (printerActorId)
-		pipe.push<PrintEvent>("Hello, World!");		// send PrintEvent through pipe
+		pipe.push<ComputeEvent>("Hello, World!");		// send PrintEvent through pipe
 	}
 };
 
@@ -73,9 +66,8 @@ int main()
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
-    startSequence.addServiceActor<PrinterActor::ServiceTag, PrinterActor>(0/*CPU core*/);
-    startSequence.addActor<WriterActor>(0/*CPU core*/);
-    startSequence.addActor<WriterActor>(0/*CPU core*/);
+    startSequence.addActor<ComputeActor>(0/*CPU core*/);
+    startSequence.addActor<ComputeActor>(0/*CPU core*/);
 
     Engine engine(startSequence);	                // start above actors
 
