@@ -61,9 +61,11 @@ public:
 
     // ctor
 	ComputeActor(const ComputeInit &init)
-        : m_Dag(init.m_IDag), m_OpMul(init.m_OpMul)
+        : m_Dag(init.m_IDag), m_Index(init.m_Index), m_OpMul(init.m_OpMul)
     {
 		cout << "ComputeActor::ComputeActor()" << endl;
+        
+        assert(m_Dag);
         
         registerCallback(*this);	                // callback once is instantiated on right cpu/core
 		registerEventHandler<ComputeEvent>(*this);
@@ -77,12 +79,16 @@ public:
     
     void onCallback()
     {
-		cout << "ComputeActor::init callback()" << endl;
+		// can register now that has true core position
+        const ActorId    aid = getActorId();
+        
+        m_Dag->RegisterIndexActorId(m_Index, aid);
 	}
     
 private:
 
     IDag            *m_Dag;
+    const size_t    m_Index;
     const uint32_t  m_OpMul;
 };
 

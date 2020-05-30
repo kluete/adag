@@ -28,7 +28,7 @@ public:
     }
     
     
-    void    SetIndexActorId(const size_t &i, const Actor::ActorId &actor_id) override
+    void    RegisterIndexActorId(const size_t &i, const Actor::ActorId &actor_id) override
     {
         (void)i;
         (void)actor_id;
