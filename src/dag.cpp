@@ -19,7 +19,7 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const size_t num_entry_points)
+    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const size_t num_entry_points, const size_t num_branching)
         : m_MaxNodes(max_nodes), m_MaxNodeFans(max_node_fanning), m_NbrStartNodes(num_entry_points),
         m_NodeToChildNodesTab(max_nodes)
     {
@@ -75,9 +75,9 @@ private:
 
   
 // static
-IDag*    IDag::CreateDAG(const size_t max_nodes, const size_t max_node_fanning, const size_t num_threads)
+IDag*    IDag::CreateDAG(const size_t max_nodes, const size_t max_node_fanning, const size_t num_threads, const size_t num_branching)
 {
-    return new DAGImp(max_nodes, max_node_fanning, num_threads);
+    return new DAGImp(max_nodes, max_node_fanning, num_threads, num_branching);
 }
 
 } // namespace zamai

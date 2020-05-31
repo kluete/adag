@@ -9,6 +9,7 @@
 constexpr size_t    MAX_NODES               = 1000;
 constexpr size_t    MAX_NONE_FANNING        = 10;
 constexpr size_t    NUM_THREADS             = 4;        // should be slightly smaller than # CPU cores, equivalent to # of DAG "entry points"
+constexpr size_t    NUM_BRANCHING           = MAX_NODES * .05;
 
 using namespace std;
 using namespace tredzone;
@@ -99,7 +100,7 @@ int main()
 {
     cout << "zamai DAG w/ actor model" << endl;
     
-    unique_ptr<IDag>   IDag(IDag::CreateDAG(MAX_NODES, MAX_NONE_FANNING, NUM_THREADS));
+    unique_ptr<IDag>   IDag(IDag::CreateDAG(MAX_NODES, MAX_NONE_FANNING, NUM_THREADS, NUM_BRANCHING));
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
