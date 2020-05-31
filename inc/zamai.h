@@ -16,7 +16,6 @@ public:
 
     virtual ~IDag() = default;
     
-    virtual void    InitDAGNodes(void) = 0;
     virtual void    RegisterIndexActorId(const size_t &i, const Actor::ActorId &actor_id) = 0;
     virtual void    next(void) = 0;
 

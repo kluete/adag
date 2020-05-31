@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <random>
 
 #include "simplx.h"
 
@@ -18,16 +19,11 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const int num_threads)
-        : m_MaxNodes(max_nodes), m_MaxNodeFans(max_node_fanning),
-        m_NodeToChildrenTab(max_nodes)
+    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const int num_entry_points)
+        : m_MaxNodes(max_nodes), m_MaxNodeFans(max_node_fanning), m_NbrStartNodes(num_entry_points),
+        m_NodeToChildNodesTab(max_nodes)
     {
-        // generate index -> index graph
-    }
-    
-    void    InitDAGNodes(void) override
-    {
-        
+        CreateDAG();
     }
     
     void    RegisterIndexActorId(const size_t &index, const Actor::ActorId &actor_id) override
@@ -44,10 +40,34 @@ public:
 
 private:
     
+    // generate index -> index graph
+    void CreateDAG(void)
+    {
+        m_NodeToChildNodesTab.clear();
+        
+        auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
+        (void)rnd_gen;
+        
+        for (int n = 0; n < 10; ++n)
+        {
+            
+            for (int i = 0; i < m_NbrStartNodes; i++)
+            {
+                for (int j = m_NbrStartNodes; j < m_MaxNodes; j++)
+                {
+                
+                }
+            }
+        }
+        
+        
+    }
+
     const size_t    m_MaxNodes;
     const size_t    m_MaxNodeFans;
+    const int       m_NbrStartNodes;
     
-    vector<vector<size_t>>                  m_NodeToChildrenTab;
+    vector<vector<size_t>>                  m_NodeToChildNodesTab;
     unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
 };
 
