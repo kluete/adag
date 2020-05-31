@@ -8,7 +8,7 @@
 
 constexpr size_t    MAX_NODES               = 1000;
 constexpr size_t    MAX_NONE_FANNING        = 10;
-constexpr int       NUM_THREADS             = 4;        // should be slightly smaller than # CPU cores, equivalent to # of DAG "entry points"
+constexpr size_t    NUM_THREADS             = 4;        // should be slightly smaller than # CPU cores, equivalent to # of DAG "entry points"
 
 using namespace std;
 using namespace tredzone;

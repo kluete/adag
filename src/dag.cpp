@@ -19,7 +19,7 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const int num_entry_points)
+    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const size_t num_entry_points)
         : m_MaxNodes(max_nodes), m_MaxNodeFans(max_node_fanning), m_NbrStartNodes(num_entry_points),
         m_NodeToChildNodesTab(max_nodes)
     {
@@ -48,12 +48,12 @@ private:
         auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
         (void)rnd_gen;
         
-        for (int n = 0; n < 10; ++n)
+        for (size_t n = 0; n < m_NbrStartNodes; ++n)
         {
             
-            for (int i = 0; i < m_NbrStartNodes; i++)
+            for (size_t i = 0; i < m_NbrStartNodes; i++)
             {
-                for (int j = m_NbrStartNodes; j < m_MaxNodes; j++)
+                for (size_t j = m_NbrStartNodes; j < m_MaxNodes; j++)
                 {
                 
                 }
@@ -65,7 +65,7 @@ private:
 
     const size_t    m_MaxNodes;
     const size_t    m_MaxNodeFans;
-    const int       m_NbrStartNodes;
+    const size_t    m_NbrStartNodes;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
     unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
@@ -75,7 +75,7 @@ private:
 
   
 // static
-IDag*    IDag::CreateDAG(const size_t max_nodes, const size_t max_node_fanning, const int num_threads)
+IDag*    IDag::CreateDAG(const size_t max_nodes, const size_t max_node_fanning, const size_t num_threads)
 {
     return new DAGImp(max_nodes, max_node_fanning, num_threads);
 }
