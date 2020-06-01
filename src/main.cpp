@@ -81,20 +81,32 @@ public:
         BroadcastToChildren(rolling);
 	}
     
+    //---- double-use callback, once for registration, 
     void onCallback()
     {
 		// cout << "registering actor ID " << m_Index << endl;
         
-        // can register now that has true core position
-        const ActorId    aid = getActorId();
+        const bool  already_registered_f = m_Dag->IsIndexRegistered(m_Index);
         
-        m_Dag->RegisterIndexActorId(m_Index, aid);
-        
-        if (m_Index < ROOT_NODES)
+        if (!already_registered_f)
         {
-            cout << "actor " << m_Index << " should starting events" << endl;
+            // can register now that has true core position
+            const ActorId    aid = getActorId();
             
-            BroadcastToChildren(0);
+            m_Dag->RegisterIndexActorId(m_Index, aid);
+            
+            // if is a root node...
+            if (m_Index < ROOT_NODES)
+            {
+                cout << "actor " << m_Index << " will start events at next event loop" << endl;
+                
+                // ...reload callback
+                registerCallback(*this);
+            }
+        }
+        else
+        {   // now that all actors are registered, start branch computation
+            BroadcastToChildren(0/*init value*/);
         }
 	}
     

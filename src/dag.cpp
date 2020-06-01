@@ -41,6 +41,15 @@ public:
         m_ActorIndexToIdMap.insert({i, actor_id});
     }
    
+    bool     IsIndexRegistered(const size_t i) const override
+    {
+        assert(i < m_TotalNodes);
+        
+        const bool  f = m_ActorIndexToIdMap.count(i);
+        
+        return f;
+    }
+    
     vector<size_t>  GetChildNodes(const size_t i) override
     {
         assert(i < m_TotalNodes);
@@ -58,7 +67,7 @@ public:
         assert(i < m_TotalNodes);
         
         // make sure exists (though may be empty actor ID)
-        assert(!m_ActorIndexToIdMap.count(i));
+        assert(m_ActorIndexToIdMap.count(i));
         
         const Actor::ActorId    aid = m_ActorIndexToIdMap.at(i);
         // check isn't null actor id
