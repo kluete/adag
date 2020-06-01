@@ -69,7 +69,7 @@ private:
             cout << "  th[" << thread << "]:" << endl;
             
             // generate child nodes
-            for (size_t j = 0; j < max_branch_nodes; j++)
+            for (size_t j = 0; j < (max_branch_nodes - 1); j++)
             {
                 const size_t  next_node = walker_node + (rnd_gen() * slice_size);
                 
@@ -77,7 +77,7 @@ private:
                 assert(next_node < m_MaxNodes);
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
                 
-                cout << "       node[" << j << "] = " << walker_node << endl;
+                cout << "       node[" << j << "] : " << walker_node << " -> " << next_node << endl;
                 
                 walker_node = next_node;
             }
