@@ -7,8 +7,8 @@
 #include "zamai.h"
 #include "simplx.h"
 
-constexpr size_t    NUM_TOTAL_NODES         = 1000;
-constexpr size_t    NUM_ROOT_NODES          = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr size_t    TOTAL_NODES             = 1000;
+constexpr size_t    ROOT_NODES              = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // slice/chunk size, as factor of MAX_NODES
 
 using namespace std;
@@ -21,12 +21,12 @@ using namespace zamai;
 
 struct ComputeEvent : Actor::Event
 {
-	ComputeEvent(const uint32_t &v)
+	ComputeEvent(const uint64_t &v)
         : m_Val(v)
     {
 	}
     
-	const uint32_t m_Val;               // payload
+	const uint64_t m_Val;               // payload
 };
 
 //---- Compute node initializer ------------------------------------------------
@@ -88,7 +88,7 @@ public:
         
         m_Dag->RegisterIndexActorId(m_Index, aid);
         
-        if (m_Index < NUM_ROOT_NODES)
+        if (m_Index < ROOT_NODES)
         {
             cout << "actor " << m_Index << " should start events" << endl;
             
@@ -108,16 +108,17 @@ int main()
 {
     cout << "zamai DAG w/ actor model" << endl;
     
-    unique_ptr<IDag>   IDag(IDag::CreateDAG(NUM_TOTAL_NODES, NUM_ROOT_NODES, RANDOM_SLICE_FACTOR));
+    unique_ptr<IDag>   IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_SLICE_FACTOR));
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
-    for (size_t i = 0; i < NUM_TOTAL_NODES; i++)
+    // some instantiated nodes may never be used (traversed) but that's ok as don't use CPU
+    for (size_t i = 0; i < TOTAL_NODES; i++)
     {
-        const size_t   cpu_core_id = i % NUM_ROOT_NODES;
-        assert(cpu_core_id < NUM_ROOT_NODES);
+        const size_t   cpu_core_id = i % ROOT_NODES;
+        assert(cpu_core_id < ROOT_NODES);
         
         const uint32_t  op_mul = rnd_gen() * 0xffffu;
         

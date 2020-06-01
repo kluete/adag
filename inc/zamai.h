@@ -22,7 +22,7 @@ public:
     virtual vector<size_t>  GetChildNodes(const size_t & i) = 0;
 
     static
-    IDag*   CreateDAG(const size_t total_nodes, const size_t num_root_nodes, const float slice_factor);
+    IDag*   CreateDAG(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor);
 };
 
 } // namespace zamai
