@@ -21,12 +21,11 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t max_nodes, const size_t max_node_fanning, const size_t num_root_nodes, const float slice_factor)
-        : m_MaxNodes(max_nodes), m_MaxNodeFans(max_node_fanning), m_NumRootNodes(num_root_nodes), m_SliceFactor(slice_factor),
-        m_NodeToChildNodesTab(max_nodes)
+    DAGImp(const size_t tot_nodes, const size_t num_root_nodes, const float slice_factor)
+        : m_TotalNodes(tot_nodes), m_NumRootNodes(num_root_nodes), m_SliceFactor(slice_factor)
     {
         cout << "DAGImp() CTOR" << endl;
-        cout << "  max_nodes = " << max_nodes << endl;
+        cout << "  tot_nodes = " << tot_nodes << endl;
         cout << "  num_root_nodes = " << num_root_nodes << endl;
         cout << "  slice_factor = " << slice_factor << endl << endl;
         
@@ -52,14 +51,14 @@ private:
     {
         cout << "building DAG..." << endl << endl;
         
-        m_NodeToChildNodesTab.resize(m_MaxNodes, {}/*empty child list*/);
+        m_NodeToChildNodesTab.resize(m_TotalNodes, {}/*empty child list*/);
         
         // slice size of downstream nodes
-        const size_t    slice_size = m_MaxNodes * m_SliceFactor;
+        const size_t    slice_size = m_TotalNodes * m_SliceFactor;
         (void)slice_size;
         
         // max (child) nodes in single branch
-        const size_t    max_branch_nodes = (m_MaxNodes - m_NumRootNodes) / slice_size;
+        const size_t    max_branch_nodes = (m_TotalNodes - m_NumRootNodes) / slice_size;
         
         auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
         (void)rnd_gen;
@@ -78,8 +77,8 @@ private:
             {
                 const size_t  next_node = walker_node + (rnd_gen() * slice_size);
                 
-                assert(walker_node < m_MaxNodes);
-                assert(next_node < m_MaxNodes);
+                assert(walker_node < m_TotalNodes);
+                assert(next_node < m_TotalNodes);
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
                 
                 max_node_children = std::max(max_node_children, m_NodeToChildNodesTab[walker_node].size());
@@ -96,8 +95,7 @@ private:
         cout << endl << "DAG done, max_node_children = " << max_node_children << endl << endl;
     }
 
-    const size_t    m_MaxNodes;
-    const size_t    m_MaxNodeFans;
+    const size_t    m_TotalNodes;
     const size_t    m_NumRootNodes;
     const float     m_SliceFactor;
     
@@ -109,9 +107,9 @@ private:
 
   
 // static
-IDag*    IDag::CreateDAG(const size_t max_nodes, const size_t max_node_fanning, const size_t num_root_nodes, const float slice_factor)
+IDag*    IDag::CreateDAG(const size_t tot_nodes, const size_t num_root_nodes, const float slice_factor)
 {
-    return new DAGImp(max_nodes, max_node_fanning, num_root_nodes, slice_factor);
+    return new DAGImp(tot_nodes, num_root_nodes, slice_factor);
 }
 
 } // namespace zamai

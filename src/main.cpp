@@ -7,8 +7,7 @@
 #include "zamai.h"
 #include "simplx.h"
 
-constexpr size_t    MAX_NODES               = 1000;
-constexpr size_t    MAX_NONE_FANNING        = 10;
+constexpr size_t    NUM_TOTAL_NODES         = 1000;
 constexpr size_t    NUM_ROOT_NODES          = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // random "slice/chunk" size, as factor of MAX_NODES
 
@@ -103,7 +102,7 @@ int main()
 {
     cout << "zamai DAG w/ actor model" << endl;
     
-    unique_ptr<IDag>   IDag(IDag::CreateDAG(MAX_NODES, MAX_NONE_FANNING, NUM_ROOT_NODES, RANDOM_SLICE_FACTOR));
+    unique_ptr<IDag>   IDag(IDag::CreateDAG(NUM_TOTAL_NODES, NUM_ROOT_NODES, RANDOM_SLICE_FACTOR));
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
