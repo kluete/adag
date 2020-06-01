@@ -87,6 +87,12 @@ public:
         const ActorId    aid = getActorId();
         
         m_Dag->RegisterIndexActorId(m_Index, aid);
+        
+        if (m_Index < NUM_ROOT_NODES)
+        {
+            cout << "actor " << m_Index << " should start events" << endl;
+            
+        }
 	}
     
 private:
