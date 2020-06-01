@@ -20,7 +20,7 @@ public:
     virtual void    next(void) = 0;
 
     static
-    IDag*   CreateDAG(const size_t max_total_nodes, const size_t max_node_fanning, const size_t num_threads, const float slice_factor);
+    IDag*   CreateDAG(const size_t max_total_nodes, const size_t max_node_fanning, const size_t num_root_nodes, const float slice_factor);
 };
 
 } // namespace zamai
