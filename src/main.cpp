@@ -40,6 +40,24 @@ struct RegisterNodeEvent : Actor::Event
     const Actor::ActorId    m_ActorId;
 };
 
+//---- Service Init ------------------------------------------------------------
+
+class
+ServiceInit
+{
+public:
+    // ctor
+    ServiceInit(IDag *idag)
+        : m_IDag(idag)
+    {
+        assert(idag);
+        
+        
+    }
+    
+    IDag    *m_IDag;
+};
+
 //----Registry Service ---------------------------------------------------------
 
 struct Registry_serviceTag: public Service {};
@@ -49,11 +67,9 @@ class RegistryService: public Actor
 public:
 
     // ctor
-    RegistryService(IDag *dag)
-        : m_Dag(dag)
+    RegistryService(const ServiceInit &init)
+        : m_Dag(init.m_IDag)
     {
-        assert(dag);
-        
         registerEventHandler<RegisterNodeEvent>(*this);
     }
     
@@ -208,7 +224,7 @@ int main(int argc, char **argv)
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
-    startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, IDag.get());
+    startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, ServiceInit(IDag.get()));
     
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
