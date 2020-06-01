@@ -4,8 +4,10 @@
 #include <vector>
 #include <random>
 
-#include "zamai.h"
 #include "simplx.h"
+
+#include "zamai.h"
+#include "trz/util/waitcondition.h"
 
 constexpr size_t    TOTAL_NODES             = 50;
 constexpr size_t    ROOT_NODES              = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
@@ -47,15 +49,16 @@ ServiceInit
 {
 public:
     // ctor
-    ServiceInit(IDag *idag)
-        : m_IDag(idag)
+    ServiceInit(IDag *idag, shared_ptr<IWaitCondition> wait_cond)
+        : m_IDag(idag), m_IWaitCond(wait_cond)
     {
         assert(idag);
         
         
     }
     
-    IDag    *m_IDag;
+    IDag                        *m_IDag;
+    shared_ptr<IWaitCondition>  m_IWaitCond;
 };
 
 //----Registry Service ---------------------------------------------------------
@@ -220,11 +223,12 @@ int main(int argc, char **argv)
 
     cout << "zamai DAG w/ actor model" << endl;
     
-    unique_ptr<IDag>   IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_SLICE_FACTOR));
+    unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_SLICE_FACTOR));
+    shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
-    startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, ServiceInit(IDag.get()));
+    startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, ServiceInit(IDag.get(), wait_condition));
     
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
