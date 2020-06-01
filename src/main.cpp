@@ -129,10 +129,25 @@ private:
     const uint32_t  m_OpMul, m_OpBias;
 };
 
-//---- Main --------------------------------------------------------------------
+//---- assert handler ----------------------------------------------------------
 
-int main()
+extern "C"
+void my_assert_handler(int)
 {
+    ::kill(0, SIGTRAP);
+}
+
+//---- MAIN --------------------------------------------------------------------
+
+int main(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
+    
+	#ifndef NDEBUG
+        signal(SIGABRT, &my_assert_handler);
+    #endif
+
     cout << "zamai DAG w/ actor model" << endl;
     
     unique_ptr<IDag>   IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_SLICE_FACTOR));

@@ -70,6 +70,7 @@ public:
         {
             cout << "actor index " << i << " doesn't have an actor ID!!!" << endl;
             
+            assert(false);
         }
         
         // make sure exists (though may be empty actor ID)
