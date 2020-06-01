@@ -81,11 +81,14 @@ public:
         assert(m_ActorIndexToIdMap.count(i));
         
         const vector<size_t> children = m_NodeToChildNodesTab.at(i);
+        /*
+        
         for (auto child : children)
         {
-            assert(child > i);
+            // assert(child > i);
             
         }
+        */
         
         return children;
     }

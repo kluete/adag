@@ -122,8 +122,14 @@ private:
         }
         
         // send to child nodes
-        for (size_t child_id: child_nodes)
+        for (const size_t child_id: child_nodes)
         {
+            if (child_id == 0)
+            {
+                cout << " END OF CHILD NODES" << endl;   
+                return;
+            }
+            
             const Actor::ActorId     child_actor_id = m_Dag->GetNodeActorId(child_id);
             
             Event::Pipe pipe_to_child(*this, child_actor_id);
