@@ -77,6 +77,21 @@ public:
 	void onEvent(const ComputeEvent& e)
     {
 		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
+        
+        // apply computation
+        const uint64_t  rolling = (uint64_t) (e.m_Val * m_OpMul);
+        
+        const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Index);
+        
+        // send to child nodes
+        for (size_t child_id: child_nodes)
+        {
+            const Actor::ActorId     child_actor_id = m_Dag->GetNodeActorId(child_id);
+            
+            Event::Pipe pipe_to_child(*this, child_actor_id);
+            
+            pipe_to_child.push<ComputeEvent>(rolling);
+        }
 	}
     
     void onCallback()

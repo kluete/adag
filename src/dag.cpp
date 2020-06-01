@@ -32,17 +32,41 @@ public:
         CreateDAG();
     }
     
-    void    RegisterIndexActorId(const size_t &index, const Actor::ActorId &actor_id) override
+    void    RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) override
     {
-        assert(!m_ActorIndexToIdMap.count(index));
+        assert(i < m_TotalNodes);
+        // make sure wasn't already computed
+        assert(!m_ActorIndexToIdMap.count(i));
         
-        m_ActorIndexToIdMap.insert({index, actor_id});
+        m_ActorIndexToIdMap.insert({i, actor_id});
     }
    
-    vector<size_t>  GetChildNodes(const size_t & i) override
+    vector<size_t>  GetChildNodes(const size_t i) override
     {
-        return {};
+        assert(i < m_TotalNodes);
+        
+        // make sure exists (though may be empty)
+        assert(m_ActorIndexToIdMap.count(i));
+        
+        const vector<size_t> children = m_NodeToChildNodesTab.at(i);
+        
+        return children;
     }
+    
+    Actor::ActorId  GetNodeActorId(const size_t i) override
+    {
+        assert(i < m_TotalNodes);
+        
+        // make sure exists (though may be empty actor ID)
+        assert(!m_ActorIndexToIdMap.count(i));
+        
+        const Actor::ActorId    aid = m_ActorIndexToIdMap.at(i);
+        // check isn't null actor id
+        assert(aid != Actor::ActorId());
+        
+        return aid;
+    }
+
 
 private:
     
