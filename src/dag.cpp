@@ -56,7 +56,7 @@ private:
         (void)slice_size;
         
         // max (child) nodes in single branch
-        const size_t    max_branch_nodes = m_MaxNodes * m_SliceFactor;
+        const size_t    max_branch_nodes = (m_MaxNodes - m_NbrStartNodes) / slice_size;
         
         auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
         (void)rnd_gen;
