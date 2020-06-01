@@ -73,7 +73,7 @@ public:
         return n;
     }
     
-    vector<size_t>  GetChildNodes(const size_t i) override
+    vector<size_t>  GetChildNodes(const size_t i) const override
     {
         assert(i < m_TotalNodes);
         
@@ -85,7 +85,7 @@ public:
         return children;
     }
     
-    Actor::ActorId  GetNodeActorId(const size_t i) override
+    Actor::ActorId  GetNodeActorId(const size_t i) const override
     {
         assert(i < m_TotalNodes);
         
@@ -163,9 +163,9 @@ private:
     const size_t    m_RootNodes;
     const float     m_RndSliceFactor;
     
-mutable    mutex           m_ThreadMutex;
-    
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
+    
+    mutable    mutex                        m_ThreadMutex;
     unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
 };
 

@@ -7,7 +7,7 @@
 #include "zamai.h"
 #include "simplx.h"
 
-constexpr size_t    TOTAL_NODES             = 1000;
+constexpr size_t    TOTAL_NODES             = 100;
 constexpr size_t    ROOT_NODES              = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // slice/chunk size, as factor of MAX_NODES
 
@@ -73,7 +73,7 @@ public:
 	// called when ComputeEvent is received
 	void onEvent(const ComputeEvent& e)
     {
-		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
+		cout << "ComputeActor::onEvent(): " << e.m_Val << " from " << e.getSourceActorId() << endl;
         
         // apply computation
         const uint64_t  rolling = (uint64_t) ((e.m_Val * m_OpMul) + m_OpBias);
@@ -81,7 +81,6 @@ public:
         BroadcastToChildren(rolling);
 	}
     
-    //---- double-use callback, once for registration, 
     void onCallback()
     {
 		if (!m_Dag->IsIndexRegistered(m_Index))
