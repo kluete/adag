@@ -126,6 +126,7 @@ private:
                 
                 assert(walker_node < m_TotalNodes);
                 assert(next_node < m_TotalNodes);
+                assert(walker_node != next_node);       // don't loop over self
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
                 
                 max_node_children = std::max(max_node_children, m_NodeToChildNodesTab[walker_node].size());
