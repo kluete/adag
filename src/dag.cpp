@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <random>
+#include <algorithm>            // for std::max
 
 #include "simplx.h"
 
@@ -49,6 +50,8 @@ private:
     // generate index -> index graph
     void CreateDAG(void)
     {
+        cout << "building DAG..." << endl << endl;
+        
         m_NodeToChildNodesTab.resize(m_MaxNodes, {}/*empty child list*/);
         
         // slice size of downstream nodes
@@ -60,6 +63,8 @@ private:
         
         auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
         (void)rnd_gen;
+        
+        size_t  max_node_children = 0;
         
         // per branch (1 branch = 1 thread)
         for (size_t thread = 0; thread < m_NumRootNodes; thread++)
@@ -77,7 +82,9 @@ private:
                 assert(next_node < m_MaxNodes);
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
                 
-                cout << "       node[" << j << "] : " << walker_node << " -> " << next_node << endl;
+                max_node_children = std::max(max_node_children, m_NodeToChildNodesTab[walker_node].size());
+                
+                cout << "     node[" << j << "] : " << walker_node << " -> " << next_node << endl;
                 
                 walker_node = next_node;
             }
@@ -86,7 +93,7 @@ private:
             m_NodeToChildNodesTab[walker_node].push_back(0);
         }
         
-        
+        cout << endl << "DAG done, max_node_children = " << max_node_children << endl << endl;
     }
 
     const size_t    m_MaxNodes;

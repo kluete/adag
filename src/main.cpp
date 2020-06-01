@@ -9,7 +9,7 @@
 
 constexpr size_t    MAX_NODES               = 1000;
 constexpr size_t    MAX_NONE_FANNING        = 10;
-constexpr size_t    NUM_ROOT_NODES          = 1;    // 4;           // same as # of threads, or DAG "entry points", should be slightly smaller than # CPU cores
+constexpr size_t    NUM_ROOT_NODES          = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // random "slice/chunk" size, as factor of MAX_NODES
 
 using namespace std;
@@ -74,7 +74,7 @@ public:
 		registerEventHandler<ComputeEvent>(*this);
     }
     
-	// called when PrintEvent is received
+	// called when ComputeEvent is received
 	void onEvent(const ComputeEvent& e)
     {
 		cout << "ComputeActor::onEvent(): " << e.m_Val << ", from " << e.getSourceActorId() << endl;
@@ -82,7 +82,9 @@ public:
     
     void onCallback()
     {
-		// can register now that has true core position
+		cout << "registering actor ID " << m_Index << endl;
+        
+        // can register now that has true core position
         const ActorId    aid = getActorId();
         
         m_Dag->RegisterIndexActorId(m_Index, aid);
