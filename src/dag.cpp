@@ -120,9 +120,11 @@ private:
         
         // slice size of downstream nodes
         const size_t    slice_size = m_TotalNodes * m_RndSliceFactor;
+        assert(slice_size > 0);
         
         // max (child) nodes in single branch
         const size_t    max_branch_nodes = (m_TotalNodes - m_RootNodes) / slice_size;
+        assert(max_branch_nodes > 0);
         
         auto	rnd_gen = bind(uniform_int_distribution<>(1, slice_size - 1), default_random_engine{0/*seed*/});
         
