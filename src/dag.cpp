@@ -27,7 +27,7 @@ public:
         cout << "DAGImp() CTOR" << endl;
         cout << "  max_nodes = " << max_nodes << endl;
         cout << "  num_entry_points = " << num_entry_points << endl;
-        cout << "  slice_factor = " << /*setprecision(4) <<*/ slice_factor << endl << endl;
+        cout << "  slice_factor = " << slice_factor << endl << endl;
         
         CreateDAG();
     }
@@ -49,7 +49,7 @@ private:
     // generate index -> index graph
     void CreateDAG(void)
     {
-        m_NodeToChildNodesTab.clear();
+        m_NodeToChildNodesTab.resize(m_MaxNodes, {}/*empty child list*/);
         
         // slice size of downstream nodes
         const size_t    slice_size = m_MaxNodes * m_SliceFactor;
