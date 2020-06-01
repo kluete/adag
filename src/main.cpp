@@ -84,13 +84,13 @@ public:
     //---- double-use callback, once for registration, 
     void onCallback()
     {
-		// cout << "registering actor ID " << m_Index << endl;
+		cout << "registering actor ID " << m_Index << endl;
         
         const bool  already_registered_f = m_Dag->IsIndexRegistered(m_Index);
         
         if (!already_registered_f)
         {
-            // can register now that has true core position
+            // can register now that has true core position, but not yet start events
             const ActorId    aid = getActorId();
             
             m_Dag->RegisterIndexActorId(m_Index, aid);

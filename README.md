@@ -21,10 +21,9 @@ A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads 
 
 # To do
 
+* install log functionality
+  * prevent cout chopping
 * how to wait for all results?
-* prevent cout chopping
-* need different actors?
-  * yes if different operations
 * build instruction will be pain in the ass?
 
 

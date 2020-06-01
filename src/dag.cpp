@@ -66,6 +66,12 @@ public:
     {
         assert(i < m_TotalNodes);
         
+        if (!m_ActorIndexToIdMap.count(i))
+        {
+            cout << "actor index " << i << " doesn't have an actor ID!!!" << endl;
+            
+        }
+        
         // make sure exists (though may be empty actor ID)
         assert(m_ActorIndexToIdMap.count(i));
         
