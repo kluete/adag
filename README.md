@@ -4,7 +4,8 @@
 
 ## Overview
 
-I use an Actor Framework: threads are ideally pinned on CPU cores (with said core masked out from the kernel config), i.e. one core = one thread.
+I use an Actor Framework: threads are ideally pinned on CPU cores (with said core masked out from the kernel config), i.e. one core = one thread. Having more threads than CPU cores (without accounting for hyperthreading) just means more context switches that can become very expensive depending on the amount of data that has to be flushed/reloaded from CPU caches.
+
 
 
 ## Build instructions

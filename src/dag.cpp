@@ -105,7 +105,6 @@ private:
 
 //---- INSTANTIATION -----------------------------------------------------------
 
-  
 // static
 IDag*    IDag::CreateDAG(const size_t tot_nodes, const size_t num_root_nodes, const float slice_factor)
 {
