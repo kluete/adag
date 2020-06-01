@@ -108,7 +108,7 @@ private:
         // max (child) nodes in single branch
         const size_t    max_branch_nodes = (m_TotalNodes - m_RootNodes) / slice_size;
         
-        auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
+        auto	rnd_gen = bind(uniform_int_distribution<>(1, slice_size - 1), default_random_engine{0/*seed*/});
         
         size_t  max_node_children = 0;
         
@@ -122,7 +122,7 @@ private:
             // generate child nodes
             for (size_t j = 0; j < max_branch_nodes; j++)
             {
-                const size_t  next_node = walker_node + (rnd_gen() * slice_size);
+                const size_t  next_node = walker_node + rnd_gen();
                 
                 assert(walker_node < m_TotalNodes);
                 assert(next_node < m_TotalNodes);
