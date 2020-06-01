@@ -140,7 +140,9 @@ private:
             // generate child nodes
             for (size_t j = 0; j < max_branch_nodes; j++)
             {
-                const size_t  next_node = walker_node + rnd_gen();
+                const size_t  offset = rnd_gen();
+                assert(offset > 0);
+                const size_t  next_node = walker_node + offset;
                 
                 assert(walker_node < m_TotalNodes);
                 assert(next_node < m_TotalNodes);
