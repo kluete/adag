@@ -1,5 +1,6 @@
 // DAG implementation
 
+#include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <random>
@@ -23,6 +24,11 @@ public:
         : m_MaxNodes(max_nodes), m_MaxNodeFans(max_node_fanning), m_NbrStartNodes(num_entry_points), m_SliceFactor(slice_factor),
         m_NodeToChildNodesTab(max_nodes)
     {
+        cout << "DAGImp() CTOR" << endl;
+        cout << "  max_nodes = " << max_nodes << endl;
+        cout << "  num_entry_points = " << num_entry_points << endl;
+        cout << "  slice_factor = " << /*setprecision(4) <<*/ slice_factor << endl << endl;
+        
         CreateDAG();
     }
     
@@ -55,10 +61,12 @@ private:
         auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
         (void)rnd_gen;
         
-        // per branch
-        for (size_t i = 0; i < m_NbrStartNodes; i++)
+        // per branch (1 branch = 1 thread)
+        for (size_t thread = 0; thread < m_NbrStartNodes; thread++)
         {
-            size_t  walker_node = i;
+            size_t  walker_node = thread;
+            
+            cout << "  th[" << thread << "]:" << endl;
             
             // generate child nodes
             for (size_t j = 0; j < max_branch_nodes; j++)
@@ -68,6 +76,8 @@ private:
                 assert(walker_node < m_MaxNodes);
                 assert(next_node < m_MaxNodes);
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
+                
+                cout << "       node[" << j << "] = " << walker_node << endl;
                 
                 walker_node = next_node;
             }

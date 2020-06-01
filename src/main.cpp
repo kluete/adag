@@ -1,4 +1,5 @@
 // main zama challenge
+
 #include <iostream>
 #include <vector>
 #include <random>
@@ -8,8 +9,8 @@
 
 constexpr size_t    MAX_NODES               = 1000;
 constexpr size_t    MAX_NONE_FANNING        = 10;
-constexpr size_t    NUM_THREADS             = 4;                    // should be slightly smaller than # CPU cores, equivalent to # of DAG "entry points"
-constexpr size_t    RANDOM_SLICE_FACTOR     = .05;                  // random "slice/chunk" size, as factor of MAX_NODES
+constexpr size_t    NUM_THREADS             = 1;    // 4;                    // should be slightly smaller than # CPU cores, equivalent to # of DAG "entry points"
+constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // random "slice/chunk" size, as factor of MAX_NODES
 
 using namespace std;
 using namespace tredzone;
