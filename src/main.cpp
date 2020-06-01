@@ -246,9 +246,10 @@ int main(int argc, char **argv)
     
     Engine engine(startSequence);	                // start above actors
 
-    cout << "Press enter to exit...";
-    cin.get();
-
+    wait_condition->wait();
+    
+    cout << "demo done!" << endl;
+    
     return 0;
 }
 

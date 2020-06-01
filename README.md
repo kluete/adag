@@ -4,7 +4,7 @@
 
 ## Overview
 
-I use an Actor Model framework: threads are ideally pinned on CPU cores (with said core masked out from the kernel config), i.e. one core = one thread.
+I use the [simplex](https://github.com/kluete/simplex) [Actor Model](https://en.wikipedia.org/wiki/Actor_model) framework: threads are ideally pinned on CPU cores (with said core masked out from the kernel config), i.e. one core = one thread.
 
 
 # Rationale
