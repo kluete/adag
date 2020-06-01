@@ -84,16 +84,16 @@ public:
     //---- double-use callback, once for registration, 
     void onCallback()
     {
-		cout << "registering actor ID " << m_Index << endl;
-    
-        if (!m_Dag->IsIndexRegistered(m_Index))
+		if (!m_Dag->IsIndexRegistered(m_Index))
         {   // can register now that has true core position (should happen once), but not yet start events
+            cout << "registering actor ID " << m_Index << endl;
+    
             const ActorId    aid = getActorId();
         
             m_Dag->RegisterIndexActorId(m_Index, aid);
         }
         
-        if (m_Index < ROOT_NODES)       return;         // not a root node
+        if (m_Index < (ROOT_NODES -1))       return;         // not a root node
         
         // if all nodes are registered
         if (m_Dag->GetNumRegisteredIndices() != TOTAL_NODES)

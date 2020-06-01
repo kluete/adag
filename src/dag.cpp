@@ -35,6 +35,14 @@ public:
     void    RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) override
     {
         assert(i < m_TotalNodes);
+        
+        if (m_ActorIndexToIdMap.count(i))
+        {
+            cout << "index " << i << " was already registered!!!" << endl;
+            
+            return;
+        }
+        
         // make sure wasn't already computed
         assert(!m_ActorIndexToIdMap.count(i));
         
