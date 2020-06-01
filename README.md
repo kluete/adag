@@ -16,7 +16,7 @@ There is a cost to running an event loop on each thread, to be sure, but cache f
 
 # Caveats
 
-A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. A efficient design would seek to control such a graph so as to balance CPU core load, as well as to minimize cross-core traversals (requiring L1/L2 cache flushes).
+A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. A efficient design would seek to control such a graph so as to balance CPU core load, as well as to minimize cross-core hopping (requiring L1/L2 cache flushes).
 
 
 ## Build instructions

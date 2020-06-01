@@ -9,7 +9,7 @@
 
 constexpr size_t    NUM_TOTAL_NODES         = 1000;
 constexpr size_t    NUM_ROOT_NODES          = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
-constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // random "slice/chunk" size, as factor of MAX_NODES
+constexpr float     RANDOM_SLICE_FACTOR     = .05;                  // slice/chunk size, as factor of MAX_NODES
 
 using namespace std;
 using namespace tredzone;
@@ -26,7 +26,7 @@ struct ComputeEvent : Actor::Event
     {
 	}
     
-	const uint32_t m_Val;
+	const uint32_t m_Val;               // payload
 };
 
 //---- Compute node initializer ------------------------------------------------
@@ -106,15 +106,18 @@ int main()
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
-    for (auto i = 0; i < NUM_ROOT_NODES; i++)
+    auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
+    
+    for (size_t i = 0; i < NUM_TOTAL_NODES; i++)
     {
+        const size_t   cpu_core_id = i % NUM_ROOT_NODES;
+        assert(cpu_core_id < NUM_ROOT_NODES);
         
+        const uint32_t  op_mul = rnd_gen() * 0xffffu;
         
+        startSequence.addActor<ComputeActor>(cpu_core_id, ComputeInit(IDag.get(), i, op_mul));
     }
     
-    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0, 0x12));
-    startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 1, 0x34));
-
     Engine engine(startSequence);	                // start above actors
 
     cout << "Press enter to exit...";
