@@ -22,6 +22,7 @@ A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads 
 # To do
 
 * conductor service
+* unique_ptr::get() ugliness
 * install log functionality
   * prevent cout chopping
 * how to wait for all results?

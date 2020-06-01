@@ -15,9 +15,7 @@ using namespace std;
 using namespace tredzone;
 using namespace zamai;
 
-//---- Compute Event -----------------------------------------------------------
-
-// Event sent between ComputeActors, payload is int32 value
+//---- Compute Event (sent to ComputeActors) -----------------------------------
 
 struct ComputeEvent : Actor::Event
 {
@@ -27,6 +25,48 @@ struct ComputeEvent : Actor::Event
 	}
     
 	const uint64_t m_Val;               // payload
+};
+
+//---- Register Node event ----------------------------------------------------
+
+struct RegisterNodeEvent : Actor::Event
+{
+    RegisterNodeEvent(const size_t index, const Actor::ActorId actor_id)
+        : m_Index(index), m_ActorId(actor_id)
+    {
+    }
+    
+    const size_t            m_Index;
+    const Actor::ActorId    m_ActorId;
+};
+
+//----Registry Service ---------------------------------------------------------
+
+struct Registry_serviceTag: public Service {};
+
+class RegistryService: public Actor
+{
+public:
+
+    // ctor
+    RegistryService(IDag *dag)
+        : m_Dag(dag)
+    {
+        assert(dag);
+        
+        registerEventHandler<RegisterNodeEvent>(*this);
+    }
+    
+    void    onEvent(const RegisterNodeEvent &e)
+    {
+        cout << "RegisterNodeEvent(i = " << e.m_Index << ")" << endl;
+        
+        m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
+    }
+    
+private:
+
+    IDag    *m_Dag;
 };
 
 //---- Compute node initializer ------------------------------------------------
@@ -167,6 +207,8 @@ int main(int argc, char **argv)
     unique_ptr<IDag>   IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_SLICE_FACTOR));
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
+    
+    startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, IDag.get());
     
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
