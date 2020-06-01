@@ -39,9 +39,9 @@ public:
         m_ActorIndexToIdMap.insert({index, actor_id});
     }
    
-    void    next(void) override
+    vector<size_t>  GetChildNodes(const size_t & i) override
     {
-        
+        return {};
     }
 
 private:
