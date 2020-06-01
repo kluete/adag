@@ -50,6 +50,13 @@ public:
         return f;
     }
     
+    size_t    GetNumRegisteredIndices(void) const override
+    {
+        const size_t    n = m_ActorIndexToIdMap.size();
+        
+        return n;
+    }
+    
     vector<size_t>  GetChildNodes(const size_t i) override
     {
         assert(i < m_TotalNodes);
@@ -68,7 +75,9 @@ public:
         
         if (!m_ActorIndexToIdMap.count(i))
         {
-            cout << "actor index " << i << " doesn't have an actor ID!!!" << endl;
+            const size_t    n_reg = GetNumRegisteredIndices();
+            
+            cout << "actor index " << i << " doesn't have an actor ID (out of total " << n_reg << " registered)" << endl;
             
             assert(false);
         }

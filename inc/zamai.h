@@ -20,6 +20,7 @@ public:
     
     virtual void            RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) = 0;
     virtual bool            IsIndexRegistered(const size_t i) const = 0;
+    virtual size_t          GetNumRegisteredIndices(void) const = 0;
     virtual vector<size_t>  GetChildNodes(const size_t i) = 0;
     virtual Actor::ActorId  GetNodeActorId(const size_t i) = 0;
 
