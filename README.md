@@ -21,7 +21,7 @@ A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads 
 
 # To do
 
-* is anybody looping upon itself?
+* conductor service
 * install log functionality
   * prevent cout chopping
 * how to wait for all results?
