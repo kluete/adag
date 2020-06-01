@@ -62,7 +62,7 @@ public:
         : m_Dag(init.m_IDag), m_Index(init.m_Index),
         m_OpMul(init.m_OpMul), m_OpBias(init.m_OpBias)
     {
-		cout << "ComputeActor::ComputeActor()" << endl;
+		// cout << "ComputeActor::ComputeActor()" << endl;
         
         assert(m_Dag);
         
@@ -92,8 +92,9 @@ public:
         
         if (m_Index < ROOT_NODES)
         {
-            cout << "actor " << m_Index << " should start events" << endl;
+            cout << "actor " << m_Index << " should starting events" << endl;
             
+            BroadcastToChildren(0);
         }
 	}
     
