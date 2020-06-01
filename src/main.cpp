@@ -73,10 +73,10 @@ public:
 	// called when ComputeEvent is received
 	void onEvent(const ComputeEvent& e)
     {
-		cout << "ComputeActor::onEvent(): " << e.m_Val << " from " << e.getSourceActorId() << endl;
+		cout << "ComputeActor::onEvent(): " << hex << e.m_Val << dec << " from " << e.getSourceActorId() << endl;
         
         // apply computation
-        const uint64_t  rolling = (uint64_t) ((e.m_Val * m_OpMul) + m_OpBias);
+        const uint32_t  rolling = (uint32_t) ((e.m_Val * m_OpMul) + m_OpBias);
         
         BroadcastToChildren(rolling);
 	}
@@ -112,7 +112,7 @@ public:
 private:
 
     // trickle-down to children
-    void    BroadcastToChildren(const uint64_t val)
+    void    BroadcastToChildren(const uint32_t val)
     {
         const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Index);
         if (child_nodes.empty())
