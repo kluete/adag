@@ -86,26 +86,17 @@ public:
     {
 		cout << "registering actor ID " << m_Index << endl;
         
-        const bool  already_registered_f = m_Dag->IsIndexRegistered(m_Index);
+       // can register now that has true core position, but not yet start events
+        const ActorId    aid = getActorId();
         
-        if (!already_registered_f)
+        m_Dag->RegisterIndexActorId(m_Index, aid);
+        
+        // if is a root node...
+        if (m_Index < ROOT_NODES)
         {
-            // can register now that has true core position, but not yet start events
-            const ActorId    aid = getActorId();
-            
-            m_Dag->RegisterIndexActorId(m_Index, aid);
-            
-            // if is a root node...
-            if (m_Index < ROOT_NODES)
-            {
-                cout << "actor " << m_Index << " will start events at next event loop" << endl;
+            cout << "actor " << m_Index << " will start events at next event loop" << endl;
                 
-                // ...reload callback
-                registerCallback(*this);
-            }
-        }
-        else
-        {   // now that all actors are registered, start branch computation
+            // now that all actors are registered, start branch computation
             BroadcastToChildren(0/*init value*/);
         }
 	}
@@ -151,7 +142,8 @@ int main()
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
     // some instantiated nodes may never be used (traversed) but that's ok as don't use CPU
-    for (size_t i = 0; i < TOTAL_NODES; i++)
+    // for (size_t i = 0; i < TOTAL_NODES; i++)
+    for (size_t i = TOTAL_NODES - 1; i != 0; i--)           // register backwards
     {
         const size_t   cpu_core_id = i % ROOT_NODES;
         assert(cpu_core_id < ROOT_NODES);
