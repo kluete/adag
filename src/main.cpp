@@ -106,6 +106,12 @@ int main()
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
+    for (auto i = 0; i < NUM_ROOT_NODES; i++)
+    {
+        
+        
+    }
+    
     startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 0, 0x12));
     startSequence.addActor<ComputeActor>(0/*CPU core*/, ComputeInit(IDag.get(), 1, 0x34));
 
