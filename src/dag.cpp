@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 #include <random>
+#include <thread>
+#include <mutex>
 #include <algorithm>            // for std::max
 
 #include "simplx.h"
@@ -34,6 +36,8 @@ public:
     
     void    RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) override
     {
+        lock_guard<mutex>	lock(m_ThreadMutex);
+        
         assert(i < m_TotalNodes);
         
         if (m_ActorIndexToIdMap.count(i))
@@ -51,6 +55,8 @@ public:
    
     bool     IsIndexRegistered(const size_t i) const override
     {
+        lock_guard<mutex>	lock(m_ThreadMutex);
+        
         assert(i < m_TotalNodes);
         
         const bool  f = m_ActorIndexToIdMap.count(i);
@@ -60,6 +66,8 @@ public:
     
     size_t    GetNumRegisteredIndices(void) const override
     {
+        lock_guard<mutex>	lock(m_ThreadMutex);
+        
         const size_t    n = m_ActorIndexToIdMap.size();
         
         return n;
@@ -154,6 +162,8 @@ private:
     const size_t    m_TotalNodes;
     const size_t    m_RootNodes;
     const float     m_RndSliceFactor;
+    
+mutable    mutex           m_ThreadMutex;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
     unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
