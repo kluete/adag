@@ -36,8 +36,6 @@ public:
     
     void    RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) override
     {
-        lock_guard<mutex>	lock(m_ThreadMutex);
-        
         assert(i < m_TotalNodes);
         
         if (m_ActorIndexToIdMap.count(i))
@@ -55,8 +53,6 @@ public:
    
     bool     IsIndexRegistered(const size_t i) const override
     {
-        lock_guard<mutex>	lock(m_ThreadMutex);
-        
         assert(i < m_TotalNodes);
         
         const bool  f = m_ActorIndexToIdMap.count(i);
@@ -66,8 +62,6 @@ public:
     
     size_t    GetNumRegisteredIndices(void) const override
     {
-        lock_guard<mutex>	lock(m_ThreadMutex);
-        
         const size_t    n = m_ActorIndexToIdMap.size();
         
         return n;
@@ -81,14 +75,6 @@ public:
         assert(m_ActorIndexToIdMap.count(i));
         
         const vector<size_t> children = m_NodeToChildNodesTab.at(i);
-        /*
-        
-        for (auto child : children)
-        {
-            // assert(child > i);
-            
-        }
-        */
         
         return children;
     }
@@ -176,8 +162,6 @@ private:
     const float     m_RndSliceFactor;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
-    
-    mutable    mutex                        m_ThreadMutex;
     unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
 };
 
