@@ -128,9 +128,27 @@ private:
             
             // end branch
             m_NodeToChildNodesTab[walker_node].push_back(0);
+            
+             cout << endl << "DAG done, max_node_children = " << max_node_children << endl << endl;
         }
+    }
+    
+    size_t  GetNumDAGEnds(void) const
+    {
+        size_t  n_endings  = 0;
         
-        cout << endl << "DAG done, max_node_children = " << max_node_children << endl << endl;
+        for (size_t thread = 0; thread < m_RootNodes; thread++)
+        {
+            size_t  walker_node = thread;
+            (void)walker_node;
+            
+            /*
+            for 
+            
+            */
+        }
+
+        return n_endings;
     }
 
     const size_t    m_TotalNodes;
