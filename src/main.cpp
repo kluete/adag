@@ -82,8 +82,9 @@ public:
         
         m_NumNodesRegistered++;
         
+        // registered all nodes?
         if (m_NumNodesRegistered >= TOTAL_NODES)
-        {   // start root nodes
+        {   // send events to root nodes
             for (size_t i = 0; i < ROOT_NODES; i++)
             {
                 const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);

@@ -39,6 +39,7 @@ A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads 
 * Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplx but he's lacking some features like computer clustering.
 
 * balancing CPU core load... but since hopping cores (with a significan payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quatified ahead of time
+* generating different node/actor class types to account for different computations
 
 
 ## Misc Notes

@@ -118,6 +118,7 @@ private:
                 
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
                 
+                // compute any node's manimum # of children
                 max_node_children = std::max(max_node_children, m_NodeToChildNodesTab[walker_node].size());
                 
                 cout << "     node[" << j << "] : " << walker_node << " -> " << next_node << endl;
