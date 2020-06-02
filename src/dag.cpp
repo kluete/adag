@@ -101,14 +101,14 @@ private:
         // per branch (1 branch = 1 thread)
         for (size_t thread = 0; thread < m_RootNodes; thread++)
         {
-            size_t  walker_node = m_RootNodes + thread;             // prevent root nodes to thread into one another
+            size_t  walker_node = thread;
             
             cout << "  th[" << thread << "]:" << endl;
             
             // generate child nodes
             for (size_t j = 0; j < max_branch_nodes; j++)
             {
-                const size_t  offset = rnd_gen();
+                const size_t  offset = rnd_gen() + (j == 0 ? m_RootNodes : 0);       // prevent root nodes to burrow into one another
                 assert(offset > 0);
                 const size_t  next_node = walker_node + offset;
                 
