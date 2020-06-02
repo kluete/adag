@@ -9,8 +9,8 @@
 #include "zamai.h"
 #include "trz/util/waitcondition.h"
 
-constexpr size_t    TOTAL_NODES             = 50;
-constexpr size_t    ROOT_NODES              = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr size_t    TOTAL_NODES             = 20;
+constexpr size_t    ROOT_NODES              = 1;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .1;                  // slice/chunk size, as factor of MAX_NODES
 
 using namespace std;
@@ -245,7 +245,7 @@ int main(int argc, char **argv)
         signal(SIGABRT, &my_assert_handler);
     #endif
 
-    cout << "zamai DAG w/ actor model" << endl;
+    cout << "zamai DAG w/ actor model *************************************************************" << endl;
     
     unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_SLICE_FACTOR));
     shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
