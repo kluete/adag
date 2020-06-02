@@ -53,8 +53,6 @@ public:
         : m_IDag(idag), m_IWaitCond(wait_cond)
     {
         assert(idag);
-        
-        
     }
     
     IDag                        *m_IDag;
@@ -71,7 +69,8 @@ public:
 
     // ctor
     RegistryService(const ServiceInit &init)
-        : m_Dag(init.m_IDag)
+        : m_Dag(init.m_IDag), m_WaitCondition(init.m_IWaitCond),
+        m_NumNodesRegistered(0)
     {
         registerEventHandler<RegisterNodeEvent>(*this);
     }
@@ -81,11 +80,28 @@ public:
         cout << "RegisterNodeEvent(i = " << e.m_Index << ")" << endl;
         
         m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
+        
+        m_NumNodesRegistered++;
+        
+        if (m_NumNodesRegistered >= TOTAL_NODES)
+        {   // start root nodes
+            for (size_t i = 0; i < ROOT_NODES; i++)
+            {
+                const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);
+                
+                Event::Pipe pipe_to_child(*this, aid);
+            
+                pipe_to_child.push<ComputeEvent>(0/*init val*/);
+            }
+        }
     }
     
 private:
 
-    IDag    *m_Dag;
+    IDag                        *m_Dag;
+    shared_ptr<IWaitCondition>  m_WaitCondition;
+    size_t                      m_NumNodesRegistered;
+    // vector<Actor::ActorId>      m_StartActorList;
 };
 
 //---- Compute node initializer ------------------------------------------------
@@ -142,7 +158,14 @@ public:
     
     void onCallback()
     {
-		if (!m_Dag->IsIndexRegistered(m_Index))
+		const ActorId	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
+        
+        Event::Pipe pipe_to_registry(*this, RegistryActorId);
+            
+        pipe_to_registry.push<RegisterNodeEvent>(m_Index, getActorId());
+        
+        #if 0
+        if (!m_Dag->IsIndexRegistered(m_Index))
         {   // can register now that has true core position (should happen once), but not yet start events
             cout << "registering actor ID " << m_Index << endl;
     
@@ -166,6 +189,7 @@ public:
             // now that all actors are registered, start branch computation
             BroadcastToChildren(0/*init value*/);
         }
+        #endif
 	}
     
 private:
