@@ -197,7 +197,7 @@ private:
     // trickle-down to children
     void    BroadcastToChildren(const uint32_t val)
     {
-        const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Index);
+        const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Index);            // (const)
         if (child_nodes.empty())
         {
             cout << " NO MORE CHILD NODES" << endl;
@@ -213,7 +213,7 @@ private:
                 return;
             }
             
-            const Actor::ActorId     child_actor_id = m_Dag->GetNodeActorId(child_id);
+            const Actor::ActorId     child_actor_id = m_Dag->GetNodeActorId(child_id);  // (const)
             
             Event::Pipe pipe_to_child(*this, child_actor_id);
             
