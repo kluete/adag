@@ -10,7 +10,7 @@
 #include "trz/util/waitcondition.h"
 
 constexpr size_t    TOTAL_NODES             = 20;
-constexpr size_t    ROOT_NODES              = 1;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr size_t    ROOT_NODES              = 2;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .1;                  // slice/chunk size, as factor of MAX_NODES
 
 using namespace std;
@@ -21,12 +21,12 @@ using namespace zamai;
 
 struct ComputeEvent : Actor::Event
 {
-	ComputeEvent(const uint64_t &v)
+	ComputeEvent(const uint32_t &v)
         : m_Val(v)
     {
 	}
     
-	const uint64_t m_Val;               // payload
+	const uint32_t m_Val;               // payload
 };
 
 //---- Register Node event ----------------------------------------------------
@@ -77,7 +77,7 @@ public:
     
     void    onEvent(const RegisterNodeEvent &e)
     {
-        cout << "RegisterNodeEvent(i = " << e.m_Index << ")" << endl;
+        // cout << "RegisterNodeEvent(i = " << e.m_Index << ")" << endl;
         
         m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
         
@@ -158,38 +158,12 @@ public:
     
     void onCallback()
     {
-		const ActorId	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
+		// can register now that has true core position (should happen once), but not yet start events
+        const ActorId	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
         
         Event::Pipe pipe_to_registry(*this, RegistryActorId);
             
         pipe_to_registry.push<RegisterNodeEvent>(m_Index, getActorId());
-        
-        #if 0
-        if (!m_Dag->IsIndexRegistered(m_Index))
-        {   // can register now that has true core position (should happen once), but not yet start events
-            cout << "registering actor ID " << m_Index << endl;
-    
-            const ActorId    aid = getActorId();
-        
-            m_Dag->RegisterIndexActorId(m_Index, aid);
-        }
-        
-        if (m_Index < (ROOT_NODES -1))       return;         // not a root node
-        
-        // if all nodes are registered
-        if (m_Dag->GetNumRegisteredIndices() != TOTAL_NODES)
-        {
-            // not yet fully registered -> reload callback
-            registerCallback(*this);
-        }
-        else
-        {   // fully registered, start events
-            cout << "actor " << m_Index << " is starting events" << endl;
-                
-            // now that all actors are registered, start branch computation
-            BroadcastToChildren(0/*init value*/);
-        }
-        #endif
 	}
     
 private:

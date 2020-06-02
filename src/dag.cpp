@@ -145,6 +145,8 @@ private:
 // static
 IDag*    IDag::CreateDAG(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor)
 {
+    assert(total_nodes > root_nodes);
+    
     return new DAGImp(total_nodes, root_nodes, rnd_slice_factor);
 }
 

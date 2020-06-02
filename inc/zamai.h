@@ -26,6 +26,8 @@ public:
     IDag*   CreateDAG(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor);
 };
 
+//---- Threaded Logger interface -----------------------------------------------
+
 } // namespace zamai
 
 // nada mas
