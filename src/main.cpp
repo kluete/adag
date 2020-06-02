@@ -72,19 +72,24 @@ public:
         m_NumNodesRegistered(0)
     {
         registerEventHandler<RegisterNodeEvent>(*this);
+        // registerCallback(*this);
     }
     
+    void onCallback()
+    {
+        
+    }
+    
+    // register node -> actor id, start event loops when all registered
     void    onEvent(const RegisterNodeEvent &e)
     {
-        // cout << "RegisterNodeEvent(i = " << e.m_Index << ")" << endl;
-        
         m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
         
         m_NumNodesRegistered++;
         
         // registered all nodes?
         if (m_NumNodesRegistered >= TOTAL_NODES)
-        {   // send events to root nodes
+        {   // send initial events to root nodes
             for (size_t i = 0; i < ROOT_NODES; i++)
             {
                 const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);
