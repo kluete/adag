@@ -22,6 +22,7 @@ A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads 
 # To do
 
 * when to stop?
+  * count exit points
   * log service?
 * unique_ptr::get() ugliness
 * install log functionality
