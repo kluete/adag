@@ -44,10 +44,9 @@ struct RegisterNodeEvent : Actor::Event
 
 //---- Service Init ------------------------------------------------------------
 
-class
+struct
 ServiceInit
 {
-public:
     // ctor
     ServiceInit(IDag *idag, shared_ptr<IWaitCondition> wait_cond)
         : m_IDag(idag), m_IWaitCond(wait_cond)
@@ -101,12 +100,11 @@ private:
     IDag                        *m_Dag;
     shared_ptr<IWaitCondition>  m_WaitCondition;
     size_t                      m_NumNodesRegistered;
-    // vector<Actor::ActorId>      m_StartActorList;
 };
 
 //---- Compute node initializer ------------------------------------------------
 
-class
+struct
 ComputeInit
 {
 public:
@@ -151,7 +149,7 @@ public:
 		cout << "ComputeActor::onEvent(): " << hex << e.m_Val << dec << " from " << e.getSourceActorId() << endl;
         
         // apply computation
-        const uint32_t  rolling = (uint32_t) ((e.m_Val * m_OpMul) + m_OpBias);
+        const uint32_t  rolling = (uint32_t) ((e.m_Val + m_OpBias) * m_OpMul);
         
         BroadcastToChildren(rolling);
 	}

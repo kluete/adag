@@ -58,7 +58,7 @@ public:
         // make sure exists (though may be empty)
         assert(m_ActorIndexToIdMap.count(i));
         
-        const vector<size_t> children = m_NodeToChildNodesTab.at(i);
+        const vector<size_t>    children = m_NodeToChildNodesTab.at(i);
         
         return children;
     }
@@ -101,7 +101,7 @@ private:
         // per branch (1 branch = 1 thread)
         for (size_t thread = 0; thread < m_RootNodes; thread++)
         {
-            size_t  walker_node = thread;
+            size_t  walker_node = m_RootNodes + thread;             // prevent root nodes to thread into one another
             
             cout << "  th[" << thread << "]:" << endl;
             
