@@ -42,6 +42,16 @@ struct RegisterNodeEvent : Actor::Event
     const Actor::ActorId    m_ActorId;
 };
 
+//---- Path Termination event (for countdown til end) --------------------------
+
+struct PathTerminationEvent : Actor::Event
+{
+    PathTerminationEvent()
+    {
+    }
+    
+};
+
 //---- Service Init ------------------------------------------------------------
 
 struct
@@ -69,9 +79,11 @@ public:
     // ctor
     RegistryService(const ServiceInit &init)
         : m_Dag(init.m_IDag), m_WaitCondition(init.m_IWaitCond),
+        m_TotalTerminations(m_Dag->GetTotatlTerminations()), m_TerminatedCount(0),
         m_NumNodesRegistered(0)
     {
         registerEventHandler<RegisterNodeEvent>(*this);
+        registerEventHandler<PathTerminationEvent>(*this);
         // registerCallback(*this);
     }
     
@@ -101,10 +113,18 @@ public:
         }
     }
     
+    // a DAG path has terminated (hit a leave)
+    void    onEvent(const PathTerminationEvent &e)
+    {
+        
+    }
+    
 private:
 
     IDag                        *m_Dag;
     shared_ptr<IWaitCondition>  m_WaitCondition;
+    const size_t                m_TotalTerminations;
+    size_t                      m_TerminatedCount;
     size_t                      m_NumNodesRegistered;
 };
 
