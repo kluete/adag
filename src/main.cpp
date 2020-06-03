@@ -116,7 +116,15 @@ public:
     // a DAG path has terminated (hit a leave)
     void    onEvent(const PathTerminationEvent &e)
     {
+        m_TerminatedCount++;
         
+        cout << " PATH TERMINATION " << m_TerminatedCount << " / " << m_TotalTerminations << endl;
+        
+        if (m_TotalTerminations == m_TerminatedCount)
+        {
+            // allow exit
+            m_WaitCondition->notify();
+        }
     }
     
 private:
@@ -198,7 +206,7 @@ private:
         const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Index);
         if (child_nodes.empty())
         {
-            cout << " NO MORE CHILD NODES" << endl;
+            // cout << " NO MORE CHILD NODES" << endl;
             NotifyPathTermination();
             return;
         }
@@ -208,7 +216,7 @@ private:
         {
             if (child_id == 0)
             {
-                cout << " END OF CHILD NODES" << endl;
+                // cout << " END OF CHILD NODES" << endl;
                 NotifyPathTermination();
                 return;
             }
