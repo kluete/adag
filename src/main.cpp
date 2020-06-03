@@ -13,9 +13,13 @@ constexpr size_t    TOTAL_NODES             = 1000;
 constexpr size_t    ROOT_NODES              = 4;                   // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .1;                  // slice/chunk size, as factor of MAX_NODES
 
+#include "lx/xutils.h"
+#include "lx/xstring.h"
+
 using namespace std;
 using namespace tredzone;
 using namespace zamai;
+using namespace LX;
 
 /*
 static
