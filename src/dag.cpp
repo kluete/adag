@@ -24,7 +24,8 @@ class DAGImp : public IDag
 public:
     // ctor
     DAGImp(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor)
-        : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndSliceFactor(rnd_slice_factor)
+        : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndSliceFactor(rnd_slice_factor),
+        m_TotalTerminations(0)
     {
         cout << "DAGImp() CTOR" << endl;
         cout << "  total_nodes = " << total_nodes << endl;
@@ -32,6 +33,14 @@ public:
         cout << "  rnd_slice_factor = " << rnd_slice_factor << endl << endl;
         
         CreateDAG();
+        
+        // calc total path terminations
+        m_TotalTerminations = CalcTotalTerminations();
+    }
+    
+    size_t    GetTotatlTerminations(void) const override
+    {
+        return m_TotalTerminations;
     }
     
     void    RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) override
@@ -133,7 +142,33 @@ private:
         }
     }
     
-    size_t  GetNumDAGEnds(void) const
+    // calc total path terminations (recursively)
+    void    CalcPathNodes(const size_t node, size_t &n_path_nodes) const
+    {
+        const vector<size_t>    child_nodes = GetChildNodes(node);
+        if (child_nodes.empty())
+        {
+            // no child nodes
+            n_path_nodes++;
+            return;
+        }
+        
+        // send to child nodes
+        for (const size_t child_id: child_nodes)
+        {
+            if (child_id == 0)
+            {
+                // end node marker
+                n_path_nodes++;
+                return;
+            }
+  
+            // RECURSE
+            CalcPathNodes(child_id, n_path_nodes);
+        }
+    }
+    
+    size_t  CalcTotalTerminations(void) const
     {
         size_t  n_endings  = 0;
         
@@ -142,10 +177,11 @@ private:
             size_t  walker_node = thread;
             (void)walker_node;
             
-            /*
-            for 
+            size_t  n_path_nodes = 0;
             
-            */
+            CalcPathNodes(walker_node, n_path_nodes/*&*/);
+            
+            n_endings += n_path_nodes;
         }
 
         return n_endings;
@@ -154,6 +190,7 @@ private:
     const size_t    m_TotalNodes;
     const size_t    m_RootNodes;
     const float     m_RndSliceFactor;
+    size_t          m_TotalTerminations;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
     unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
