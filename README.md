@@ -25,8 +25,11 @@ This program does a first *synchronous* traversal of the DAG to count the total 
 
 # To do
 
+* bench per op?
+* time runs
 * install log functionality
-  * prevent cout chopping
+  * template to build string
+  * async log w/out chopping
 * unique_ptr::get() ugliness
 * build instruction will be pain in the ass?
 

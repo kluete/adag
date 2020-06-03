@@ -17,6 +17,20 @@ using namespace std;
 using namespace tredzone;
 using namespace zamai;
 
+/*
+static
+std::::time_point<std::::system_clock>  now;
+
+now = chrono::system_clock::now();
+
+foo = now + chrono::time_point<chrono::system_clock> foo = now + chrono::milliseconds(100);
+
+chrono::duration<float> dt = foo - now;
+
+const int milliseconds = difference.count() * 1000
+*/
+
+
 //---- Compute Event (sent to ComputeActors) -----------------------------------
 
 struct ComputeEvent : Actor::Event
@@ -42,11 +56,9 @@ struct RegisterNodeEvent : Actor::Event
     const Actor::ActorId    m_ActorId;
 };
 
-//---- Path Termination event (for countdown til end) --------------------------
+//---- Path Termination event (so can countdown til end) -----------------------
 
-struct PathTerminationEvent : Actor::Event
-{
-};
+struct PathTerminationEvent : Actor::Event  { };
 
 //---- Service Init ------------------------------------------------------------
 
