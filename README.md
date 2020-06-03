@@ -13,6 +13,8 @@ Having more threads than CPU cores (without accounting for hyperthreading) means
 
 There is a cost to running an event loop on each thread, to be sure, but cache flushes are way more costly. Note that, in an Actor Model, involved CPU cores always run at 100% -- even when there is NO event to be processed, so CPU usage (say with htop) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
 
+The is almost no cost for instantied actors that aren't used (not processing any event), except very little memory.
+
 
 # Caveats
 
