@@ -47,12 +47,8 @@ public:
     {
         assert(i < m_TotalNodes);
         
-        if (m_ActorIndexToIdMap.count(i))
-        {
-            cout << "index " << i << " was already registered!!!" << endl;
-            
-            return;
-        }
+        // check wasn't already registered
+        assert(!m_ActorIndexToIdMap.count(i));
         
         // make sure wasn't already computed
         assert(!m_ActorIndexToIdMap.count(i));
