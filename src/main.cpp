@@ -199,6 +199,7 @@ private:
         if (child_nodes.empty())
         {
             cout << " NO MORE CHILD NODES" << endl;
+            NotifyPathTermination();
             return;
         }
         
@@ -207,7 +208,8 @@ private:
         {
             if (child_id == 0)
             {
-                cout << " END OF CHILD NODES" << endl;   
+                cout << " END OF CHILD NODES" << endl;
+                NotifyPathTermination();
                 return;
             }
             
@@ -217,6 +219,16 @@ private:
             
             pipe_to_child.push<ComputeEvent>(val);
         }
+    }
+    
+    // send PathTerminationEvent to registry
+    void    NotifyPathTermination(void)
+    {
+        const ActorId	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
+        
+        Event::Pipe pipe_to_registry(*this, RegistryActorId);
+            
+        pipe_to_registry.push<PathTerminationEvent>();
     }
 
     const IDag      *m_Dag;
