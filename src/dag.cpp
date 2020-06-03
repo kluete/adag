@@ -60,8 +60,7 @@ public:
     {
         assert(i < m_TotalNodes);
         
-        // make sure exists (though may be empty)
-        assert(m_ActorIndexToIdMap.count(i));
+        // mode always exists (though may be empty)
         
         const vector<size_t>    children = m_NodeToChildNodesTab.at(i);
         
