@@ -46,10 +46,6 @@ struct RegisterNodeEvent : Actor::Event
 
 struct PathTerminationEvent : Actor::Event
 {
-    PathTerminationEvent()
-    {
-    }
-    
 };
 
 //---- Service Init ------------------------------------------------------------
@@ -84,12 +80,6 @@ public:
     {
         registerEventHandler<RegisterNodeEvent>(*this);
         registerEventHandler<PathTerminationEvent>(*this);
-        // registerCallback(*this);
-    }
-    
-    void onCallback()
-    {
-        
     }
     
     // register node -> actor id, start event loops when all registered
@@ -102,6 +92,9 @@ public:
         // registered all nodes?
         if (m_NumNodesRegistered >= TOTAL_NODES)
         {   // send initial events to root nodes
+        
+            cout << endl << "all nodes registered -> starting async computations!" << endl << endl;
+            
             for (size_t i = 0; i < ROOT_NODES; i++)
             {
                 const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);

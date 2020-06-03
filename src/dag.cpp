@@ -165,6 +165,8 @@ private:
     
     size_t  CalcTotalTerminations(void) const
     {
+        cout << "calculating total # of terminations..." << endl;
+        
         size_t  n_endings  = 0;
         
         for (size_t thread = 0; thread < m_RootNodes; thread++)
@@ -179,6 +181,8 @@ private:
             n_endings += n_path_nodes;
         }
 
+        cout << "  DAG has " << n_endings << " total # of terminations..." << endl;
+        
         return n_endings;
     }
 
