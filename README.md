@@ -18,7 +18,7 @@ There is a cost to running an event loop on each thread, to be sure, but cache f
 
 A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. A efficient design would seek to control such a graph so as to balance CPU core load, as well as to minimize cross-core hopping (requiring L1/L2 cache flushes).
 
-This program does a fist (synchronous) traversal of the DAG to count the total number of path terminations, so that the asynchronous execution of the DAG knows when to stop.
+This program does a first *synchronous* traversal of the DAG to count the total number of path terminations, so that the *asynchronous* execution of the DAG (on multiple CPU cores) knows when to stop.
 
 
 # To do
