@@ -69,9 +69,9 @@
     </VirtualDirectory>
     <File Name="./thirdparty/simplex/include/simplx.h"/>
     <VirtualDirectory Name="common">
-      <File Name="../../lxUtils/inc/lx/ulog.h"/>
-      <File Name="../../lxUtils/inc/lx/xstring.h"/>
-      <File Name="../../lxUtils/inc/lx/xutils.h"/>
+      <File Name="thirdparty/lxUtils/inc/lx/xutils.h"/>
+      <File Name="thirdparty/lxUtils/inc/lx/xstring.h"/>
+      <File Name="thirdparty/lxUtils/inc/lx/ulog.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="util">
       <File Name="./thirdparty/simplex/include/trz/util/waitcondition.h"/>

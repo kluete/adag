@@ -21,20 +21,6 @@ using namespace tredzone;
 using namespace zamai;
 using namespace LX;
 
-/*
-static
-std::::time_point<std::::system_clock>  now;
-
-now = chrono::system_clock::now();
-
-foo = now + chrono::time_point<chrono::system_clock> foo = now + chrono::milliseconds(100);
-
-chrono::duration<float> dt = foo - now;
-
-const int milliseconds = difference.count() * 1000
-*/
-
-
 //---- Compute Event (sent to ComputeActors) -----------------------------------
 
 struct ComputeEvent : Actor::Event
@@ -111,6 +97,8 @@ public:
         
             cout << endl << "all nodes registered -> starting async computations!" << endl << endl;
             
+            m_StartStamp = timestamp_t();
+            
             for (size_t i = 0; i < ROOT_NODES; i++)
             {
                 const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);
@@ -131,6 +119,8 @@ public:
         
         if (m_TotalTerminations == m_TerminatedCount)
         {
+            cout << "  elap = " << m_StartStamp.elap_str() << endl;
+            
             // allow exit
             m_WaitCondition->notify();
         }
@@ -143,6 +133,7 @@ private:
     const size_t                m_TotalTerminations;
     size_t                      m_TerminatedCount;
     size_t                      m_NumNodesRegistered;
+    timestamp_t                 m_StartStamp;
 };
 
 //---- Compute node initializer ------------------------------------------------
