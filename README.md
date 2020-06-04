@@ -4,16 +4,16 @@
 
 ## Overview
 
-I use the [simplex](https://github.com/kluete/simplex) [Actor Model](https://en.wikipedia.org/wiki/Actor_model) framework: threads are ideally pinned on CPU cores (with said core masked out from the kernel config), i.e. one core = one thread.
+I use the [simplex](https://github.com/kluete/simplex) framework, which is an [Actor Model](https://en.wikipedia.org/wiki/Actor_model): threads are ideally pinned on CPU cores (with said cores masked out from the kernel config), i.e. one core = one thread. Hyperthreading should be *disabled* as it just increases cache flushes and is only benefitial if a thread is stuck, say on an I/O operation.
 
-Hyperthreading should ideally be *disabled* as it just increase L1/L2 cach flushes and only benefits if eithe thread uis stuck, say on an I/O op,
+Each thread runs an event loop and they all communicate through a common L3 cache memory bus.
 
 
 # Rationale
 
 Having more threads than CPU cores means more context switches... which can become very expensive depending on the amount of data that has to be flushed/reloaded from CPU caches.
 
-There is a cost to running an event loop on each thread, to be sure, but cache flushes are way more costly. Note that, in an Actor Model, involved CPU cores always run at 100% -- even when there is NO event to be processed, so CPU usage (say with htop) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
+While there is a cost to running an event loop on each thread, cache flushes are way more costly. Note that in an Actor Model, involved CPU cores always run at 100% -- even when there is NO event to be processed, so CPU usage (say with htop) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
 
 The is almost no cost for instantied actors that aren't used (not processing any event), except very little memory.
 
@@ -27,7 +27,6 @@ If the random buckets are too tight -- say one of the root nodes (DAG entry node
 If the random buckets are too sparse -- say the # of DAG nodes is too high and/or the random bucket factor is too high -- the DAG won't exhibit any node convergence/fanning so won't really look/behave like a DAG but just a bunch of linked lists. This can be identified if ROOT_NODES == reported exit nodes.
 
 Once the DAG is generated, but before it is executed, my program must first do a *synchronous* traversal of the DAG to count the total number of path terminations, so that the *asynchronous* execution of the DAG (on multiple CPU cores) knows when to stop.
-
 
 
 # To Do
@@ -55,4 +54,8 @@ Once the DAG is generated, but before it is executed, my program must first do a
 
 * the randomized DAG generation is simplified so downstream nodes are only DAG descendents. It'd be possible to generate upstream DAG nodes while preveting cycles but it seems beyond the scope of this project
 * IDag's virtual interface no doubt has a runtime cost, but I generally don't speculate about performance without profiler reports at hand
+
+
+copyright Peter Laufenberg 2020
+
 
