@@ -58,5 +58,5 @@ Once the DAG is generated, but before it is executed, my program must first do a
 * IDag's virtual interface no doubt has a runtime cost, but I generally don't speculate about performance without profiler reports at hand
 
 
-copyright Peter Laufenberg 2020
+(c) copyright Peter Laufenberg 2020
 
