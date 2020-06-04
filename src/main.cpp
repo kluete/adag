@@ -9,12 +9,13 @@
 #include "zamai.h"
 #include "trz/util/waitcondition.h"
 
-constexpr size_t    TOTAL_NODES             = 1'000'000;
-constexpr size_t    ROOT_NODES              = 4;                   // same as # of DAG "entry points", should be slightly smaller than # CPU cores
-constexpr float     RANDOM_BUCKET_FACTOR     = .01;                  // slice/chunk size, as factor of MAX_NODES
-
 #include "lx/xutils.h"
 #include "lx/xstring.h"
+
+constexpr size_t    TOTAL_NODES             = 100'000;
+constexpr size_t    ROOT_NODES              = 4;                   // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr float     RANDOM_BUCKET_FACTOR    = .01;                  // slice/chunk size, as factor of MAX_NODES
+constexpr size_t    NODE_REGISTRATION_BATCH = 1000; 
 
 using namespace std;
 using namespace tredzone;
@@ -90,6 +91,11 @@ public:
         m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
         
         m_NumNodesRegistered++;
+        
+        if (NODE_REGISTRATION_BATCH % m_NumNodesRegistered == 0)
+        {
+            cout << " registered " << m_NumNodesRegistered << " nodes" << endl;
+        }
         
         // registered all nodes?
         if (m_NumNodesRegistered >= TOTAL_NODES)
