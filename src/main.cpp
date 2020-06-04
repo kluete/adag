@@ -9,7 +9,7 @@
 #include "zamai.h"
 #include "trz/util/waitcondition.h"
 
-constexpr size_t    TOTAL_NODES             = 1000;
+constexpr size_t    TOTAL_NODES             = 10000;
 constexpr size_t    ROOT_NODES              = 4;                   // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_SLICE_FACTOR     = .1;                  // slice/chunk size, as factor of MAX_NODES
 
@@ -119,7 +119,7 @@ public:
         
         if (m_TotalTerminations == m_TerminatedCount)
         {
-            cout << "  elap = " << m_StartStamp.elap_str() << endl;
+            cout << "  elapsed = " << m_StartStamp.elap_str() << endl;
             
             // allow exit
             m_WaitCondition->notify();
