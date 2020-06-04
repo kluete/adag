@@ -20,9 +20,11 @@ There is almost no cost for instantiated actors that aren't used (not processing
 
 # Caveats
 
-A (truly) randomized DAG will generate unpredictable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. An efficient design would seek to control such a graph so as to balance load per CPU core, as well as to minimize cross-core hopping (which trigger L1/L2 cache flushes).
+I use C++'s PRNGs in lieux of /dev/udev/ randomization, so a run is deterministic.
 
-If the random buckets are too tight -- say one of the root nodes (DAG entry node) points to another root node -- there can be exponential "waves" (going both up and down) of complexity that'll create many DAG "termination points" and make threaded execution very unpredictable.
+A randomized DAG will generate unpredictable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. An efficient design would seek to control such a graph so as to balance load per CPU core, as well as to minimize cross-core hopping (which trigger L1/L2 cache flushes).
+
+If the random buckets are too tight -- say one of the root nodes (a DAG entry node) points -- to another root node, there can be exponential "waves" (going both up and down) of complexity that'll create many DAG "termination points" and make threaded execution very unpredictable.
 
 If the random buckets are too sparse -- say the # of DAG nodes is too high and/or the random bucket factor is too high -- the DAG won't exhibit any node convergence/fanning so won't really look/behave like a DAG but just a bunch of linked lists. This can be identified if ROOT_NODES == reported exit nodes.
 
