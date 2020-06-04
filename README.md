@@ -20,7 +20,7 @@ The is almost no cost for instantied actors that aren't used (not processing any
 
 A (freely) randomized DAG will generate unpredicatable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. A efficient design would seek to control such a graph so as to balance CPU core load, as well as to minimize cross-core hopping (requiring L1/L2 cache flushes). Also,  if one of the root nodes (DAG entry node) points to another root node, there can be exponential "waves" (both up and down) of complexity that'll make threaded execution very unpredictable.
 
-Once the DAG is generated but before it is executed, my program must first do a *synchronous* traversal of the DAG to count the total number of path terminations, so that the *asynchronous* execution of the DAG (on multiple CPU cores) knows when to stop.
+Once the DAG is generated, but before it is executed, my program must first do a *synchronous* traversal of the DAG to count the total number of path terminations, so that the *asynchronous* execution of the DAG (on multiple CPU cores) knows when to stop.
 
 
 # To do
