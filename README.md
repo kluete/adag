@@ -20,7 +20,7 @@ There is almost no cost for instantiated actors that aren't used (not processing
 
 # Caveats
 
-I use C++'s PRNGs in lieux of /dev/udev/ randomization, so a run is deterministic.
+I use C++'s PRNGs in lieux of */dev/udev/* randomization, so that each run is deterministic.
 
 A randomized DAG will generate unpredictable and unbalanced CPU loads across the different CPU cores, especially wrt to node fanning and merging. An efficient design would seek to control such a graph so as to balance load per CPU core, as well as to minimize cross-core hopping (which trigger L1/L2 cache flushes).
 
