@@ -31,9 +31,6 @@ Once the DAG is generated, but before it is executed, my program must first do a
 
 # To Do
 
-* why would I have repeats on same node?
-  ComputeActor::onEvent(): 21d79ca5 from 2.121224
-  ComputeActor::onEvent(): 21d79ca5 from 2.121224
 * threaded log functionality
   * template to build thread-local sprintf string
   * async-aware stdout without chopping/scrambling
