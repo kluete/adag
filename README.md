@@ -4,7 +4,7 @@
 
 ## Overview
 
-I use the [simplx](https://github.com/kluete/simplex) framework, which is an [Actor Model](https://en.wikipedia.org/wiki/Actor_model): threads are ideally pinned on CPU cores (with said cores masked out from the kernel config), i.e. one core = one thread. Hyper-threading should be *disabled* as it just increases cache flushes and is only beneficial if a thread is stuck, say on an I/O operation.
+I use the [simplex](https://github.com/kluete/simplex) framework, which is an [Actor Model](https://en.wikipedia.org/wiki/Actor_model): threads are ideally pinned on CPU cores (with said cores masked out from the kernel config), i.e. one core = one thread. Hyper-threading should be *disabled* as it just increases cache flushes and is only beneficial if a thread is stuck, say on an I/O operation.
 
 Each thread runs an event loop and they all communicate through a common L3 cache memory bus.
 
