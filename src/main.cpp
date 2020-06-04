@@ -9,7 +9,7 @@
 #include "zamai.h"
 #include "trz/util/waitcondition.h"
 
-constexpr size_t    TOTAL_NODES             = 100'000;
+constexpr size_t    TOTAL_NODES             = 1'000'000;
 constexpr size_t    ROOT_NODES              = 4;                   // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr float     RANDOM_BUCKET_FACTOR     = .01;                  // slice/chunk size, as factor of MAX_NODES
 
@@ -115,7 +115,7 @@ public:
     {
         m_TerminatedCount++;
         
-        cout << " PATH TERMINATION " << m_TerminatedCount << " / " << m_TotalTerminations << endl;
+        cout << " PATH TERMINATION = " << m_TerminatedCount << " / " << m_TotalTerminations << endl;
         
         if (m_TotalTerminations == m_TerminatedCount)
         {
@@ -153,7 +153,7 @@ public:
 private:
 
     IDag            *m_IDag;
-    const size_t    m_Index;            // position in DAG tab
+    const size_t    m_Index;            // position in DAG vector/table
     const uint32_t  m_OpMul;    
     const uint32_t  m_OpBias;
 };
@@ -274,6 +274,8 @@ int main(int argc, char **argv)
     
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
+    cout << " instantiated nodes..." << endl;
+     
     // some instantiated nodes may never be used (traversed) but that's ok as don't use CPU
     for (size_t i = 0; i < TOTAL_NODES; i++)
     {
@@ -285,6 +287,8 @@ int main(int argc, char **argv)
         
         startSequence.addActor<ComputeActor>(cpu_core_id, ComputeInit(IDag.get(), i, op_mul, op_bias));
     }
+    
+    cout << " all nodes instantiated, starting CPU core event loop threads..." << endl;
     
     Engine engine(startSequence);	                // start above actors
 
