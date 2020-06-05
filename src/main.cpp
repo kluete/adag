@@ -17,6 +17,7 @@ constexpr size_t    ROOT_NODES              = 4;                    // same as #
 constexpr float     RANDOM_BUCKET_FACTOR    = .01;                 // slice/chunk size, as factor of MAX_NODES
 constexpr size_t    NODE_REGISTRATION_BATCH = 1000;                 // how often to log to cout
 
+constexpr size_t    RANDOM_BUCKET_SIZE      = TOTAL_NODES * RANDOM_BUCKET_FACTOR;
 
 
 using namespace std;
@@ -270,7 +271,7 @@ int main(int argc, char **argv)
 
     cout << "zamai DAG w/ actor model *************************************************************" << endl;
     
-    unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_FACTOR));
+    unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
     shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system

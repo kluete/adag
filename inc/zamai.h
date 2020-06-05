@@ -26,7 +26,7 @@ public:
     virtual Actor::ActorId  GetNodeActorId(const size_t i) const = 0;
     
     static
-    IDag*   CreateDAG(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor);
+    IDag*   CreateDAG(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size);
 };
 
 //---- Threaded Logger interface -----------------------------------------------

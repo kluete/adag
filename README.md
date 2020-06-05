@@ -30,7 +30,7 @@ DAG branches starts at (E) *entry/root nodes*, needle through (B) *branch nodes*
 
 In this implementation, a branch's nodes are randomly selected from within an advancing *bucket* of child nodes.
 
-If the DAG's random buckets are too tightly packed -- say one of the entry nodes points to another entry node, there can be exponential "waves" (going both up and down) of complexity that'll create many DAG "termination points" and make threaded execution very unpredictable. This is usually due to RANDOM_BUCKET_FACTOR being too small.
+If the DAG's random buckets are too tightly packed -- say one of the entry nodes points to another entry node, there can be exponential "waves" (going both up and down) of complexity that'll create many DAG "termination points" and make threaded execution very unpredictable. This is usually due to RANDOM_BUCKET_SIZE being too small.
 
 On the other hand, if the DAG's random buckets are too sparse -- say the # of DAG nodes is too high and/or the random bucket factor is too high -- the DAG won't exhibit any node convergence/fanning so won't really behave like a DAG but just a bunch of linked lists. This is easily identified if ROOT_NODES == reported exit nodes.
 

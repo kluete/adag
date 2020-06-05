@@ -23,14 +23,14 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor)
-        : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndSliceFactor(rnd_slice_factor),
+    DAGImp(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size)
+        : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndBucketSize(rnd_bucket_size),
         m_TraversedNodes(0), m_TotalTerminations(0)
     {
         cout << "DAGImp() CTOR" << endl;
         cout << "  total_nodes = " << total_nodes << endl;
         cout << "  root_nodes = " << root_nodes << endl;
-        cout << "  rnd_slice_factor = " << rnd_slice_factor << endl << endl;
+        cout << "  rnd_bucket_size = " << rnd_bucket_size << endl << endl;
         
         CreateDAG();
         
@@ -90,15 +90,13 @@ private:
         
         m_NodeToChildNodesTab.resize(m_TotalNodes, {}/*empty child list*/);
         
-        // slice size of downstream nodes
-        const size_t    slice_size = m_TotalNodes * m_RndSliceFactor;
-        assert(slice_size > 0);
+        assert(m_RndBucketSize > 1);
         
         // max (child) nodes in single branch
-        const size_t    max_branch_nodes = (m_TotalNodes - m_RootNodes) / slice_size;
+        const size_t    max_branch_nodes = (m_TotalNodes - m_RootNodes) / m_RndBucketSize;
         assert(max_branch_nodes > 0);
         
-        auto	rnd_gen = bind(uniform_int_distribution<>(1, slice_size - 1), default_random_engine{0/*seed*/});
+        auto	rnd_gen = bind(uniform_int_distribution<>(1, m_RndBucketSize - 1), default_random_engine{0/*seed*/});
         
         size_t  max_node_children = 0;
         
@@ -194,7 +192,7 @@ private:
 
     const size_t    m_TotalNodes;
     const size_t    m_RootNodes;
-    const float     m_RndSliceFactor;
+    const float     m_RndBucketSize;
     
 mutable    size_t          m_TraversedNodes;
     size_t          m_TotalTerminations;
@@ -206,11 +204,11 @@ mutable    size_t          m_TraversedNodes;
 //---- INSTANTIATION -----------------------------------------------------------
 
 // static
-IDag*    IDag::CreateDAG(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor)
+IDag*    IDag::CreateDAG(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size)
 {
     assert(total_nodes > root_nodes);
     
-    return new DAGImp(total_nodes, root_nodes, rnd_slice_factor);
+    return new DAGImp(total_nodes, root_nodes, rnd_bucket_size);
 }
 
 } // namespace zamai
