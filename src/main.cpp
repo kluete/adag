@@ -14,7 +14,7 @@
 
 constexpr size_t    TOTAL_NODES             = 100'000;
 constexpr size_t    ROOT_NODES              = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
-constexpr float     RANDOM_BUCKET_FACTOR    = .01;                 // slice/chunk size, as factor of MAX_NODES
+constexpr float     RANDOM_BUCKET_FACTOR    = .001;                 // slice/chunk size, as factor of MAX_NODES
 constexpr size_t    NODE_REGISTRATION_BATCH = 1000;                 // how often to log to cout
 
 constexpr size_t    RANDOM_BUCKET_SIZE      = TOTAL_NODES * RANDOM_BUCKET_FACTOR;
@@ -274,8 +274,6 @@ int main(int argc, char **argv)
     cout << "  TOTAL_NODES = " << TOTAL_NODES << endl;
     cout << "  ROOT_NODES = " << ROOT_NODES << endl;
     cout << "  RANDOM_BUCKET_SIZE = " << RANDOM_BUCKET_SIZE << endl << endl;
-    
-    return 0;
     
     unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
     shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
