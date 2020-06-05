@@ -34,7 +34,7 @@ If the DAG's random buckets are too tightly packed -- say one of the entry nodes
 
 On the other hand, if the DAG's random buckets are too sparse -- say the # of DAG nodes is too high and/or the random bucket factor is too high -- the DAG won't exhibit any node convergence/fanning so won't really behave like a DAG but just a bunch of linked lists. This is easily identified if ROOT_NODES == reported exit nodes.
 
-Once the DAG is generated, but before it is executed, this program must first do a *synchronous*  (single-threaded and therfore slow) traversal of the DAG to count the total number of path terminations, so that the *asynchronous* (multithreaded) execution of the DAG knows when to stop.
+Once the DAG is generated, but before it is executed, this program must first do a *synchronous*  (single-threaded and therfore slow) traversal of the DAG to count the total number of path terminations, so that the *asynchronous* (multithreaded) execution of the DAG knows when to stop. The time of taken by the synchronous execution is considered a one-off and thus not part of the benchmarking
 
 The randomized DAG generation is simplified so downstream nodes are only DAG descendants. It'd be possible to generate upstream DAG nodes while preventing cycles but it seems beyond the scope of this assignment.
 
@@ -46,6 +46,7 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 * threaded log functionality
   * template to build thread-local sprintf string
   * async-aware stdout without chopping/scrambling
+* release mode
 * fix unique_ptr::get() ugliness
 * build instruction
 
