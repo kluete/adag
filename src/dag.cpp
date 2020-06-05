@@ -31,6 +31,7 @@ public:
         assert(m_MaxBranchNodes > 0);
         
         cout << "DAGImp() CTOR" << endl;
+        cout << "  m_MaxBranchNodes = " << m_MaxBranchNodes << endl;
         
         CreateDAG();
         
@@ -119,7 +120,7 @@ private:
                 // compute any node's manimum # of children
                 max_node_children = std::max(max_node_children, m_NodeToChildNodesTab[walker_node].size());
                 
-                cout << "     node[" << j << "] : " << walker_node << " -> " << next_node << endl;
+                // cout << "     node[" << j << "] : " << walker_node << " -> " << next_node << endl;
                 
                 walker_node = next_node;
             }

@@ -15,7 +15,7 @@
 constexpr size_t    TOTAL_NODES             = 100'000;
 constexpr size_t    ROOT_NODES              = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr size_t    RANDOM_BUCKET_SIZE      = 100;
-constexpr size_t    NODE_REGISTRATION_BATCH = 1000;                 // how often to log to cout
+constexpr size_t    NODE_REGISTRATION_BATCH = 10000;                 // how often to log to cout
 
 
 using namespace std;
