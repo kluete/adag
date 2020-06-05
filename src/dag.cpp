@@ -25,8 +25,11 @@ public:
     // ctor
     DAGImp(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size)
         : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndBucketSize(rnd_bucket_size),
+        m_MaxBranchNodes((m_TotalNodes - m_RootNodes) / m_RndBucketSize),
         m_TraversedNodes(0), m_TotalTerminations(0)
     {
+        assert(m_MaxBranchNodes > 0);
+        
         cout << "DAGImp() CTOR" << endl;
         
         CreateDAG();
@@ -89,10 +92,6 @@ private:
         
         assert(m_RndBucketSize > 1);
         
-        // max (child) nodes in single branch
-        const size_t    max_branch_nodes = (m_TotalNodes - m_RootNodes) / m_RndBucketSize;
-        assert(max_branch_nodes > 0);
-        
         auto	rnd_gen = bind(uniform_int_distribution<>(1, m_RndBucketSize - 1), default_random_engine{0/*seed*/});
         
         size_t  max_node_children = 0;
@@ -105,7 +104,7 @@ private:
             cout << "  th[" << thread << "]:" << endl;
             
             // generate child nodes
-            for (size_t j = 0; j < max_branch_nodes; j++)
+            for (size_t j = 0; j < m_MaxBranchNodes; j++)
             {
                 const size_t  offset = rnd_gen() + (j == 0 ? m_RootNodes : 0);       // prevent root nodes to burrow into one another
                 assert(offset > 0);
@@ -189,7 +188,8 @@ private:
 
     const size_t    m_TotalNodes;
     const size_t    m_RootNodes;
-    const float     m_RndBucketSize;
+    const size_t    m_RndBucketSize;
+    const size_t    m_MaxBranchNodes;
     
 mutable    size_t          m_TraversedNodes;
     size_t          m_TotalTerminations;
