@@ -17,6 +17,8 @@ constexpr size_t    ROOT_NODES              = 4;                    // same as #
 constexpr float     RANDOM_BUCKET_FACTOR    = .001;                 // slice/chunk size, as factor of MAX_NODES
 constexpr size_t    NODE_REGISTRATION_BATCH = 1000;                 // how often to log to cout
 
+
+
 using namespace std;
 using namespace tredzone;
 using namespace zamai;

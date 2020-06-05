@@ -10,6 +10,8 @@ namespace zamai
 using std::vector;
 using tredzone::Actor;
 
+constexpr size_t    TERMINATION_COUNT_BATCH = 1000;
+
 //---- DAG interface (a la Scott Meyers) ---------------------------------------
 
 class IDag

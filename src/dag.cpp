@@ -25,7 +25,7 @@ public:
     // ctor
     DAGImp(const size_t total_nodes, const size_t root_nodes, const float rnd_slice_factor)
         : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndSliceFactor(rnd_slice_factor),
-        m_TotalTerminations(0)
+        m_TraversedNodes(0), m_TotalTerminations(0)
     {
         cout << "DAGImp() CTOR" << endl;
         cout << "  total_nodes = " << total_nodes << endl;
@@ -140,6 +140,12 @@ private:
     // calc total path terminations (recursively)
     void    CalcPathNodes(const size_t node, size_t &n_path_nodes) const
     {
+        m_TraversedNodes++;
+        if (0 == m_TraversedNodes % TERMINATION_COUNT_BATCH)
+        {
+                cout << " count-traversed nodes = " << m_TraversedNodes << endl;
+        }
+        
         const vector<size_t>    child_nodes = GetChildNodes(node);
         if (child_nodes.empty())
         {
@@ -189,6 +195,8 @@ private:
     const size_t    m_TotalNodes;
     const size_t    m_RootNodes;
     const float     m_RndSliceFactor;
+    
+mutable    size_t          m_TraversedNodes;
     size_t          m_TotalTerminations;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
