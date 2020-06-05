@@ -95,7 +95,7 @@
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wall;-pedantic;-Werror;-Wextra;-std=c++14;-Wno-unused-parameter" C_Options="" Assembler="">
+      <Compiler Options="-Wall;-pedantic;-Werror;-Wextra;-std=c++14;-Wno-unused-parameter;-Wno-noexcept-type" C_Options="" Assembler="">
         <IncludePath Value="inc"/>
         <IncludePath Value="$(SIMPLX_DIR)/include"/>
         <IncludePath Value="thirdparty/lxUtils/inc"/>
@@ -231,10 +231,7 @@
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
         <Preprocessor Value="TREDZONE_CHECK_CYCLICAL_REFS=0"/>
       </Compiler>
-      <Linker Options="-pthread" Required="yes">
-        <LibraryPath Value="$(LXBUILD)/gtest_gcc/"/>
-        <Library Value="gtest"/>
-      </Linker>
+      <Linker Options="-pthread" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="zamaid.bin" IntermediateDirectory="./.Debug" Command="zamaid.bin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments=" " WorkingDirectory="$(WorkspacePath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
@@ -269,19 +266,18 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release gcc" CompilerType="g++6" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release gcc" CompilerType="Cross GCC ( x86_64-linux-gnu )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O3;-mtune=native;-Wno-unused-parameter" C_Options="-O3;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="NDEBUG"/>
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
         <Preprocessor Value="TREDZONE_CHECK_CYCLICAL_REFS=0"/>
-        <Preprocessor Value="TREDZONE_LOG=1"/>
       </Compiler>
       <Linker Options="-pthread" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="dtor_bug_rel.bin" IntermediateDirectory="./.Release" Command="./dtor_bug_rel.bin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="zamai_rel.bin" IntermediateDirectory="./.Release" Command="./zamai_rel.bin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
-        <![CDATA[]]>
+        <![CDATA[SIMPLX_DIR=./thirdparty/simplex/]]>
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>

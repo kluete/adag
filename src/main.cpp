@@ -155,8 +155,6 @@ public:
         assert(dag);
     }
     
-private:
-
     IDag            *m_IDag;
     const size_t    m_Index;            // position in DAG vector/table
     const uint32_t  m_OpMul;    
