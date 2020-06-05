@@ -95,7 +95,7 @@
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wall;-pedantic;-Werror;-Wextra;-std=c++14;-Wno-unused-parameter;-Wno-noexcept-type" C_Options="" Assembler="">
+      <Compiler Options="-Wextra;-std=c++14;-Wno-unused-parameter;-Wno-noexcept-type;-Wno-error=class-memaccess" C_Options="" Assembler="">
         <IncludePath Value="inc"/>
         <IncludePath Value="$(SIMPLX_DIR)/include"/>
         <IncludePath Value="thirdparty/lxUtils/inc"/>

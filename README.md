@@ -53,6 +53,8 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## Build instructions
 
+* this is compiling with gcc 8.3
+
 
 ## What alternatives I would have considered if given more time
 
