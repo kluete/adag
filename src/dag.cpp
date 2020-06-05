@@ -28,9 +28,6 @@ public:
         m_TraversedNodes(0), m_TotalTerminations(0)
     {
         cout << "DAGImp() CTOR" << endl;
-        cout << "  total_nodes = " << total_nodes << endl;
-        cout << "  root_nodes = " << root_nodes << endl;
-        cout << "  rnd_bucket_size = " << rnd_bucket_size << endl << endl;
         
         CreateDAG();
         

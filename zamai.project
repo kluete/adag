@@ -227,7 +227,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Debug gcc" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-Wall;-pthread;-fno-access-control" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g;-O0;-Wall;-pthread;" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
         <Preprocessor Value="TREDZONE_CHECK_CYCLICAL_REFS=0"/>
       </Compiler>
