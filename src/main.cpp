@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <limits>
 
 #include "simplx.h"
 
@@ -206,17 +207,19 @@ private:
     void    BroadcastToChildren(const uint32_t val)
     {
         const vector<uint32_t>    child_nodes = m_Dag->GetChildNodes(m_Id);
+        asssert(!child_nodes.empty());
+        /*
         if (child_nodes.empty())
         {
             // cout << " NO MORE CHILD NODES" << endl;
             NotifyPathTermination();
             return;
-        }
+        }*/
         
         // send to child nodes
         for (const uint32_t child_id: child_nodes)
         {
-            if (child_id == 0)
+            if (child_id == NODE_CHILD_END)
             {
                 // cout << " END OF CHILD NODES" << endl;
                 NotifyPathTermination();

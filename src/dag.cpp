@@ -19,8 +19,6 @@ namespace zamai
 using namespace std;
 using namespace tredzone;
 
-constexpr uint32_t  NODE_CHILD_END = numeric_limits<uint32_t>::max();
-
 //---- DAG imp -----------------------------------------------------------------
 
 class DAGImp : public IDag
