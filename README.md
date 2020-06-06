@@ -75,8 +75,7 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 ## What alternatives I would have considered if given more time
 
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), whose integration into ISO C++ has been postponed to after C++ 20. Kohlhoff wrote ASIO, so he knows his stuff.
-* Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplx but he's lacking some features like computer clustering.
-
+* my colleague Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but it's still lacking some features like cross-computer/cluster messaging.
 * balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
 * generating different node/actor class types to account for different computations
 
@@ -84,6 +83,7 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 ## Misc Notes
 
 * IDag's virtual interface no doubt has a runtime cost, but I generally don't speculate about performance without profiler reports at hand
+
 
 
 (c) copyright 2020 by Peter Laufenberg
