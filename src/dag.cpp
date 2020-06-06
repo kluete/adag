@@ -182,11 +182,14 @@ private:
             
             assert(child_id > node);
             
+            /*
+            // can't prevent multiple edge traversal with fanning & merging
             const uint64_t  edge = make_edge(child_id, node);
   
             assert(!m_VisitedEdgeSet.count(edge));
             m_VisitedEdgeSet.insert(edge);
-        
+            */
+            
             // RECURSE
             CalcPathTerminations(child_id, n_path_nodes, depth + 1);
         }

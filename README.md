@@ -64,7 +64,7 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## What Didn't Work
 
-* preventing a node edge to be traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelate nodes for a little while and then remerge into the same single node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times, this leads to *exponential* complexity and CPU cost.
+* preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost.
 
 
 ## What I Wrote Off (and didn't try)
@@ -83,7 +83,8 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), whose integration into ISO C++ has been postponed to after C++ 20. Kohlhoff wrote ASIO, so he knows his stuff.
 * my colleague Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but it's still lacking some features like cross-computer/cluster messaging.
 * balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
-* generating different node/actor class types to account for different computations
+* generating different node/actor class types to account for different computations (with different CPU costs)
+
 
 
 ## Misc Notes
