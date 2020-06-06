@@ -89,6 +89,7 @@ git submodule update --init
 * my colleague Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but it's still lacking some features like cross-computer/cluster messaging.
 * balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
 * generating different node/actor class types to account for different computations (with different CPU costs)
+* output to graphviz format for visual debugging
 
 
 
