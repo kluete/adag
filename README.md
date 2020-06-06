@@ -64,12 +64,18 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## What Didn't Work
 
-* preventing a node edge to be traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelate nodes for a little while and then remerge into the same single node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can lead to exponential complexity and CPU cost.
+* preventing a node edge to be traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelate nodes for a little while and then remerge into the same single node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times, this leads to *exponential* complexity and CPU cost.
 
 
-## What I Wrote Off
+## What I Wrote Off (and didn't try)
 
 * on the fly core-hopping whenever a path fanned out. With large enough payloads, this would have resulted in major slowdowns due to cache flushes -- both on fanning out and remerging. Either way, idle CPU cores are mostly valuable in energy-sensitive environments like smartphones, not in back-end data-intensive calculations.
+
+
+## What Was Tricky
+
+* finding out that DAG entropy/homogeneity depends on the random bucket size because it affects probabilities of edge reentries. I.e a 1M-node DAG would perform faster than a 100K-node DAG if the random bucket size was large enough to have less edge duplications 
+
 
 
 ## What alternatives I would have considered if given more time
