@@ -150,12 +150,16 @@ private:
         
         const vector<uint32_t>    child_nodes = GetChildNodes(node);
         
+        assert(!child_nodes.empty());
+        /*
         if (child_nodes.empty())
         {
             // no child nodes
             n_path_nodes++;
             return;
         }
+        */
+        
         
         // send to child nodes
         for (const uint32_t child_id: child_nodes)
