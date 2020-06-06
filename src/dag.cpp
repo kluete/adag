@@ -214,7 +214,6 @@ private:
     mutable uint32_t  m_MaxTraversedDepth;
     uint32_t          m_TotalTerminations;
     
-    // mutable unordered_set<tuple<uint32_t, uint32_t>, hash_tuple::hash<tuple<uint32_t, uint32_t>>>  m_VisitedEdgeSet;
     // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
     mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
     
