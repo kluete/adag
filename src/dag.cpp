@@ -151,14 +151,10 @@ private:
         }
     }
     
-    // calc total path terminations (recursively)
+    // calc path terminations (RECURSIVE)
     void    CalcPathTerminations(const uint32_t node, uint32_t &n_path_nodes, const uint32_t depth) const
     {
         m_TraversedNodes++;
-        if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
-        {
-                cout << " count-traversed nodes = " << m_TraversedNodes << " , depth = " << depth << endl;
-        }
         
         m_MaxTraversedDepth = std::max(m_MaxTraversedDepth, depth);
         
@@ -185,8 +181,13 @@ private:
             // can't prevent multiple edge traversal with fanning & merging
             const uint64_t  edge = make_edge(child_id, node);
   
-            const size_t    n_visited_edge = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) : 0;
-            m_VisitedEdgeMap.emplace(edge, n_visited_edge +1);
+            const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) : 0;
+            m_VisitedEdgeMap.emplace(edge, n_visited_edges +1);
+            
+            if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
+            {
+                cout << " count-traversed nodes = " << m_TraversedNodes << ", depth = " << depth << ", n_visited_edges = " << n_visited_edges << endl;
+            }
             
             // RECURSE
             CalcPathTerminations(child_id, n_path_nodes, depth + 1);
