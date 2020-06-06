@@ -43,6 +43,8 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## To Do
 
+* count traversed nodes is infinite?
+  * limite computes by in-message count-down?
 * threaded log functionality
   * template to build thread-local sprintf string
   * async-aware stdout without chopping/scrambling
