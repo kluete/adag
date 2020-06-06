@@ -10,7 +10,7 @@ namespace zamai
 using std::vector;
 using tredzone::Actor;
 
-constexpr uint32_t    TERMINATION_LOG_BATCH = 1000;
+constexpr uint32_t    TERMINATION_LOG_BATCH = 10000;
 
 //---- DAG interface (a la Scott Meyers) ---------------------------------------
 

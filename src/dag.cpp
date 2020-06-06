@@ -152,7 +152,7 @@ private:
     }
     
     // calc path terminations (RECURSIVE)
-    void    CalcPathTerminations(const uint32_t node, uint32_t &n_path_nodes, const uint32_t depth) const
+    void    CalcPathTerminations(const uint32_t root_node, const uint32_t node, uint32_t &n_path_nodes, const uint32_t depth) const
     {
         m_TraversedNodes++;
         
@@ -186,11 +186,11 @@ private:
             
             if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
-                cout << " count-traversed nodes = " << m_TraversedNodes << ", depth = " << depth << ", n_visited_edges = " << n_visited_edges << endl;
+                cout << " count-traversa;: root_node = " << root_node << ", traversed = " << m_TraversedNodes << ", depth = " << depth << ", n_visited_edges = " << n_visited_edges << endl;
             }
             
             // RECURSE
-            CalcPathTerminations(child_id, n_path_nodes, depth + 1);
+            CalcPathTerminations(root_node, child_id, n_path_nodes, depth + 1);
         }
     }
     
@@ -200,16 +200,16 @@ private:
         
         uint32_t  n_endings  = 0;
         
-        for (uint32_t node = 0; node < m_RootNodes; node++)
+        for (uint32_t root_node = 0; root_node < m_RootNodes; root_node++)
         {
             m_VisitedEdgeMap.clear();
             
-            uint32_t  walker_node = node;
+            uint32_t  walker_node = root_node;
             (void)walker_node;
             
             uint32_t  n_path_nodes = 0;
             
-            CalcPathTerminations(walker_node, n_path_nodes/*&*/, 0/*depth*/);
+            CalcPathTerminations(root_node, walker_node, n_path_nodes/*&*/, 0/*depth*/);
             
             n_endings += n_path_nodes;
         }
