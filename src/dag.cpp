@@ -53,10 +53,10 @@ public:
         assert(id < m_TotalNodes);
         
         // check wasn't already registered
-        assert(!m_ActorIndexToIdMap.count(id));
+        assert(!m_NodeToActorIdMap.count(id));
         
-        // m_ActorIndexToIdMap.insert({id, actor_id});
-        m_ActorIndexToIdMap.insert({id, actor_id});
+        // m_NodeToActorIdMap.insert({id, actor_id});
+        m_NodeToActorIdMap.insert({id, actor_id});
     }
    
     vector<uint32_t>  GetChildNodes(const uint32_t id) const override
@@ -75,9 +75,9 @@ public:
         assert(id < m_TotalNodes);
         
         // make sure exists (though may be empty actor ID)
-        assert(m_ActorIndexToIdMap.count(id));
+        assert(m_NodeToActorIdMap.count(id));
         
-        const Actor::ActorId    aid = m_ActorIndexToIdMap.at(id);
+        const Actor::ActorId    aid = m_NodeToActorIdMap.at(id);
         // check isn't null actor id
         assert(aid != Actor::ActorId());
         
@@ -218,7 +218,7 @@ private:
     mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
     
     vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
-    unordered_map<uint32_t, Actor::ActorId>   m_ActorIndexToIdMap;
+    unordered_map<uint32_t, Actor::ActorId>   m_NodeToActorIdMap;
 };
 
 //---- INSTANTIATION -----------------------------------------------------------

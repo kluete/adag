@@ -12,7 +12,7 @@
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
-constexpr uint32_t  TOTAL_NODES                 = 10'000;
+constexpr uint32_t  TOTAL_NODES                 = 1'000;
 constexpr uint32_t  ROOT_NODES                  = 2;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 20;
 constexpr uint32_t  NODE_REGISTRATION_LOG_BATCH = 10000;                 // how often to log to cout
