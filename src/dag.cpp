@@ -172,7 +172,7 @@ private:
             
             if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
-                cout << " count-traversa;: root_node = " << root_node << ", traversed = " << m_TraversedNodes << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
+                cout << " node traversal: root = " << root_node << ", traversed = " << m_TraversedNodes << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
             }
             
             // RECURSE
