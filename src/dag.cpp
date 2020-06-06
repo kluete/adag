@@ -7,6 +7,7 @@
 #include <random>
 #include <thread>
 #include <mutex>
+#include <limits>
 #include <algorithm>            // for std::max
 
 #include "simplx.h"
@@ -18,18 +19,7 @@ namespace zamai
 using namespace std;
 using namespace tredzone;
 
-namespace hash_tuple{
-
-template <typename TT>
-struct hash
-{
-    size_t
-    operator()(TT const& tt) const
-    {                                              
-        return std::hash<TT>()(tt);                                 
-    }                                              
-};
-}
+constexpr uint32_t  NODE_CHILD_END = numeric_limits<uint32_t>::max();
 
 //---- DAG imp -----------------------------------------------------------------
 
@@ -145,7 +135,7 @@ private:
             }
             
             // end branch
-            m_NodeToChildNodesTab[walker_node].push_back(0);
+            m_NodeToChildNodesTab[walker_node].push_back(NODE_CHILD_END);
             
              cout << endl << "DAG done, max_node_children = " << max_node_children << endl << endl;
         }
@@ -159,6 +149,7 @@ private:
         m_MaxTraversedDepth = std::max(m_MaxTraversedDepth, depth);
         
         const vector<uint32_t>    child_nodes = GetChildNodes(node);
+        
         if (child_nodes.empty())
         {
             // no child nodes
@@ -169,7 +160,7 @@ private:
         // send to child nodes
         for (const uint32_t child_id: child_nodes)
         {
-            if (child_id == 0)
+            if (child_id == NODE_CHILD_END)
             {
                 // end node marker
                 n_path_nodes++;
@@ -227,6 +218,7 @@ private:
     mutable uint32_t  m_TraversedNodes;
     mutable uint32_t  m_MaxTraversedDepth;
     uint32_t          m_TotalTerminations;
+    
     // mutable unordered_set<tuple<uint32_t, uint32_t>, hash_tuple::hash<tuple<uint32_t, uint32_t>>>  m_VisitedEdgeSet;
     // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
     mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
