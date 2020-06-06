@@ -12,10 +12,10 @@
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
-constexpr size_t    TOTAL_NODES             = 1'000;
-constexpr size_t    ROOT_NODES              = 2;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
-constexpr size_t    RANDOM_BUCKET_SIZE      = 20;
-constexpr size_t    NODE_REGISTRATION_BATCH = 10000;                 // how often to log to cout
+constexpr uint32_t  TOTAL_NODES                 = 1'000;
+constexpr uint32_t  ROOT_NODES                  = 2;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr uint32_t  RANDOM_BUCKET_SIZE          = 20;
+constexpr uint32_t  NODE_REGISTRATION_LOG_BATCH = 10000;                 // how often to log to cout
 
 
 using namespace std;
@@ -92,7 +92,7 @@ public:
         m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
         
         m_NumNodesRegistered++;
-        if (m_NumNodesRegistered % NODE_REGISTRATION_BATCH == 0)
+        if (m_NumNodesRegistered % NODE_REGISTRATION_LOG_BATCH == 0)
         {
             cout << " registered " << m_NumNodesRegistered << " nodes" << endl;
         }
@@ -150,14 +150,14 @@ ComputeInit
 public:
 
     // ctor
-    ComputeInit(IDag *dag, const size_t index, const uint32_t &opmul, const uint32_t &opbias)
-        : m_IDag(dag), m_Index(index), m_OpMul(opmul), m_OpBias(opbias)
+    ComputeInit(IDag *dag, const uint32_t id, const uint32_t opmul, const uint32_t opbias)
+        : m_IDag(dag), m_Id(id), m_OpMul(opmul), m_OpBias(opbias)
     {
         assert(dag);
     }
     
     IDag            *m_IDag;
-    const size_t    m_Index;            // position in DAG vector/table
+    const uint32_t  m_Id;            // position in DAG vector/table
     const uint32_t  m_OpMul;    
     const uint32_t  m_OpBias;
 };
@@ -170,7 +170,7 @@ public:
 
     // ctor
 	ComputeActor(const ComputeInit &init)
-        : m_Dag(init.m_IDag), m_Index(init.m_Index),
+        : m_Dag(init.m_IDag), m_Id(init.m_Id),
         m_OpMul(init.m_OpMul), m_OpBias(init.m_OpBias)
     {
 		// cout << "ComputeActor::ComputeActor()" << endl;
@@ -199,7 +199,7 @@ public:
         
         Event::Pipe pipe_to_registry(*this, RegistryActorId);
             
-        pipe_to_registry.push<RegisterNodeEvent>(m_Index, getActorId());
+        pipe_to_registry.push<RegisterNodeEvent>(m_Id, getActorId());
 	}
     
 private:
@@ -207,7 +207,7 @@ private:
     // trickle-down to children
     void    BroadcastToChildren(const uint32_t val)
     {
-        const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Index);
+        const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Id);
         if (child_nodes.empty())
         {
             // cout << " NO MORE CHILD NODES" << endl;
@@ -244,7 +244,7 @@ private:
     }
 
     const IDag      *m_Dag;
-    const size_t    m_Index;
+    const uint32_t  m_Id;
     const uint32_t  m_OpMul, m_OpBias;
 };
 
