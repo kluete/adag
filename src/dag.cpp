@@ -181,9 +181,11 @@ private:
             }
             
             assert(child_id > node);
+            
+            const uint64_t  edge = make_edge(child_id, node);
   
-            assert(!m_VisitedEdgeSet.count(make_edge(child_id, node)));
-            m_VisitedEdgeSet.insert(make_edge(child_id, node));
+            assert(!m_VisitedEdgeSet.count(edge));
+            m_VisitedEdgeSet.insert(edge);
         
             // RECURSE
             CalcPathTerminations(child_id, n_path_nodes, depth + 1);
