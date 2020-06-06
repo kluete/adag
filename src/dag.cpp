@@ -28,7 +28,7 @@ public:
     DAGImp(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size)
         : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndBucketSize(rnd_bucket_size),
         m_MaxBranchNodes((m_TotalNodes - m_RootNodes) / m_RndBucketSize),
-        m_TraversedNodes(0), m_MaxTraversedDepth(0), m_TotalTerminations(0)
+        m_TraversedNodes(0), m_MaxTraversedDepth(0), m_MaxNodeId(0), m_TotalTerminations(0)
     {
         assert(m_MaxBranchNodes > 0);
         
@@ -162,6 +162,8 @@ private:
             
             assert(child_id > node);
             
+            m_MaxNodeId = std::max(m_MaxNodeId, child_id);
+            
             // can't prevent multiple edge traversal with fanning & merging
             const uint64_t  edge = make_edge(child_id, node);
   
@@ -170,7 +172,7 @@ private:
             
             if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
-                cout << " node traversal: root = " << root_node << ", traversed = " << m_TraversedNodes << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
+                cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
             }
             
             // RECURSE
@@ -187,6 +189,7 @@ private:
         for (uint32_t root_node = 0; root_node < m_RootNodes; root_node++)
         {
             m_VisitedEdgeMap.clear();
+            m_MaxNodeId = 0;
             
             uint32_t  walker_node = root_node;
             (void)walker_node;
@@ -210,6 +213,7 @@ private:
     
     mutable uint32_t  m_TraversedNodes;
     mutable uint32_t  m_MaxTraversedDepth;
+    mutable uint32_t  m_MaxNodeId;
     uint32_t          m_TotalTerminations;
     
     // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
