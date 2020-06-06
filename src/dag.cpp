@@ -134,11 +134,10 @@ private:
     }
     
     // calc total path terminations (recursively)
-    void    CalcPathNodes(const size_t node, size_t &n_path_nodes, const int depth) const
+    void    CalcPathTerminations(const size_t node, size_t &n_path_nodes, const int depth) const
     {
-        assert(!m_VisitedNodeSet.count(node));
-        
-        m_VisitedNodeSet.insert(node);
+        //assert(!m_VisitedNodeSet.count(node));
+        // m_VisitedNodeSet.insert(node);
         
         m_TraversedNodes++;
         if (0 == m_TraversedNodes % TERMINATION_COUNT_BATCH)
@@ -167,7 +166,7 @@ private:
             assert(child_id > node);
   
             // RECURSE
-            CalcPathNodes(child_id, n_path_nodes, depth + 1);
+            CalcPathTerminations(child_id, n_path_nodes, depth + 1);
         }
     }
     
@@ -187,7 +186,7 @@ private:
             
             size_t  n_path_nodes = 0;
             
-            CalcPathNodes(walker_node, n_path_nodes/*&*/, 0/*depth*/);
+            CalcPathTerminations(walker_node, n_path_nodes/*&*/, 0/*depth*/);
             
             n_endings += n_path_nodes;
         }
@@ -202,8 +201,8 @@ private:
     const size_t    m_RndBucketSize;
     const size_t    m_MaxBranchNodes;
     
-mutable   size_t          m_TraversedNodes;
-mutable   unordered_set<size_t>   m_VisitedNodeSet;               // (per branch)
+mutable size_t          m_TraversedNodes;
+mutable unordered_set<size_t>   m_VisitedNodeSet;               // (per branch)
     size_t          m_TotalTerminations;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
