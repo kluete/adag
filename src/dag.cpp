@@ -157,6 +157,8 @@ private:
             {
                 // end node marker
                 n_path_nodes++;
+                
+                cout << " NODE_CHILD_END " << endl;
                 return;
             }
             
@@ -170,7 +172,7 @@ private:
             const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) : 0;
             m_VisitedEdgeMap.emplace(edge, n_visited_edges +1);
             
-            if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
+            //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
                 cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
             }
