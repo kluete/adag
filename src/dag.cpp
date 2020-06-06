@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <random>
 #include <thread>
 #include <mutex>
@@ -133,8 +134,12 @@ private:
     }
     
     // calc total path terminations (recursively)
-    void    CalcPathNodes(const size_t node, size_t &n_path_nodes) const
+    void    CalcPathNodes(const size_t node, size_t &n_path_nodes, const int depth) const
     {
+        assert(!m_VisitedNodeSet.count(node));
+        
+        m_VisitedNodeSet.insert(node);
+        
         m_TraversedNodes++;
         if (0 == m_TraversedNodes % TERMINATION_COUNT_BATCH)
         {
@@ -158,9 +163,11 @@ private:
                 n_path_nodes++;
                 return;
             }
+            
+            assert(child_id > node);
   
             // RECURSE
-            CalcPathNodes(child_id, n_path_nodes);
+            CalcPathNodes(child_id, n_path_nodes, depth + 1);
         }
     }
     
@@ -172,12 +179,15 @@ private:
         
         for (size_t thread = 0; thread < m_RootNodes; thread++)
         {
+            // clear per-branch hashset
+            m_VisitedNodeSet.clear();
+            
             size_t  walker_node = thread;
             (void)walker_node;
             
             size_t  n_path_nodes = 0;
             
-            CalcPathNodes(walker_node, n_path_nodes/*&*/);
+            CalcPathNodes(walker_node, n_path_nodes/*&*/, 0/*depth*/);
             
             n_endings += n_path_nodes;
         }
@@ -192,7 +202,8 @@ private:
     const size_t    m_RndBucketSize;
     const size_t    m_MaxBranchNodes;
     
-mutable    size_t          m_TraversedNodes;
+mutable   size_t          m_TraversedNodes;
+mutable   unordered_set<size_t>   m_VisitedNodeSet;               // (per branch)
     size_t          m_TotalTerminations;
     
     vector<vector<size_t>>                  m_NodeToChildNodesTab;
