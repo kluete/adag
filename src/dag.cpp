@@ -174,7 +174,7 @@ private:
             
             //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
-                cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
+                cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", this_node = " << node << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
             }
             
             // RECURSE
