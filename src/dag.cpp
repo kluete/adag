@@ -182,13 +182,11 @@ private:
             
             assert(child_id > node);
             
-            /*
             // can't prevent multiple edge traversal with fanning & merging
             const uint64_t  edge = make_edge(child_id, node);
   
-            assert(!m_VisitedEdgeSet.count(edge));
-            m_VisitedEdgeSet.insert(edge);
-            */
+            const size_t    n_visited_edge = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) : 0;
+            m_VisitedEdgeMap.emplace(edge, n_visited_edge +1);
             
             // RECURSE
             CalcPathTerminations(child_id, n_path_nodes, depth + 1);
@@ -203,7 +201,7 @@ private:
         
         for (uint32_t node = 0; node < m_RootNodes; node++)
         {
-            m_VisitedEdgeSet.clear();
+            m_VisitedEdgeMap.clear();
             
             uint32_t  walker_node = node;
             (void)walker_node;
@@ -229,7 +227,8 @@ private:
     mutable uint32_t  m_MaxTraversedDepth;
     uint32_t          m_TotalTerminations;
     // mutable unordered_set<tuple<uint32_t, uint32_t>, hash_tuple::hash<tuple<uint32_t, uint32_t>>>  m_VisitedEdgeSet;
-    mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
+    // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
+    mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
     
     vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
     unordered_map<uint32_t, Actor::ActorId>   m_ActorIndexToIdMap;
