@@ -53,7 +53,11 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## Build instructions
 
-* this is compiling with gcc 8.3
+* this is compiling with gcc 8.3 in C++14
+
+```
+git submodule update --init 
+```
 
 
 ## What Worked

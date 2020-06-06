@@ -157,7 +157,7 @@ private:
         m_TraversedNodes++;
         if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
         {
-                cout << " count-traversed nodes = " << m_TraversedNodes << endl;
+                cout << " count-traversed nodes = " << m_TraversedNodes << " , depth = " << depth << endl;
         }
         
         m_MaxTraversedDepth = std::max(m_MaxTraversedDepth, depth);
