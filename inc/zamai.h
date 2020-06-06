@@ -10,7 +10,7 @@ namespace zamai
 using std::vector;
 using tredzone::Actor;
 
-constexpr size_t    TERMINATION_COUNT_BATCH = 1000;
+constexpr uint32_t    TERMINATION_LOG_BATCH = 1000;
 
 //---- DAG interface (a la Scott Meyers) ---------------------------------------
 
@@ -20,13 +20,13 @@ public:
 
     virtual ~IDag() = default;
     
-    virtual void            RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) = 0;
-    virtual size_t          GetTotatlTerminations(void) const = 0;
-    virtual vector<size_t>  GetChildNodes(const size_t i) const = 0;
-    virtual Actor::ActorId  GetNodeActorId(const size_t i) const = 0;
+    virtual void                RegisterActorId(const uint32_t id, const Actor::ActorId &actor_id) = 0;
+    virtual uint32_t            GetTotatlTerminations(void) const = 0;
+    virtual vector<uint32_t>    GetChildNodes(const uint32_t id) const = 0;
+    virtual Actor::ActorId      GetNodeActorId(const uint32_t id) const = 0;
     
     static
-    IDag*   CreateDAG(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size);
+    IDag*   CreateDAG(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size);
 };
 
 //---- Threaded Logger interface -----------------------------------------------

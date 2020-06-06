@@ -39,12 +39,12 @@ struct ComputeEvent : Actor::Event
 
 struct RegisterNodeEvent : Actor::Event
 {
-    RegisterNodeEvent(const size_t index, const Actor::ActorId actor_id)
-        : m_Index(index), m_ActorId(actor_id)
+    RegisterNodeEvent(const uint32_t id, const Actor::ActorId actor_id)
+        : m_Id(id), m_ActorId(actor_id)
     {
     }
     
-    const size_t            m_Index;
+    const uint32_t          m_Id;
     const Actor::ActorId    m_ActorId;
 };
 
@@ -89,7 +89,7 @@ public:
     // register node -> actor id, start event loops when all registered
     void    onEvent(const RegisterNodeEvent &e)
     {
-        m_Dag->RegisterIndexActorId(e.m_Index, e.m_ActorId);
+        m_Dag->RegisterActorId(e.m_Id, e.m_ActorId);
         
         m_NumNodesRegistered++;
         if (m_NumNodesRegistered % NODE_REGISTRATION_LOG_BATCH == 0)
@@ -105,7 +105,7 @@ public:
             
             m_StartStamp = timestamp_t();
             
-            for (size_t i = 0; i < ROOT_NODES; i++)
+            for (uint32_t i = 0; i < ROOT_NODES; i++)
             {
                 const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);
                 
@@ -136,9 +136,9 @@ private:
 
     IDag                        *m_Dag;
     shared_ptr<IWaitCondition>  m_WaitCondition;
-    const size_t                m_TotalTerminations;
-    size_t                      m_TerminatedCount;
-    size_t                      m_NumNodesRegistered;
+    const uint32_t              m_TotalTerminations;
+    uint32_t                    m_TerminatedCount;
+    uint32_t                    m_NumNodesRegistered;
     timestamp_t                 m_StartStamp;
 };
 
@@ -173,11 +173,9 @@ public:
         : m_Dag(init.m_IDag), m_Id(init.m_Id),
         m_OpMul(init.m_OpMul), m_OpBias(init.m_OpBias)
     {
-		// cout << "ComputeActor::ComputeActor()" << endl;
+		assert(m_Dag);
         
-        assert(m_Dag);
-        
-        registerCallback(*this);	                // callback once is instantiated on right cpu/core
+        registerCallback(*this);	                    // callback once is instantiated on right cpu/core
 		registerEventHandler<ComputeEvent>(*this);
     }
     
@@ -207,7 +205,7 @@ private:
     // trickle-down to children
     void    BroadcastToChildren(const uint32_t val)
     {
-        const vector<size_t>    child_nodes = m_Dag->GetChildNodes(m_Id);
+        const vector<uint32_t>    child_nodes = m_Dag->GetChildNodes(m_Id);
         if (child_nodes.empty())
         {
             // cout << " NO MORE CHILD NODES" << endl;
@@ -216,7 +214,7 @@ private:
         }
         
         // send to child nodes
-        for (const size_t child_id: child_nodes)
+        for (const uint32_t child_id: child_nodes)
         {
             if (child_id == 0)
             {
@@ -244,7 +242,7 @@ private:
     }
 
     const IDag      *m_Dag;
-    const uint32_t  m_Id;
+    const uint32_t  m_Id;                   // index into DAG nodes
     const uint32_t  m_OpMul, m_OpBias;
 };
 
@@ -285,9 +283,9 @@ int main(int argc, char **argv)
     cout << " instantiated nodes..." << endl;
      
     // some instantiated nodes may never be used (traversed) but that's ok as don't use CPU
-    for (size_t i = 0; i < TOTAL_NODES; i++)
+    for (uint32_t i = 0; i < TOTAL_NODES; i++)
     {
-        const size_t   cpu_core_id = i % ROOT_NODES;
+        const uint32_t   cpu_core_id = i % ROOT_NODES;
         assert(cpu_core_id < ROOT_NODES);
         
         const uint32_t  op_mul = rnd_gen() * 0xffffu;

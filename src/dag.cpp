@@ -24,7 +24,7 @@ class DAGImp : public IDag
 {
 public:
     // ctor
-    DAGImp(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size)
+    DAGImp(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size)
         : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndBucketSize(rnd_bucket_size),
         m_MaxBranchNodes((m_TotalNodes - m_RootNodes) / m_RndBucketSize),
         m_TraversedNodes(0), m_TotalTerminations(0)
@@ -40,43 +40,41 @@ public:
         m_TotalTerminations = CalcTotalTerminations();
     }
     
-    size_t    GetTotatlTerminations(void) const override
+    uint32_t    GetTotatlTerminations(void) const override
     {
         return m_TotalTerminations;
     }
     
-    void    RegisterIndexActorId(const size_t i, const Actor::ActorId &actor_id) override
+    void    RegisterActorId(const uint32_t id, const Actor::ActorId &actor_id) override
     {
-        assert(i < m_TotalNodes);
+        assert(id < m_TotalNodes);
         
         // check wasn't already registered
-        assert(!m_ActorIndexToIdMap.count(i));
+        assert(!m_ActorIndexToIdMap.count(id));
         
-        // make sure wasn't already computed
-        assert(!m_ActorIndexToIdMap.count(i));
-        
-        m_ActorIndexToIdMap.insert({i, actor_id});
+        // m_ActorIndexToIdMap.insert({id, actor_id});
+        m_ActorIndexToIdMap.insert({id, actor_id});
     }
    
-    vector<size_t>  GetChildNodes(const size_t i) const override
+    vector<uint32_t>  GetChildNodes(const uint32_t id) const override
     {
-        assert(i < m_TotalNodes);
+        assert(id < m_TotalNodes);
         
         // mode always exists (though may be empty)
         
-        const vector<size_t>    children = m_NodeToChildNodesTab.at(i);
+        const vector<uint32_t>    children = m_NodeToChildNodesTab.at(id);
         
         return children;
     }
     
-    Actor::ActorId  GetNodeActorId(const size_t i) const override
+    Actor::ActorId  GetNodeActorId(const uint32_t id) const override
     {
-        assert(i < m_TotalNodes);
+        assert(id < m_TotalNodes);
         
         // make sure exists (though may be empty actor ID)
-        assert(m_ActorIndexToIdMap.count(i));
+        assert(m_ActorIndexToIdMap.count(id));
         
-        const Actor::ActorId    aid = m_ActorIndexToIdMap.at(i);
+        const Actor::ActorId    aid = m_ActorIndexToIdMap.at(id);
         // check isn't null actor id
         assert(aid != Actor::ActorId());
         
@@ -96,21 +94,21 @@ private:
         
         auto	rnd_gen = bind(uniform_int_distribution<>(1, m_RndBucketSize - 1), default_random_engine{0/*seed*/});
         
-        size_t  max_node_children = 0;
+        uint32_t  max_node_children = 0;
         
         // per branch (1 branch = 1 thread)
-        for (size_t thread = 0; thread < m_RootNodes; thread++)
+        for (uint32_t thread = 0; thread < m_RootNodes; thread++)
         {
-            size_t  walker_node = thread;
+            uint32_t  walker_node = thread;
             
             cout << "  th[" << thread << "]:" << endl;
             
             // generate child nodes
-            for (size_t j = 0; j < m_MaxBranchNodes; j++)
+            for (uint32_t j = 0; j < m_MaxBranchNodes; j++)
             {
-                const size_t  offset = rnd_gen() + (j == 0 ? m_RootNodes : 0);       // prevent root nodes to burrow into one another
+                const uint32_t  offset = rnd_gen() + (j == 0 ? m_RootNodes : 0);       // prevent root nodes to burrow into one another
                 assert(offset > 0);
-                const size_t  next_node = walker_node + offset;
+                const uint32_t  next_node = walker_node + offset;
                 
                 assert(walker_node < m_TotalNodes);
                 assert(next_node < m_TotalNodes);
@@ -119,7 +117,7 @@ private:
                 m_NodeToChildNodesTab[walker_node].push_back(next_node);
                 
                 // compute any node's manimum # of children
-                max_node_children = std::max(max_node_children, m_NodeToChildNodesTab[walker_node].size());
+                max_node_children = std::max(max_node_children, (uint32_t) m_NodeToChildNodesTab[walker_node].size());
                 
                 // cout << "     node[" << j << "] : " << walker_node << " -> " << next_node << endl;
                 
@@ -134,18 +132,18 @@ private:
     }
     
     // calc total path terminations (recursively)
-    void    CalcPathTerminations(const size_t node, size_t &n_path_nodes, const int depth) const
+    void    CalcPathTerminations(const uint32_t node, uint32_t &n_path_nodes, const int depth) const
     {
         //assert(!m_VisitedNodeSet.count(node));
         // m_VisitedNodeSet.insert(node);
         
         m_TraversedNodes++;
-        if (0 == m_TraversedNodes % TERMINATION_COUNT_BATCH)
+        if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
         {
                 cout << " count-traversed nodes = " << m_TraversedNodes << endl;
         }
         
-        const vector<size_t>    child_nodes = GetChildNodes(node);
+        const vector<uint32_t>    child_nodes = GetChildNodes(node);
         if (child_nodes.empty())
         {
             // no child nodes
@@ -154,7 +152,7 @@ private:
         }
         
         // send to child nodes
-        for (const size_t child_id: child_nodes)
+        for (const uint32_t child_id: child_nodes)
         {
             if (child_id == 0)
             {
@@ -170,21 +168,21 @@ private:
         }
     }
     
-    size_t  CalcTotalTerminations(void) const
+    uint32_t  CalcTotalTerminations(void) const
     {
         cout << "calculating total # of terminations..." << endl;
         
-        size_t  n_endings  = 0;
+        uint32_t  n_endings  = 0;
         
-        for (size_t thread = 0; thread < m_RootNodes; thread++)
+        for (uint32_t node = 0; node < m_RootNodes; node++)
         {
             // clear per-branch hashset
             m_VisitedNodeSet.clear();
             
-            size_t  walker_node = thread;
+            uint32_t  walker_node = node;
             (void)walker_node;
             
-            size_t  n_path_nodes = 0;
+            uint32_t  n_path_nodes = 0;
             
             CalcPathTerminations(walker_node, n_path_nodes/*&*/, 0/*depth*/);
             
@@ -196,23 +194,23 @@ private:
         return n_endings;
     }
 
-    const size_t    m_TotalNodes;
-    const size_t    m_RootNodes;
-    const size_t    m_RndBucketSize;
-    const size_t    m_MaxBranchNodes;
+    const uint32_t    m_TotalNodes;
+    const uint32_t    m_RootNodes;
+    const uint32_t    m_RndBucketSize;
+    const uint32_t    m_MaxBranchNodes;
     
-mutable size_t          m_TraversedNodes;
-mutable unordered_set<size_t>   m_VisitedNodeSet;               // (per branch)
-    size_t          m_TotalTerminations;
+mutable uint32_t                m_TraversedNodes;
+mutable unordered_set<uint32_t> m_VisitedNodeSet;               // (per branch)
+    uint32_t                    m_TotalTerminations;
     
-    vector<vector<size_t>>                  m_NodeToChildNodesTab;
-    unordered_map<size_t, Actor::ActorId>   m_ActorIndexToIdMap;
+    vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
+    unordered_map<uint32_t, Actor::ActorId>   m_ActorIndexToIdMap;
 };
 
 //---- INSTANTIATION -----------------------------------------------------------
 
 // static
-IDag*    IDag::CreateDAG(const size_t total_nodes, const size_t root_nodes, const size_t rnd_bucket_size)
+IDag*    IDag::CreateDAG(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size)
 {
     assert(total_nodes > root_nodes);
     
