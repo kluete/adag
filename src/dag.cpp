@@ -18,6 +18,19 @@ namespace zamai
 using namespace std;
 using namespace tredzone;
 
+namespace hash_tuple{
+
+template <typename TT>
+struct hash
+{
+    size_t
+    operator()(TT const& tt) const
+    {                                              
+        return std::hash<TT>()(tt);                                 
+    }                                              
+};
+}
+
 //---- DAG imp -----------------------------------------------------------------
 
 class DAGImp : public IDag
@@ -27,7 +40,7 @@ public:
     DAGImp(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size)
         : m_TotalNodes(total_nodes), m_RootNodes(root_nodes), m_RndBucketSize(rnd_bucket_size),
         m_MaxBranchNodes((m_TotalNodes - m_RootNodes) / m_RndBucketSize),
-        m_TraversedNodes(0), m_TotalTerminations(0)
+        m_TraversedNodes(0), m_MaxTraversedDepth(0), m_TotalTerminations(0)
     {
         assert(m_MaxBranchNodes > 0);
         
@@ -83,6 +96,13 @@ public:
 
 private:
     
+    inline
+    uint64_t    make_edge(const uint32_t n1, const uint32_t n2) const
+    {
+        const uint64_t    key(((uint64_t)n1) << 32 | n2);
+        return key;
+    }
+    
     // generate index -> index graph
     void CreateDAG(void)
     {
@@ -132,16 +152,15 @@ private:
     }
     
     // calc total path terminations (recursively)
-    void    CalcPathTerminations(const uint32_t node, uint32_t &n_path_nodes, const int depth) const
+    void    CalcPathTerminations(const uint32_t node, uint32_t &n_path_nodes, const uint32_t depth) const
     {
-        //assert(!m_VisitedNodeSet.count(node));
-        // m_VisitedNodeSet.insert(node);
-        
         m_TraversedNodes++;
         if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
         {
                 cout << " count-traversed nodes = " << m_TraversedNodes << endl;
         }
+        
+        m_MaxTraversedDepth = std::max(m_MaxTraversedDepth, depth);
         
         const vector<uint32_t>    child_nodes = GetChildNodes(node);
         if (child_nodes.empty())
@@ -163,6 +182,9 @@ private:
             
             assert(child_id > node);
   
+            assert(!m_VisitedEdgeSet.count(make_edge(child_id, node)));
+            m_VisitedEdgeSet.insert(make_edge(child_id, node));
+        
             // RECURSE
             CalcPathTerminations(child_id, n_path_nodes, depth + 1);
         }
@@ -176,8 +198,7 @@ private:
         
         for (uint32_t node = 0; node < m_RootNodes; node++)
         {
-            // clear per-branch hashset
-            m_VisitedNodeSet.clear();
+            m_VisitedEdgeSet.clear();
             
             uint32_t  walker_node = node;
             (void)walker_node;
@@ -199,9 +220,11 @@ private:
     const uint32_t    m_RndBucketSize;
     const uint32_t    m_MaxBranchNodes;
     
-mutable uint32_t                m_TraversedNodes;
-mutable unordered_set<uint32_t> m_VisitedNodeSet;               // (per branch)
-    uint32_t                    m_TotalTerminations;
+    mutable uint32_t  m_TraversedNodes;
+    mutable uint32_t  m_MaxTraversedDepth;
+    uint32_t          m_TotalTerminations;
+    // mutable unordered_set<tuple<uint32_t, uint32_t>, hash_tuple::hash<tuple<uint32_t, uint32_t>>>  m_VisitedEdgeSet;
+    mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
     
     vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
     unordered_map<uint32_t, Actor::ActorId>   m_ActorIndexToIdMap;
