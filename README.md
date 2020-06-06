@@ -56,6 +56,22 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 * this is compiling with gcc 8.3
 
 
+## What Worked
+
+* preventing DAG loops
+* spreading out DAG nodes
+
+
+## What Didn't Work
+
+* preventing a node edge to be traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelate nodes for a little while and then remerge into the same single node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can lead to exponential complexity and CPU cost.
+
+
+## What I Wrote Off
+
+* on the fly core-hopping whenever a path fanned out. With large enough payloads, this would have resulted in major slowdowns due to cache flushes -- both on fanning out and remerging. Either way, idle CPU cores are mostly valuable in energy-sensitive environments like smartphones, not in back-end data-intensive calculations.
+
+
 ## What alternatives I would have considered if given more time
 
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), whose integration into ISO C++ has been postponed to after C++ 20. Kohlhoff wrote ASIO, so he knows his stuff.
