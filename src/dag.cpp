@@ -14,10 +14,14 @@
 
 #include "zamai.h"
 
+#include "lx/xutils.h"
+#include "lx/xstring.h"
+
 namespace zamai
 {
 using namespace std;
 using namespace tredzone;
+using namespace LX;
 
 //---- DAG imp -----------------------------------------------------------------
 
@@ -150,8 +154,13 @@ private:
         assert(!child_nodes.empty());
         
         // send to child nodes
-        for (const uint32_t child_id: child_nodes)
+        // for (const uint32_t child_id: child_nodes)
+        for (size_t i = 0; i < child_nodes.size(); i++)
         {
+            const string    pos_s(xsprintf("%d.%d", parent_node, i));
+            
+            const uint32_t child_id = child_nodes[i];
+            
             if (child_id == NODE_CHILD_END)
             {
                 // end node marker
@@ -173,7 +182,8 @@ private:
             
             //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
-                cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", parent_node = " << parent_node << ", this_node = " << child_id << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
+                // cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", parent_node = " << parent_node << ", this_node = " << child_id << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
+                cout << "pos = " << pos_s << ", this_node = " << child_id << endl;
             }
             
             // RECURSE
