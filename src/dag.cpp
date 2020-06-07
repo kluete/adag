@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <set>
 #include <random>
 #include <thread>
 #include <mutex>
@@ -142,6 +143,13 @@ private:
             m_NodeToChildNodesTab[walker_node].push_back(NODE_CHILD_END);
             
              cout << endl << "DAG done, max_node_children = " << max_node_children << endl << endl;
+        }
+        
+        // sort DAG unique children
+        for (auto &children : m_NodeToChildNodesTab)
+        {
+            sort(children.begin(), children.end());
+            children.erase(unique( children.begin(), children.end() ), children.end());
         }
     }
     
