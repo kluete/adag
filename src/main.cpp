@@ -227,7 +227,7 @@ private:
         {
             if (child_id == NODE_CHILD_END)
             {
-                cout << xsprintf(" END OF CHILD NODES\n");
+                // cout << xsprintf(" END OF CHILD NODES\n");
                 
                 NotifyPathTermination();
                 return;

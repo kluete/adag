@@ -35,7 +35,7 @@ Results:
 
 * total path terminations = 5948900
 * computing (linear/single-threaded) exit points = 26 secs
-* execution of its multithreaded compute paths = 1107 millisecs
+* execution of its multithreaded compute paths = 1351 millisecs
 
 
 ## On DAG Randomization
@@ -59,7 +59,9 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## To Do
 
+* cap compute ops?
 * threaded log functionality
+  * show node compute parallelism
   * async-aware stdout without chopping/scrambling
 * fix unique_ptr::get() uglines?
 
