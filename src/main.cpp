@@ -16,8 +16,6 @@
 constexpr uint32_t  TOTAL_NODES                 = 200;
 constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5;
-constexpr uint32_t  NODE_REGISTRATION_LOG_BATCH = 10'000;                 // how often to log to cout
-
 
 using namespace std;
 using namespace tredzone;
@@ -93,9 +91,10 @@ public:
         m_Dag->RegisterActorId(e.m_Id, e.m_ActorId);
         
         m_NumNodesRegistered++;
-        if (m_NumNodesRegistered % NODE_REGISTRATION_LOG_BATCH == 0)
+        if (m_RegistrationLogStamp.elap_secs() > 2)
         {
-            cout << " registered " << m_NumNodesRegistered << " nodes" << endl;
+            cout << xsprintf(" registered %d nodes\n", m_NumNodesRegistered);
+            m_RegistrationLogStamp.reset();
         }
         
         // registered all nodes?
@@ -122,7 +121,12 @@ public:
     {
         m_TerminatedCount++;
         
-        cout << " PATH TERMINATION = " << m_TerminatedCount << " / " << m_TotalTerminations << endl;
+        if (m_TerminationLogStamp.elap_secs() > 1)
+        {
+            cout << xsprintf(" PATH TERMINATION = %s / %s\n", ToHumanBytes(m_TerminatedCount), ToHumanBytes(m_TotalTerminations));
+            
+            m_TerminationLogStamp.reset();
+        }
         
         if (m_TotalTerminations == m_TerminatedCount)
         {
@@ -140,7 +144,7 @@ private:
     const uint32_t              m_TotalTerminations;
     uint32_t                    m_TerminatedCount;
     uint32_t                    m_NumNodesRegistered;
-    timestamp_t                 m_StartStamp;
+    timestamp_t                 m_StartStamp, m_RegistrationLogStamp, m_TerminationLogStamp;
 };
 
 //---- Compute node initializer ------------------------------------------------
