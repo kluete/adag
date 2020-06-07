@@ -26,7 +26,7 @@ There is almost no cost for instantiated actors that aren't actually used, i.e. 
 
 A randomized DAG with:
 
-* total nodes = 200
+* total available nodes = 200
 * entry points/CPU cores = 4
 * random bucket size = 5 nodes
 * random path fanning-out & remerging
