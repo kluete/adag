@@ -159,7 +159,9 @@ private:
             
             for (const uint32_t child : child_list)
             {
-                oss << child << " ";
+                if (child != NODE_CHILD_END)
+                        oss << child << " ";
+                else    oss << "NODE_CHILD_END";
             }
             
             cout << oss.str() << endl;

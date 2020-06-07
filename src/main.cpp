@@ -275,13 +275,13 @@ int main(int argc, char **argv)
     cout << "  RANDOM_BUCKET_SIZE = " << RANDOM_BUCKET_SIZE << endl << endl;
     
     unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
-    shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
-    
     
     IDag->DumpDAG();
         
     return 0;
 
+    shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
+    
     Engine::StartSequence   startSequence;	        // configure initial Actor system
     
     startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, ServiceInit(IDag.get(), wait_condition));
