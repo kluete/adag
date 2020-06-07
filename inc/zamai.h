@@ -12,7 +12,7 @@ using tredzone::Actor;
 
 constexpr uint32_t  NODE_CHILD_END = std::numeric_limits<uint32_t>::max();
 
-constexpr uint32_t  TERMINATION_LOG_BATCH = 1000'000;
+constexpr uint32_t  TERMINATION_LOG_BATCH = 1'000'000;
 
 //---- DAG interface (a la Scott Meyers) ---------------------------------------
 

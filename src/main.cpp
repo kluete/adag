@@ -13,10 +13,10 @@
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
-constexpr uint32_t  TOTAL_NODES                 = 400;
-constexpr uint32_t  ROOT_NODES                  = 3;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr uint32_t  TOTAL_NODES                 = 200;
+constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5;
-constexpr uint32_t  NODE_REGISTRATION_LOG_BATCH = 10000;                 // how often to log to cout
+constexpr uint32_t  NODE_REGISTRATION_LOG_BATCH = 10'000;                 // how often to log to cout
 
 
 using namespace std;
@@ -275,11 +275,6 @@ int main(int argc, char **argv)
     cout << "  RANDOM_BUCKET_SIZE = " << RANDOM_BUCKET_SIZE << endl << endl;
     
     unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
-    
-    // IDag->DumpDAG();
-        
-    return 0;
-
     shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
