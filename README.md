@@ -80,7 +80,7 @@ git submodule update --init
 * preventing DAG loops
 * spreading out DAG nodes with random children picked from a fixed bucket size
 * wiring the Actor Model logic
-* a DAG of 200 nodes, on 4 cores, with a random bucket size of 5 nodes, took 168 secs to complete
+* a DAG of 200 nodes, on 4 cores, with a random bucket size of 5 nodes, took 168 secs to complete. Note that a DAG with N x more nodes and an N x larger random bucket size would behave approxmately the same.
 
 
 ## What Didn't Work
