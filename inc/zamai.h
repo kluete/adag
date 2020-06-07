@@ -26,6 +26,7 @@ public:
     virtual uint32_t            GetTotatlTerminations(void) const = 0;
     virtual vector<uint32_t>    GetChildNodes(const uint32_t id) const = 0;
     virtual Actor::ActorId      GetNodeActorId(const uint32_t id) const = 0;
+    virtual void                DumpDAG(void) const = 0;
     
     static
     IDag*   CreateDAG(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size);

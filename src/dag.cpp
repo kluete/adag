@@ -8,6 +8,7 @@
 #include <thread>
 #include <mutex>
 #include <limits>
+#include <sstream>
 #include <algorithm>            // for std::max
 
 #include "simplx.h"
@@ -40,6 +41,8 @@ public:
         cout << "  m_MaxBranchNodes = " << m_MaxBranchNodes << endl;
         
         CreateDAG();
+        
+        return;
         
         // calc total path terminations
         m_TotalTerminations = CalcTotalTerminations();
@@ -142,6 +145,27 @@ private:
         }
     }
     
+    void    DumpDAG(void) const override
+    {
+        for (size_t i = 0; i < m_NodeToChildNodesTab.size(); i++)
+        {
+            const vector<uint32_t> &child_list = m_NodeToChildNodesTab[i];
+            
+            if (child_list.empty())     continue;
+            
+            ostringstream   oss;
+            
+            oss << xsprintf("%4d : ", i);
+            
+            for (const uint32_t child : child_list)
+            {
+                oss << child << " ";
+            }
+            
+            cout << oss.str() << endl;
+        }
+    }
+    
     // calc path terminations (RECURSIVE)
     void    CalcPathTerminations(const uint32_t root_node, const uint32_t parent_node, uint32_t &n_path_nodes, const uint32_t depth) const
     {
@@ -169,7 +193,7 @@ private:
                 n_path_nodes++;
                 
                 cout << " NODE_CHILD_END " << endl;
-                return;                             // is that enough?
+                return;                                     // is that enough?
             }
             
             assert(child_id > parent_node);
@@ -188,7 +212,7 @@ private:
                 cout << "pos = " << pos_s << ", this_node = " << child_id << ", max_node = " << m_MaxNodeId << ", max_children = " << m_MaxChildren << endl;
             }
             
-            // assert(!m_VisitedPosSet.count(pos_s));
+            assert(!m_VisitedPosSet.count(pos_s));
             m_VisitedPosSet.emplace(pos_s);
             
             // RECURSE
