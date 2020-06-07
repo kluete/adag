@@ -43,8 +43,6 @@ public:
         
         CreateDAG();
         
-        return;
-        
         // calc total path terminations
         m_TotalTerminations = CalcTotalTerminations();
     }
@@ -210,11 +208,13 @@ private:
             
             m_MaxNodeId = std::max(m_MaxNodeId, child_id);
             
+            /*
             // can't prevent multiple edge traversal with fanning & merging
             const uint64_t  edge = make_edge(child_id, parent_node);
   
             const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) + 1 : 1;
             m_VisitedEdgeMap.emplace(edge, n_visited_edges);
+            */
             
             //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
@@ -222,8 +222,10 @@ private:
                 cout << "pos = " << pos_s << ", this_node = " << child_id << ", max_node = " << m_MaxNodeId << ", max_children = " << m_MaxChildren << endl;
             }
             
+            /*
             assert(!m_VisitedPosSet.count(pos_s));
             m_VisitedPosSet.emplace(pos_s);
+            */
             
             // RECURSE
             CalcPathTerminations(root_node, child_id, n_path_nodes, depth + 1);
@@ -242,12 +244,9 @@ private:
             m_MaxNodeId = 0;
             m_MaxChildren = 0;
             
-            uint32_t  walker_node = root_node;
-            (void)walker_node;
-            
             uint32_t  n_path_nodes = 0;
             
-            CalcPathTerminations(root_node, walker_node, n_path_nodes/*&*/, 0/*depth*/);
+            CalcPathTerminations(root_node, root_node, n_path_nodes/*&*/, 0/*depth*/);
             
             n_endings += n_path_nodes;
         }

@@ -276,7 +276,7 @@ int main(int argc, char **argv)
     
     unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
     
-    IDag->DumpDAG();
+    // IDag->DumpDAG();
         
     return 0;
 
