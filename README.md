@@ -26,11 +26,10 @@ There is almost no cost for instantiated actors that aren't actually used, i.e. 
 
 A randomized DAG with:
 
-* 200 total nodes
-* 4 entry points/cores
-* 5-node random bucket size
-* random path fanning-out
-* random path remerging
+* total nodes = 200
+* entry points/CPU cores = 4
+* random bucket size = 5-nodes
+* random path fanning-out & remerging
  = 5948900 total path terminations
    computing its (linear/single-threaded) exit points = 26 secs
    execution its multithreaded compute paths = 1107 millisecs
