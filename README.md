@@ -67,9 +67,8 @@ git submodule update --init
 
 ## What Didn't Work
 
-* preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost.
+* preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost. Exponential isn't the same as infinite but can sure feel the same on a human scale!
 * liming the length of a path's node number. With fanning, paths can effectively get concatenated. Only the DAG's max nodes is an effective cap.
-* in general, randomizing a DAG feels a lot like asking for trouble.
 
 
 ## What I Wrote Off (and didn't try)
@@ -79,6 +78,7 @@ git submodule update --init
 
 ## What Was Tricky
 
+* in general, randomizing a DAG that allows for fanning and merging, on multiple cores, with no structure or constraints on its topology, feels a lot like *asking for trouble* :-)
 * finding out that DAG entropy/homogeneity depends on the random bucket size because it affects probabilities of edge reentries. I.e a 1M-node DAG would perform faster than a 100K-node DAG if the random bucket size was large enough to have less edge duplications 
 
 
