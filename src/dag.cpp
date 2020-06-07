@@ -186,6 +186,9 @@ private:
                 cout << "pos = " << pos_s << ", this_node = " << child_id << endl;
             }
             
+            // assert(!m_VisitedPosSet.count(pos_s));
+            m_VisitedPosSet.emplace(pos_s);
+            
             // RECURSE
             CalcPathTerminations(root_node, child_id, n_path_nodes, depth + 1);
         }
@@ -229,6 +232,7 @@ private:
     
     // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
     mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
+    mutable unordered_set<string>           m_VisitedPosSet;
     
     vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
     unordered_map<uint32_t, Actor::ActorId>   m_NodeToActorIdMap;
