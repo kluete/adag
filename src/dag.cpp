@@ -153,6 +153,8 @@ private:
         
         assert(!child_nodes.empty());
         
+        m_MaxChildren = std::max(m_MaxChildren, (uint32_t)child_nodes.size());
+        
         // send to child nodes
         // for (const uint32_t child_id: child_nodes)
         for (size_t i = 0; i < child_nodes.size(); i++)
@@ -183,7 +185,7 @@ private:
             //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
                 // cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", parent_node = " << parent_node << ", this_node = " << child_id << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
-                cout << "pos = " << pos_s << ", this_node = " << child_id << endl;
+                cout << "pos = " << pos_s << ", this_node = " << child_id << ", max_node = " << m_MaxNodeId << ", max_children = " << m_MaxChildren << endl;
             }
             
             // assert(!m_VisitedPosSet.count(pos_s));
@@ -204,6 +206,7 @@ private:
         {
             m_VisitedEdgeMap.clear();
             m_MaxNodeId = 0;
+            m_MaxChildren = 0;
             
             uint32_t  walker_node = root_node;
             (void)walker_node;
@@ -228,6 +231,7 @@ private:
     mutable uint32_t  m_TraversedNodes;
     mutable uint32_t  m_MaxTraversedDepth;
     mutable uint32_t  m_MaxNodeId;
+    mutable uint32_t  m_MaxChildren;
     uint32_t          m_TotalTerminations;
     
     // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
