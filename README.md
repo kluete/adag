@@ -28,7 +28,7 @@ A randomized DAG with:
 
 * total nodes = 200
 * entry points/CPU cores = 4
-* random bucket size = 5-nodes
+* random bucket size = 5 nodes
 * random path fanning-out & remerging
 
 Results:
