@@ -105,18 +105,17 @@ private:
         uint32_t  max_node_children = 0;
         
         // per branch (1 branch = 1 thread)
-        for (uint32_t thread = 0; thread < m_RootNodes; thread++)
+        for (uint32_t root_node = 0; root_node < m_RootNodes; root_node++)
         {
-            uint32_t  walker_node = thread;
+            uint32_t  walker_node = root_node;
             
-            cout << "  th[" << thread << "]:" << endl;
+            cout << "  th[" << root_node << "]:" << endl;
             
             // generate child nodes
             for (uint32_t j = 0; j < m_MaxBranchNodes; j++)
             {
-                const uint32_t  offset = rnd_gen() + (j == 0 ? m_RootNodes : 0);       // prevent root nodes to burrow into one another
-                assert(offset > 0);
-                const uint32_t  next_node = walker_node + offset;
+                const uint32_t  next_node = ((j + 1) * m_RndBucketSize) + rnd_gen();       // prevent root nodes to burrow into one another
+                assert(next_node > walker_node);
                 
                 assert(walker_node < m_TotalNodes);
                 assert(next_node < m_TotalNodes);
