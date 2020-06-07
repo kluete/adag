@@ -19,7 +19,7 @@ As an Actor Model thread is never interrupted (on a properly-configered system) 
 
 Note that in an Actor Model, involved CPU cores always run at 100% -- even when there is NO event to be processed, so CPU usage (measured by htop, say) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
 
-There is almost no cost for instantiated actors that aren't actually used, i.e. that aren't processing events, except for their memory layout... which the OS will page out at a one-off cost.
+There is almost no cost for instantiated actors that aren't actually used, i.e. that aren't processing events, except for their memory footprint... which the OS will page out at a one-off cost.
 
 
 ## Test Case
@@ -50,7 +50,7 @@ If the DAG's random buckets are too tightly packed -- say one of the entry nodes
 
 On the other hand, if the DAG's random buckets are too sparse -- say the # of DAG nodes is too high and/or the random bucket factor is too high -- the DAG won't exhibit any node convergence/fanning so won't really behave like a DAG but just a bunch of linked lists. This is easily identified if ROOT_NODES == reported exit nodes.
 
-Once the DAG is generated, but before it is executed, this program must first do a *synchronous*  (single-threaded and therfore slow) traversal of the DAG to count the total number of path terminations, so that the *asynchronous* (multithreaded) execution of the DAG knows when to stop. The time of taken by the synchronous execution is considered a one-off and thus not part of the benchmarking
+Once the DAG is generated, but before it is executed, this program must first do a *synchronous*  (single-threaded and therfore slow) traversal of the DAG to count the total number of path terminations, so that the *asynchronous* (multithreaded) execution of the DAG knows when to stop. The time of taken by the synchronous execution is considered a one-off and thus not part of the benchmarking.
 
 The randomized DAG generation is simplified so downstream nodes are only DAG descendants. It'd be possible to generate upstream DAG nodes while preventing cycles but it seems beyond the scope of this assignment.
 
@@ -86,6 +86,7 @@ git submodule update --init
 ## What Didn't Work
 
 * preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost. Exponential isn't the same as infinite but can sure feel the same on a human scale!
+* this [spreadsheet](https://github.com/kluete/zamai/blob/master/doc/timings.xlsx) shows the complexity growth
 * liming the length of a path's node number. With fanning, paths can effectively get concatenated. Only the DAG's max nodes is an effective cap.
 
 
