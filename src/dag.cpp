@@ -208,24 +208,11 @@ private:
             
             m_MaxNodeId = std::max(m_MaxNodeId, child_id);
             
-            /*
-            // can't prevent multiple edge traversal with fanning & merging
-            const uint64_t  edge = make_edge(child_id, parent_node);
-  
-            const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) + 1 : 1;
-            m_VisitedEdgeMap.emplace(edge, n_visited_edges);
-            */
-            
-            //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
+            if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
                 // cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", parent_node = " << parent_node << ", this_node = " << child_id << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
                 cout << "pos = " << pos_s << ", this_node = " << child_id << ", max_node = " << m_MaxNodeId << ", depth = " << depth << endl;
             }
-            
-            /*
-            assert(!m_VisitedPosSet.count(pos_s));
-            m_VisitedPosSet.emplace(pos_s);
-            */
             
             // RECURSE
             CalcPathTerminations(root_node, child_id, n_path_nodes, depth + 1);
@@ -240,7 +227,6 @@ private:
         
         for (uint32_t root_node = 0; root_node < m_RootNodes; root_node++)
         {
-            m_VisitedEdgeMap.clear();
             m_MaxNodeId = 0;
             m_MaxChildren = 0;
             
@@ -266,10 +252,6 @@ private:
     mutable uint32_t  m_MaxNodeId;
     mutable uint32_t  m_MaxChildren;
     uint32_t          m_TotalTerminations;
-    
-    // mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
-    mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
-    mutable unordered_set<string>           m_VisitedPosSet;
     
     vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
     unordered_map<uint32_t, Actor::ActorId>   m_NodeToActorIdMap;

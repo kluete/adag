@@ -1,0 +1,18 @@
+
+    // can't prevent multiple edge traversal with fanning & merging
+    const uint64_t  edge = make_edge(child_id, parent_node);
+
+    const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) + 1 : 1;
+    m_VisitedEdgeMap.emplace(edge, n_visited_edges);
+    
+    
+    assert(!m_VisitedPosSet.count(pos_s));
+    m_VisitedPosSet.emplace(pos_s);
+            
+            
+    
+    mutable unordered_set<uint64_t>  m_VisitedEdgeSet;
+    mutable unordered_map<uint64_t, size_t>  m_VisitedEdgeMap;
+    mutable unordered_set<string>           m_VisitedPosSet;
+    
+    

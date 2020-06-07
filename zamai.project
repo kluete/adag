@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="zamai" Version="10.0.0" InternalType="Console">
+  <VirtualDirectory Name="res">
+    <File Name="res/deleted.txt"/>
+  </VirtualDirectory>
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00010001N0009Debug gcc000000000000]]>
