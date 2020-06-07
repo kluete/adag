@@ -22,6 +22,20 @@ Note that in an Actor Model, involved CPU cores always run at 100% -- even when 
 There is almost no cost for instantiated actors that aren't actually used, i.e. that aren't processing events, except for their memory layout... which the OS will page out at a one-off cost.
 
 
+## Pudding Proof
+
+A randomized DAG with:
+
+* 200 total nodes
+* 4 entry points/cores
+* 5-node random bucket size
+* random path fanning-out
+* random path remerging
+ = 5948900 total path terminations
+   computing its (linear/single-threaded) exit points = 26 secs
+   execution its multithreaded compute paths = 1107 millisecs
+
+
 ## On DAG Randomization
 
 A randomized DAG will generate unpredictable and unbalanced CPU loads across the different CPU cores, especially wrt to *node fanning and merging*. An efficient design would massage DAG topography so as to balance hardware processing resources (whether CPU core, GPU or grid computing node), as well as to minimize cross-core hopping (which triggers cache flushes).

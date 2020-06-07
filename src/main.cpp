@@ -121,7 +121,7 @@ public:
     {
         m_TerminatedCount++;
         
-        if (m_TerminationLogStamp.elap_secs() > 1)
+        if (m_TerminationLogStamp.elap_secs() >= 1)
         {
             cout << xsprintf(" PATH TERMINATION = %s / %s\n", ToHumanBytes(m_TerminatedCount), ToHumanBytes(m_TotalTerminations));
             
