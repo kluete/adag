@@ -221,7 +221,7 @@ private:
     
     uint32_t  CalcTotalTerminations(void) const
     {
-        cout << "calculating total # of terminations..." << endl;
+        cout << "calculating total terminations in single thread..." << endl;
         
         const timestamp_t t0 = timestamp_t();
         

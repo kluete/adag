@@ -14,7 +14,7 @@
 #include "lx/xstring.h"
 
 constexpr uint32_t  TOTAL_NODES                 = 200;
-constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than # CPU cores
+constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than physical # CPU cores
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5;
 
 using namespace std;
@@ -26,12 +26,13 @@ using namespace LX;
 
 struct ComputeEvent : Actor::Event
 {
-	ComputeEvent(const uint32_t &v)
-        : m_Val(v)
+	ComputeEvent(const uint32_t v, const uint32_t n_computed = 0)
+        : m_Val(v), m_NumComputed(n_computed)
     {
 	}
     
 	const uint32_t m_Val;               // payload
+    const uint32_t m_NumComputed;
 };
 
 //---- Register Node event ----------------------------------------------------
@@ -123,7 +124,7 @@ public:
         
         if (m_TerminationLogStamp.elap_secs() >= 1)
         {
-            cout << xsprintf(" PATH TERMINATION = %s / %s\n", ToHumanBytes(m_TerminatedCount), ToHumanBytes(m_TotalTerminations));
+            cout << xsprintf(" PATH TERMINATION = %s / %s\n", LX::ToHumanBytes(m_TerminatedCount), LX::ToHumanBytes(m_TotalTerminations));
             
             m_TerminationLogStamp.reset();
         }
@@ -200,7 +201,7 @@ public:
         // apply computation
         const uint32_t  rolling = (uint32_t) ((e.m_Val + m_OpBias) * m_OpMul);
         
-        BroadcastToChildren(rolling);
+        BroadcastToChildren(rolling, e.m_NumComputed + 1);
 	}
     
     void onCallback()
@@ -216,17 +217,18 @@ public:
 private:
 
     // trickle-down to children
-    void    BroadcastToChildren(const uint32_t val)
+    void    BroadcastToChildren(const uint32_t val, const uint32_t n_computed)
     {
         const vector<uint32_t>    child_nodes = m_Dag->GetChildNodes(m_Id);
         assert(!child_nodes.empty());
         
         // send to child nodes
-        for (const uint32_t child_id: child_nodes)
+        for (const uint32_t child_id : child_nodes)
         {
             if (child_id == NODE_CHILD_END)
             {
-                // cout << " END OF CHILD NODES" << endl;
+                cout << xsprintf(" END OF CHILD NODES\n");
+                
                 NotifyPathTermination();
                 return;
             }
@@ -235,7 +237,7 @@ private:
             
             Event::Pipe pipe_to_child(*this, child_actor_id);
             
-            pipe_to_child.push<ComputeEvent>(val);
+            pipe_to_child.push<ComputeEvent>(val, n_computed);
         }
     }
     
