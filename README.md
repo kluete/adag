@@ -33,11 +33,9 @@ A randomized DAG with:
 
 Results:
 
- total path terminations = 5948900
-
-computing its (linear/single-threaded) exit points = 26 secs
-
-execution its multithreaded compute paths = 1107 millisecs
+* total path terminations = 5948900
+* computing (linear/single-threaded) exit points = 26 secs
+* execution of its multithreaded compute paths = 1107 millisecs
 
 
 ## On DAG Randomization
