@@ -140,13 +140,13 @@ private:
     }
     
     // calc path terminations (RECURSIVE)
-    void    CalcPathTerminations(const uint32_t root_node, const uint32_t node, uint32_t &n_path_nodes, const uint32_t depth) const
+    void    CalcPathTerminations(const uint32_t root_node, const uint32_t parent_node, uint32_t &n_path_nodes, const uint32_t depth) const
     {
         m_TraversedNodes++;
         
         m_MaxTraversedDepth = std::max(m_MaxTraversedDepth, depth);
         
-        const vector<uint32_t>    child_nodes = GetChildNodes(node);
+        const vector<uint32_t>    child_nodes = GetChildNodes(parent_node);
         
         assert(!child_nodes.empty());
         
@@ -159,22 +159,22 @@ private:
                 n_path_nodes++;
                 
                 cout << " NODE_CHILD_END " << endl;
-                return;
+                return;                             // is that enough?
             }
             
-            assert(child_id > node);
+            assert(child_id > parent_node);
             
             m_MaxNodeId = std::max(m_MaxNodeId, child_id);
             
             // can't prevent multiple edge traversal with fanning & merging
-            const uint64_t  edge = make_edge(child_id, node);
+            const uint64_t  edge = make_edge(child_id, parent_node);
   
-            const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) : 0;
-            m_VisitedEdgeMap.emplace(edge, n_visited_edges +1);
+            const size_t    n_visited_edges = m_VisitedEdgeMap.count(edge) ? m_VisitedEdgeMap.at(edge) + 1 : 1;
+            m_VisitedEdgeMap.emplace(edge, n_visited_edges);
             
             //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
-                cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", this_node = " << node << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
+                cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", parent_node = " << parent_node << ", this_node = " << child_id << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
             }
             
             // RECURSE
