@@ -30,9 +30,13 @@ A randomized DAG with:
 * entry points/CPU cores = 4
 * random bucket size = 5-nodes
 * random path fanning-out & remerging
- = 5948900 total path terminations
-   computing its (linear/single-threaded) exit points = 26 secs
-   execution its multithreaded compute paths = 1107 millisecs
+
+Results:
+
+ total path terminations = 5948900
+
+computing its (linear/single-threaded) exit points = 26 secs
+execution its multithreaded compute paths = 1107 millisecs
 
 
 ## On DAG Randomization
