@@ -88,9 +88,11 @@ git submodule update --init
 
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), whose integration into ISO C++ has been postponed to after C++20... but Kohlhoff wrote ASIO, so he knows his stuff.
 * my colleague Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but it's still lacking some features like cross-computer/cluster messaging.
-* balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
+* entirely forgo trying to predicting the # of exit nodes, instead embedding a countdown of maximum # of nodes to travel
 * generating different node/actor class types to account for different computations (with different CPU costs)
+* balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
 * output to graphviz format for visual debugging
+
 
 
 
