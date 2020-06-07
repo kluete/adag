@@ -60,9 +60,8 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 ## To Do
 
 * threaded log functionality
-  * template to build thread-local sprintf string
   * async-aware stdout without chopping/scrambling
-* fix unique_ptr::get() ugliness
+* fix unique_ptr::get() uglines?
 
 
 ## Build instructions
