@@ -86,7 +86,7 @@ git submodule update --init
 ## What Didn't Work
 
 * preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost. Exponential isn't the same as infinite but can sure feel the same on a human scale!
-* this [spreadsheet](https://github.com/kluete/zamai/blob/master/doc/timings.xlsx) shows the complexity growth
+* this [spreadsheet](https://github.com/kluete/zamai/blob/master/timings.xlsx) shows the complexity growth
 * liming the length of a path's node number. With fanning, paths can effectively get concatenated. Only the DAG's max nodes is an effective cap.
 
 
