@@ -219,7 +219,7 @@ private:
             //if (0 == m_TraversedNodes % TERMINATION_LOG_BATCH)
             {
                 // cout << " node traversal: root = " << root_node << ", n_traversed = " << m_TraversedNodes << ", parent_node = " << parent_node << ", this_node = " << child_id << ", max_id = " << m_MaxNodeId << ", depth = " << depth << "/" << m_MaxTraversedDepth << ", n_visited_edges = " << n_visited_edges << endl;
-                cout << "pos = " << pos_s << ", this_node = " << child_id << ", max_node = " << m_MaxNodeId << ", max_children = " << m_MaxChildren << endl;
+                cout << "pos = " << pos_s << ", this_node = " << child_id << ", max_node = " << m_MaxNodeId << ", depth = " << depth << endl;
             }
             
             /*
