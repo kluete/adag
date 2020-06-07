@@ -13,9 +13,11 @@
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
-constexpr uint32_t  TOTAL_NODES                 = 200;
+constexpr uint32_t  BLOWUP                      = 10000;                    // try 1;
+
+constexpr uint32_t  TOTAL_AVAIL_NODES            = 200 * BLOWUP;
 constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than physical # CPU cores
-constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5;
+constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5 * BLOWUP;
 
 using namespace std;
 using namespace tredzone;
@@ -99,7 +101,7 @@ public:
         }
         
         // registered all nodes?
-        if (m_NumNodesRegistered >= TOTAL_NODES)
+        if (m_NumNodesRegistered >= TOTAL_AVAIL_NODES)
         {   // send initial events to root nodes
         
             cout << endl << "all nodes registered -> starting async computations!" << endl << endl;
@@ -277,11 +279,11 @@ int main(int argc, char **argv)
 
     cout << "zamai DAG w/ actor model *************************************************************" << endl << endl;
     
-    cout << "  TOTAL_NODES = " << TOTAL_NODES << endl;
+    cout << "  TOTAL_AVAIL_NODES = " << TOTAL_AVAIL_NODES << endl;
     cout << "  ROOT_NODES = " << ROOT_NODES << endl;
     cout << "  RANDOM_BUCKET_SIZE = " << RANDOM_BUCKET_SIZE << endl << endl;
     
-    unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
+    unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_AVAIL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
     shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
     
     Engine::StartSequence   startSequence;	        // configure initial Actor system
@@ -293,7 +295,7 @@ int main(int argc, char **argv)
     cout << " instantiated nodes..." << endl;
      
     // some instantiated nodes may never be used (traversed) but that's ok as don't use CPU
-    for (uint32_t i = 0; i < TOTAL_NODES; i++)
+    for (uint32_t i = 0; i < TOTAL_AVAIL_NODES; i++)
     {
         const uint32_t   cpu_core_id = i % ROOT_NODES;
         assert(cpu_core_id < ROOT_NODES);
