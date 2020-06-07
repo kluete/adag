@@ -165,6 +165,8 @@ public:
 
 //---- Compute Node actor ------------------------------------------------------
 
+thread_local timestamp_t  t_LogStamp;
+
 class ComputeActor : public Actor, public Actor::Callback
 {
 public:
@@ -176,6 +178,8 @@ public:
     {
 		assert(m_Dag);
         
+        t_LogStamp.reset();
+        
         registerCallback(*this);	                    // callback once is instantiated on right cpu/core
 		registerEventHandler<ComputeEvent>(*this);
     }
@@ -183,7 +187,11 @@ public:
 	// called when ComputeEvent is received
 	void onEvent(const ComputeEvent& e)
     {
-		cout << "ComputeActor::onEvent(): " << hex << e.m_Val << dec << " from " << e.getSourceActorId() << endl;
+		if (t_LogStamp.elap_secs() > 2)
+        {   cout << "ComputeEvent: " << hex << e.m_Val << dec << " from " << e.getSourceActorId() << endl;
+        
+            t_LogStamp.reset();
+        }
         
         // apply computation
         const uint32_t  rolling = (uint32_t) ((e.m_Val + m_OpBias) * m_OpMul);
@@ -208,13 +216,6 @@ private:
     {
         const vector<uint32_t>    child_nodes = m_Dag->GetChildNodes(m_Id);
         assert(!child_nodes.empty());
-        /*
-        if (child_nodes.empty())
-        {
-            // cout << " NO MORE CHILD NODES" << endl;
-            NotifyPathTermination();
-            return;
-        }*/
         
         // send to child nodes
         for (const uint32_t child_id: child_nodes)
@@ -244,9 +245,9 @@ private:
         pipe_to_registry.push<PathTerminationEvent>();
     }
 
-    const IDag      *m_Dag;
-    const uint32_t  m_Id;                   // index into DAG nodes
-    const uint32_t  m_OpMul, m_OpBias;
+    const IDag          *m_Dag;
+    const uint32_t      m_Id;                   // index into DAG nodes
+    const uint32_t      m_OpMul, m_OpBias;
 };
 
 //---- assert handler ----------------------------------------------------------
