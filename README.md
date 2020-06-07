@@ -62,7 +62,6 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 * threaded log functionality
   * template to build thread-local sprintf string
   * async-aware stdout without chopping/scrambling
-* build instruction
 * fix unique_ptr::get() ugliness
 
 
@@ -71,7 +70,9 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 * compiles with gcc 8.3 in C++14
 
 ```
-git submodule update --init 
+git submodule update --init
+
+./build.sh
 ```
 
 
