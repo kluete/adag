@@ -238,8 +238,8 @@ private:
             n_endings += n_path_nodes;
         }
 
-        cout << "  DAG has " << n_endings << " total terminations..." << endl;
-        cout << "   on " << m_TotalNodes << " total nodes * " << m_RootNodes << " cores, took " << t0.elap_str() << endl;
+        cout << xsprintf("  DAG has %d total terminations\n", n_endings);
+        cout << xsprintf("   on %d total nodes * %d cores, took %s\n", m_TotalNodes, m_RootNodes, t0.elap_str());
         
         return n_endings;
     }

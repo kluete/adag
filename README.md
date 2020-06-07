@@ -62,7 +62,8 @@ git submodule update --init
 ## What Worked
 
 * preventing DAG loops
-* spreading out DAG nodes
+* spreading out DAG nodes with random children picked from a fixed bucket size
+* wiring the Actor Model logic
 
 
 ## What Didn't Work
@@ -78,8 +79,9 @@ git submodule update --init
 
 ## What Was Tricky
 
-* in general, randomizing a DAG that allows for fanning and merging, on multiple cores, with no structure or constraints on its topology, feels a lot like *asking for trouble* :-)
-* finding out that DAG entropy/homogeneity depends on the random bucket size because it affects probabilities of edge reentries. I.e a 1M-node DAG would perform faster than a 100K-node DAG if the random bucket size was large enough to have less edge duplications 
+* in general, randomizing a DAG that allows for fanning and merging, on multiple cores, with no structure or constraints on its topology, feels a lot like *asking for trouble* because both # of cores and total # of DAG nodes increase the probablility of paths fanning out
+* finding out that DAG entropy/homogeneity depends on the random bucket size because it affects probabilities of edge re-entries. I.e a 1M-node DAG would perform faster than a 100K-node DAG if the random bucket size was large enough to have less edge duplications
+* even with a (deterministic) PRNG, different distributions affect DAG complexity, which is why -- counterintuitively -- on a single core, a 400-node DAG is traversed faster than 500-node DAG
 
 
 ## What Alternatives I'd Have Considered If Given More Time
