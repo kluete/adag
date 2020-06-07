@@ -188,7 +188,6 @@ private:
         m_MaxChildren = std::max(m_MaxChildren, (uint32_t)child_nodes.size());
         
         // send to child nodes
-        // for (const uint32_t child_id: child_nodes)
         for (size_t i = 0; i < child_nodes.size(); i++)
         {
             const string    pos_s(xsprintf("%d.%d", parent_node, i));
@@ -200,7 +199,7 @@ private:
                 // end node marker
                 n_path_nodes++;
                 
-                cout << " NODE_CHILD_END " << endl;
+                // cout << " NODE_CHILD_END " << endl;
                 return;                                     // is that enough?
             }
             
@@ -223,6 +222,8 @@ private:
     {
         cout << "calculating total # of terminations..." << endl;
         
+        const timestamp_t t0 = timestamp_t();
+        
         uint32_t  n_endings  = 0;
         
         for (uint32_t root_node = 0; root_node < m_RootNodes; root_node++)
@@ -237,7 +238,8 @@ private:
             n_endings += n_path_nodes;
         }
 
-        cout << "  DAG has " << n_endings << " total # of terminations..." << endl;
+        cout << "  DAG has " << n_endings << " total terminations..." << endl;
+        cout << "   on " << m_TotalNodes << " total nodes * " << m_RootNodes << " cores, took " << t0.elap_str() << endl;
         
         return n_endings;
     }

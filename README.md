@@ -43,19 +43,16 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 
 ## To Do
 
-* count traversed nodes is infinite?
-  * limite computes by in-message count-down?
 * threaded log functionality
   * template to build thread-local sprintf string
   * async-aware stdout without chopping/scrambling
-* release mode
-* fix unique_ptr::get() ugliness
 * build instruction
+* fix unique_ptr::get() ugliness
 
 
 ## Build instructions
 
-* this is compiling with gcc 8.3 in C++14
+* compiles with gcc 8.3 in C++14
 
 ```
 git submodule update --init 
@@ -71,6 +68,8 @@ git submodule update --init
 ## What Didn't Work
 
 * preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost.
+* liming the length of a path's node number. With fanning, paths can effectively get concatenated. Only the DAG's max nodes is an effective cap.
+* in general, randomizing a DAG feels a lot like asking for trouble.
 
 
 ## What I Wrote Off (and didn't try)
