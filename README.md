@@ -15,7 +15,7 @@ Having more threads than CPU cores means more context switches... which can beco
 
 While there is a (small) CPU cost to running an event loop on each thread, it is negligible compared to the significant cost of cache flushes/reloads.
 
-As an Actor Model thread is never interrupted (on a properly-configered system) and its data only shared via a safe memory bus, their application code is effectively running in *single-threaded* mode. That is, th
+As an Actor Model thread is never interrupted (on a properly-configered system) and its data only shared via a safe memory bus, their application code is effectively running in *single-threaded* mode.
 
 Note that in an Actor Model, involved CPU cores always run at 100% -- even when there is NO event to be processed, so CPU usage (measured by htop, say) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
 
@@ -73,7 +73,7 @@ I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is det
 ```
 git submodule update --init
 
-./build.sh
+sh build.sh
 ```
 
 
