@@ -17,7 +17,7 @@ While there is a (small) CPU cost to running an event loop on each thread, it is
 
 As an Actor Model thread is never interrupted (on a properly-configured system) and its data only shared via a safe memory bus, their application code is effectively running in *single-threaded* mode.
 
-Note that in an Actor Model, involved CPU cores always run at 100% -- even when there is *no* event to be processed, so CPU usage (measured by htop, say) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
+Note that in an Actor Model, involved CPU cores always run at 100% -- even when there is *no* event to be processed, so CPU usage (measured by `htop`, say) is not a relevant performance indicator. The correct way to benchmark such a system would be to count the amount of computations / time it can perform (after disabling all unnecessary I/O, of course).
 
 There is almost no cost for instantiated actors that aren't actually used, i.e. that aren't processing events, except for their memory footprint... which the OS will page out at a one-off cost.
 
@@ -33,7 +33,7 @@ A randomized DAG with:
 
 Results:
 
-* total path terminations = 5948900
+* total path terminations = 5'948'900
 * computing (linear/single-threaded) exit points = 26 secs
 * execution of its multithreaded compute paths = 1351 millisecs
 
@@ -54,7 +54,7 @@ Once the DAG is generated, but before it is executed, this program must first do
 
 The randomized DAG generation is simplified so downstream nodes are only DAG descendants. It'd be possible to generate upstream DAG nodes while preventing cycles but it seems beyond the scope of this assignment.
 
-I use C++11 PRNGs instead of */dev/udev/* randomization, so that each run is deterministic.
+I use C++11 PRNGs instead of `/dev/udev/` randomization, so that each run is deterministic.
 
 
 ## To Do
@@ -80,21 +80,20 @@ sh build.sh
 ## What Worked
 
 * preventing DAG loops
-* spreading out DAG nodes with random children picked from a fixed bucket size
+* spreading out DAG nodes with random children picked from an rolling, quantized, fixed bucket size
 * wiring the Actor Model logic
-* a DAG of 200 nodes, on 4 cores, with a random bucket size of 5 nodes, took 168 secs to complete. Note that a DAG with N x more nodes and an N x larger random bucket size would behave approximately the same.
 
 
 ## What Didn't Work
 
-* preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a little while and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost. Exponential isn't the same as infinite but can sure feel the same on a human scale!
+* preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a few iterations and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost. Exponential isn't the same as infinite but can sure feel the same on a human scale!
 * this [spreadsheet](https://github.com/kluete/zamai/blob/master/timings.xlsx) shows the complexity growth
 * trying to generate enough node crossings (fan out / merge) to be interesting without generating overwhelming complexity... it's a crapshoot!
 
 
 ## What I Wrote Off (and didn't try)
 
-* on the fly core-hopping whenever a path fanned out. With large enough payloads, this would have resulted in major slowdowns due to cache flushes -- both on fanning out and re-merging. Either way, idle CPU cores are mostly valuable in energy-sensitive environments like smartphones, not in back-end data-intensive calculations.
+* on the fly core-hopping whenever a path fanned out. With large enough payloads, this would have resulted in major slowdowns due to cache flushes -- both on fanning out and remerging. Either way, idle (powered-down) CPU cores aren't that valuable in back-end data-intensive calculations, but mostly in energy-sensitive environments like smartphones.
 
 
 ## What Was Tricky
@@ -108,10 +107,10 @@ sh build.sh
 
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), whose integration into ISO C++ has been postponed to after C++20... but Kohlhoff wrote ASIO, so he knows his stuff.
 * my colleague Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but it's still lacking some features like cross-computer/cluster messaging.
-* entirely forgo trying to predicting the # of exit nodes, instead embedding a countdown of maximum # of nodes to travel
+* entirely forgo to predict the # of exit nodes, instead embedding a countdown of maximum # of nodes to travel (but message size would be larger)
 * generating different node/actor class types to account for different computations (with different CPU costs)
 * balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
-* output to graphviz format for visual debugging
+* output to `graphviz` format for visual debugging
 
 
 
