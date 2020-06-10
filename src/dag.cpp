@@ -248,7 +248,7 @@ private:
     const uint32_t    m_TotalNodes;
     const uint32_t    m_RootNodes;
     const uint32_t    m_RndBucketSize;
-    const uint32_t    m_MaxBranchNodes;
+    const uint32_t    m_MaxBranchNodes;         // same as depth
     
     mutable uint32_t  m_TraversedNodes;
     mutable uint32_t  m_MaxTraversedDepth;
