@@ -54,7 +54,7 @@ Once the DAG is generated, but before it is executed, this program must first do
 
 The randomized DAG generation is simplified so downstream nodes are only DAG descendants. It'd be possible to generate upstream DAG nodes while preventing cycles but it seems beyond the scope of this assignment.
 
-I use C++11 PRNGs instead of `/dev/udev/` randomization, so that each run is deterministic.
+I use C++11 PRNGs instead of `/dev/urandom/` so that each run is deterministic.
 
 
 ## To Do
