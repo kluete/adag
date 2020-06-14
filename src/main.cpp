@@ -77,7 +77,7 @@ ServiceInit
 
 struct Registry_serviceTag: public Service {};
 
-class RegistryService: public Actor
+class RegistryService: public qb::Actor
 {
 public:
 
@@ -113,11 +113,11 @@ public:
             
             for (uint32_t i = 0; i < ROOT_NODES; i++)
             {
-                const ActorId    aid(m_Dag->GetNodeActorId(i));
+                const auto    aid(m_Dag->GetNodeActorId(i));
                 
-                Event::Pipe pipe_to_child(*this, aid);
-            
-                pipe_to_child.push<ComputeEvent>(0/*init val*/);
+                auto &e = push<ComputeEvent>(aid, 0);
+                
+                // e.push<ComputeEvent>(0/*init val*/);
             }
         }
     }
@@ -191,14 +191,14 @@ public:
         t_LogStamp.reset();
         
         registerCallback(*this);	                    // callback once is instantiated on right cpu/core
-		registerEventHandler<ComputeEvent>(*this);
+		registerEvent<ComputeEvent>(*this);
     }
     
 	// called when ComputeEvent is received
 	void onEvent(const ComputeEvent& e)
     {
 		if (t_LogStamp.elap_secs() > 2)
-        {   cout << "ComputeEvent: " << hex << e.m_Val << dec << " from " << e.getSourceActorId() << endl;
+        {   cout << "ComputeEvent: " << hex << e.m_Val << dec << " from " << e.getSource() << endl;
         
             t_LogStamp.reset();
         }

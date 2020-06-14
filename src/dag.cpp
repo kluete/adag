@@ -258,7 +258,7 @@ private:
     uint32_t          m_TotalTerminations;
     mutable timestamp_t       m_EndingsStamp;
     
-    vector<vector<uint32_t>>           m_NodeToChildNodesTab;
+    vector<vector<uint32_t>>                m_NodeToChildNodesTab;
     std::unordered_map<uint32_t, ActorId>   m_NodeToActorIdMap;
 };
 
