@@ -11,24 +11,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <VirtualDirectory Name="util">
-      <File Name="thirdparty/simplex/src/pattern/waitcondition.cpp"/>
-      <File Name="thirdparty/simplex/src/pattern/keyboardactor.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="engine">
-      <VirtualDirectory Name="parallel">
-        <File Name="thirdparty/simplex/src/engine/parallel/parallel_xplat.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="linux">
-        <File Name="thirdparty/simplex/src/engine/linux/platform_linux.cpp"/>
-        <File Name="thirdparty/simplex/src/engine/linux/platform_gcc.cpp"/>
-      </VirtualDirectory>
-      <File Name="thirdparty/simplex/src/engine/node.cpp"/>
-      <File Name="thirdparty/simplex/src/engine/engine.cpp"/>
-      <File Name="thirdparty/simplex/src/engine/e2e_stub.cpp"/>
-      <File Name="thirdparty/simplex/src/engine/actor.cpp"/>
-      <File Name="thirdparty/simplex/src/engine/RefMapper.cpp"/>
-    </VirtualDirectory>
+    <File Name="src/waitcondition.cpp"/>
     <VirtualDirectory Name="common">
       <File Name="thirdparty/lxUtils/src/xutils.cpp"/>
       <File Name="thirdparty/lxUtils/src/xstring.cpp"/>
@@ -38,53 +21,20 @@
     <File Name="src/main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
-    <VirtualDirectory Name="engine">
-      <VirtualDirectory Name="internal">
-        <File Name="thirdparty/simplex/include/trz/engine/internal/time.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/thread.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/stringstream.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/service.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/serialbufferchain.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/rtexception.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/route.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/property.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/parallel.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/node.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/mmapserialbuffer.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/mforwardchain.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/mdoublechain.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/macro.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/intrinsics.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/endianness.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/dlldecorationsave.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/dlldecorationrestore.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/dlldecoration.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/datastream.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/cacheline.h"/>
-        <File Name="thirdparty/simplex/include/trz/engine/internal/RefMapper.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="linux"/>
-      <File Name="thirdparty/simplex/include/trz/engine/platform.h"/>
-      <File Name="thirdparty/simplex/include/trz/engine/initializer.h"/>
-      <File Name="thirdparty/simplex/include/trz/engine/event.h"/>
-      <File Name="thirdparty/simplex/include/trz/engine/engineversion.h"/>
-      <File Name="thirdparty/simplex/include/trz/engine/engine.h"/>
-      <File Name="thirdparty/simplex/include/trz/engine/actor.h"/>
-    </VirtualDirectory>
     <File Name="inc/zamai.h"/>
     <VirtualDirectory Name="common">
       <File Name="thirdparty/lxUtils/inc/lx/xutils.h"/>
       <File Name="thirdparty/lxUtils/inc/lx/xstring.h"/>
       <File Name="thirdparty/lxUtils/inc/lx/ulog.h"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="util"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wextra;-std=c++14;-Wno-unused-parameter;-Wno-noexcept-type;-Wno-error=class-memaccess" C_Options="" Assembler="">
+      <Compiler Options="-Wextra;-std=c++17;-Wno-unused-parameter;-Wno-noexcept-type;-Wno-error=class-memaccess" C_Options="" Assembler="">
         <IncludePath Value="inc"/>
-        <IncludePath Value="$(SIMPLX_DIR)/include"/>
+        <IncludePath Value="thirdparty/cube/include"/>
         <IncludePath Value="thirdparty/lxUtils/inc"/>
+        <IncludePath Value="thirdparty/cube/modules"/>
       </Compiler>
       <Linker Options=""/>
       <ResourceCompiler Options=""/>

@@ -6,10 +6,12 @@
 #include <limits>
 #include <signal.h>
  
-#include "simplx.h"
+// #include "cube.h"    // useless
+#include "qb/actor.h"
+#include "qb/event.h"
 
 #include "zamai.h"
-#include "trz/pattern/waitcondition.h"
+#include "waitcondition.h"
 
 #include "lx/xutils.h"
 #include "lx/xstring.h"
@@ -21,13 +23,12 @@ constexpr uint32_t  ROOT_NODES                  = 4;                    // same 
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5 * BLOWUP;
 
 using namespace std;
-using namespace tredzone;
 using namespace zamai;
 using namespace LX;
 
 //---- Compute Event (sent to ComputeActors) -----------------------------------
 
-struct ComputeEvent : Actor::Event
+struct ComputeEvent : public qb::Event
 {
 	ComputeEvent(const uint32_t v, const uint32_t n_computed = 0)
         : m_Val(v), m_NumComputed(n_computed)

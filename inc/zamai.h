@@ -2,13 +2,16 @@
 #pragma once
 
 #include <vector>
-#include "simplx.h"
+
+// #include "cube.h"    // useless
+#include "qb/actor.h"
+#include "qb/event.h"
+
 
 namespace zamai
 {
 // import into namespace
 using std::vector;
-using tredzone::Actor;
 
 constexpr uint32_t  NODE_CHILD_END = std::numeric_limits<uint32_t>::max();
 
@@ -20,7 +23,7 @@ public:
 
     virtual ~IDag() = default;
     
-    virtual void                RegisterActorId(const uint32_t id, const Actor::ActorId &actor_id) = 0;
+    virtual void                RegisterActorId(const uint32_t id, const qb::Actor::ActorId &actor_id) = 0;
     virtual uint32_t            GetTotatlTerminations(void) const = 0;
     virtual vector<uint32_t>    GetChildNodes(const uint32_t id) const = 0;
     virtual Actor::ActorId      GetNodeActorId(const uint32_t id) const = 0;

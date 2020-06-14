@@ -71,7 +71,7 @@ I use C++11 PRNGs instead of `/dev/urandom/` so that each run is deterministic.
 * compiles with gcc 8.3 in C++14
 
 ```
-git submodule update --init
+git submodule update --init --recursive
 
 sh build.sh
 ```

@@ -12,8 +12,6 @@
 #include <sstream>
 #include <algorithm>            // for std::max
 
-#include "simplx.h"
-
 #include "zamai.h"
 
 #include "lx/xutils.h"
