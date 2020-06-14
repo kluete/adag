@@ -213,7 +213,8 @@ public:
     void onCallback()
     {
 		// can register now that has true core position (should happen once), but not yet start events
-        const auto	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
+        // const auto	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
+        const auto	RegistryActorId = RegistryService::sid();
         
         push<ComputeEvent>(RegistryActorId, m_Id, getActorId());
         
