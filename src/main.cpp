@@ -4,11 +4,12 @@
 #include <vector>
 #include <random>
 #include <limits>
-
+#include <signal.h>
+ 
 #include "simplx.h"
 
 #include "zamai.h"
-#include "trz/util/waitcondition.h"
+#include "trz/pattern/waitcondition.h"
 
 #include "lx/xutils.h"
 #include "lx/xstring.h"
