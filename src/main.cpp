@@ -115,7 +115,8 @@ public:
             {
                 const auto    aid(m_Dag->GetNodeActorId(i));
                 
-                auto &e = push<ComputeEvent>(aid, 0);
+                // auto &e = push<ComputeEvent>(aid, 0/*init val*/);
+                push<ComputeEvent>(aid, 0/*init val*/);
                 
                 // e.push<ComputeEvent>(0/*init val*/);
             }
@@ -177,7 +178,7 @@ public:
 
 thread_local timestamp_t  t_LogStamp;
 
-class ComputeActor : public Actor, public Actor::Callback
+class ComputeActor : public Actor, public ICallback
 {
 public:
 
@@ -214,9 +215,9 @@ public:
 		// can register now that has true core position (should happen once), but not yet start events
         const auto	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
         
-        Event::Pipe pipe_to_registry(*this, RegistryActorId);
-            
-        pipe_to_registry.push<RegisterNodeEvent>(m_Id, getActorId());
+        push<ComputeEvent>(RegistryActorId, 0/*init val*/);
+        
+        Event::Pipe pipe_to_registry(*this, RegistryActorId, m_Id, getActorId());            
 	}
     
 private:
