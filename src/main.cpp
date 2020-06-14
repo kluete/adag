@@ -215,9 +215,9 @@ public:
 		// can register now that has true core position (should happen once), but not yet start events
         const auto	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
         
-        push<ComputeEvent>(RegistryActorId, 0/*init val*/);
+        push<ComputeEvent>(RegistryActorId, m_Id, getActorId());
         
-        Event::Pipe pipe_to_registry(*this, RegistryActorId, m_Id, getActorId());            
+        // Event::Pipe pipe_to_registry(*this, RegistryActorId, m_Id, getActorId());            
 	}
     
 private:
