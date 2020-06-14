@@ -24,6 +24,7 @@ constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5 * BLOWUP;
 
 using namespace std;
 using namespace zamai;
+using namespace qb;
 using namespace LX;
 
 //---- Compute Event (sent to ComputeActors) -----------------------------------
@@ -41,20 +42,20 @@ struct ComputeEvent : public qb::Event
 
 //---- Register Node event ----------------------------------------------------
 
-struct RegisterNodeEvent : Actor::Event
+struct RegisterNodeEvent : qb::Event
 {
-    RegisterNodeEvent(const uint32_t id, const Actor::ActorId actor_id)
+    RegisterNodeEvent(const uint32_t id, const ActorId actor_id)
         : m_Id(id), m_ActorId(actor_id)
     {
     }
     
-    const uint32_t          m_Id;
-    const Actor::ActorId    m_ActorId;
+    const uint32_t   m_Id;
+    const ActorId    m_ActorId;
 };
 
 //---- Path Termination event (so can countdown til end) -----------------------
 
-struct PathTerminationEvent : Actor::Event  { };
+struct PathTerminationEvent : qb::Event  { };
 
 //---- Service Init ------------------------------------------------------------
 
@@ -86,8 +87,8 @@ public:
         m_TotalTerminations(m_Dag->GetTotatlTerminations()), m_TerminatedCount(0),
         m_NumNodesRegistered(0)
     {
-        registerEventHandler<RegisterNodeEvent>(*this);
-        registerEventHandler<PathTerminationEvent>(*this);
+        registerEvent<RegisterNodeEvent>(*this);
+        registerEvent<PathTerminationEvent>(*this);
     }
     
     // register node -> actor id, start event loops when all registered
@@ -112,7 +113,7 @@ public:
             
             for (uint32_t i = 0; i < ROOT_NODES; i++)
             {
-                const Actor::ActorId    aid = m_Dag->GetNodeActorId(i);
+                const ActorId    aid(m_Dag->GetNodeActorId(i));
                 
                 Event::Pipe pipe_to_child(*this, aid);
             

@@ -14,13 +14,16 @@
 
 #include "zamai.h"
 
+#include "qb/actor.h"
+#include "qb/event.h"
+
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
 namespace zamai
 {
 using namespace std;
-using namespace tredzone;
+using namespace qb;
 using namespace LX;
 
 //---- DAG imp -----------------------------------------------------------------
@@ -50,7 +53,7 @@ public:
         return m_TotalTerminations;
     }
     
-    void    RegisterActorId(const uint32_t id, const Actor::ActorId &actor_id) override
+    void    RegisterActorId(const uint32_t id, const ActorId &actor_id) override
     {
         assert(id < m_TotalNodes);
         
@@ -72,14 +75,14 @@ public:
         return children;
     }
     
-    Actor::ActorId  GetNodeActorId(const uint32_t id) const override
+    ActorId  GetNodeActorId(const uint32_t id) const override
     {
         assert(id < m_TotalNodes);
         
         // make sure exists (though may be empty actor ID)
         assert(m_NodeToActorIdMap.count(id));
         
-        const Actor::ActorId    aid = m_NodeToActorIdMap.at(id);
+        const ActorId    aid = m_NodeToActorIdMap.at(id);
         // check isn't null actor id
         assert(aid != Actor::ActorId());
         
@@ -255,8 +258,8 @@ private:
     uint32_t          m_TotalTerminations;
     mutable timestamp_t       m_EndingsStamp;
     
-    vector<vector<uint32_t>>                  m_NodeToChildNodesTab;
-    unordered_map<uint32_t, Actor::ActorId>   m_NodeToActorIdMap;
+    vector<vector<uint32_t>>           m_NodeToChildNodesTab;
+    std::unordered_map<uint32_t, ActorId>   m_NodeToActorIdMap;
 };
 
 //---- INSTANTIATION -----------------------------------------------------------

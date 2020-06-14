@@ -26,7 +26,7 @@ public:
     virtual void                RegisterActorId(const uint32_t id, const qb::ActorId &actor_id) = 0;
     virtual uint32_t            GetTotatlTerminations(void) const = 0;
     virtual vector<uint32_t>    GetChildNodes(const uint32_t id) const = 0;
-    virtual qb::ActorId      GetNodeActorId(const uint32_t id) const = 0;
+    virtual qb::ActorId         GetNodeActorId(const uint32_t id) const = 0;
     virtual void                DumpDAG(void) const = 0;
     
     static
