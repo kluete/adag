@@ -11,6 +11,15 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="qb">
+      <File Name="thirdparty/cube/source/io/src/async/listener.cpp"/>
+      <File Name="thirdparty/cube/source/core/src/io.cpp"/>
+      <File Name="thirdparty/cube/source/core/src/VirtualCore.cpp"/>
+      <File Name="thirdparty/cube/source/core/src/Main.cpp"/>
+      <File Name="thirdparty/cube/source/core/src/CoreSet.cpp"/>
+      <File Name="thirdparty/cube/source/core/src/ActorId.cpp"/>
+      <File Name="thirdparty/cube/source/core/src/Actor.cpp"/>
+    </VirtualDirectory>
     <File Name="src/waitcondition.cpp"/>
     <VirtualDirectory Name="common">
       <File Name="thirdparty/lxUtils/src/xutils.cpp"/>
