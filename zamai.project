@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="zamai" Version="10.0.0" InternalType="Console">
-  <VirtualDirectory Name="res">
-    <File Name="res/deleted.txt"/>
-  </VirtualDirectory>
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00010001N0009Debug gcc000000000000]]>
     </Plugin>
   </Plugins>
+  <VirtualDirectory Name="res">
+    <File Name="res/deleted.txt"/>
+  </VirtualDirectory>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
@@ -18,83 +18,15 @@
     </VirtualDirectory>
     <File Name="src/dag.cpp"/>
     <File Name="src/main.cpp"/>
-    <VirtualDirectory Name="engine">
-      <File Name="./thirdparty/simplex/src/engine/actor.cpp"/>
-      <File Name="./thirdparty/simplex/src/engine/e2econnector.cpp" ExcludeProjConfig=""/>
-      <File Name="./thirdparty/simplex/src/engine/engine.cpp"/>
-      <File Name="./thirdparty/simplex/src/engine/node.cpp"/>
-      <File Name="./thirdparty/simplex/src/engine/linux/platform_gcc.cpp"/>
-      <File Name="./thirdparty/simplex/src/engine/RefMapper.cpp"/>
-      <File Name="./thirdparty/simplex/src/engine/e2e_stub.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="util">
-      <File Name="./thirdparty/simplex/src/util/waitcondition.cpp"/>
-      <VirtualDirectory Name="timer">
-        <File Name="./thirdparty/simplex/src/util/timer/timeractor.cpp"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="inc/zamai.h"/>
-    <VirtualDirectory Name="engine">
-      <File Name="./thirdparty/simplex/include/trz/engine/platform.h"/>
-      <File Name="./thirdparty/simplex/include/trz/engine/actor.h"/>
-      <File Name="./thirdparty/simplex/include/trz/engine/engine.h"/>
-      <File Name="./thirdparty/simplex/include/trz/engine/engineversion.h"/>
-      <File Name="./thirdparty/simplex/include/trz/engine/initializer.h"/>
-      <VirtualDirectory Name="internal">
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/cacheline.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/dlldecoration.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/dlldecorationrestore.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/dlldecorationsave.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/e2econnector.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/macro.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/mdoublechain.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/mforwardchain.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/node.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/parallel.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/property.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/rtexception.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/serialbufferchain.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/stringstream.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/thread.h"/>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/time.h"/>
-        <VirtualDirectory Name="linux">
-          <File Name="./thirdparty/simplex/include/trz/engine/internal/linux/platform_gcc.h"/>
-        </VirtualDirectory>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/intrinsics.h"/>
-        <VirtualDirectory Name="dummy">
-          <File Name="./thirdparty/simplex/include/trz/engine/internal/dummy/traceref_dummy.h"/>
-        </VirtualDirectory>
-        <File Name="./thirdparty/simplex/include/trz/engine/internal/mmapserialbuffer.h"/>
-      </VirtualDirectory>
-      <File Name="./thirdparty/simplex/include/trz/engine/RefMapper.h"/>
-    </VirtualDirectory>
-    <File Name="./thirdparty/simplex/include/simplx.h"/>
     <VirtualDirectory Name="common">
       <File Name="thirdparty/lxUtils/inc/lx/xutils.h"/>
       <File Name="thirdparty/lxUtils/inc/lx/xstring.h"/>
       <File Name="thirdparty/lxUtils/inc/lx/ulog.h"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="util">
-      <File Name="./thirdparty/simplex/include/trz/util/waitcondition.h"/>
-      <VirtualDirectory Name="log">
-        <File Name="./thirdparty/simplex/include/trz/util/log/logbackend.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/log/logevent.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/log/logproxy.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/log/logservice.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/log.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="timer">
-        <File Name="./thirdparty/simplex/include/trz/util/timer/timeractor.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/timer/timerevent.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/timer/timerproxy.h"/>
-        <File Name="./thirdparty/simplex/include/trz/util/timer.h"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
-    <VirtualDirectory Name="enterprise">
-      <File Name="./thirdparty/simplex/include/trz/enterprise/traceref.h"/>
-    </VirtualDirectory>
+    <VirtualDirectory Name="util"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
