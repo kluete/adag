@@ -212,7 +212,7 @@ public:
     void onCallback()
     {
 		// can register now that has true core position (should happen once), but not yet start events
-        const ActorId	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
+        const auto	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
         
         Event::Pipe pipe_to_registry(*this, RegistryActorId);
             
