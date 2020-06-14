@@ -1,6 +1,3 @@
-[submodule "thirdparty/simplex"]
-	path = thirdparty/simplex
-	url = git@github.com:kluete/simplex.git
 [submodule "thirdparty/lxUtils"]
 	path = thirdparty/lxUtils
 	url = https://github.com/kluete/lxUtils.git
