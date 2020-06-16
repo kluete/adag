@@ -5,7 +5,7 @@ project(qb-zamai)
 # qb minimum requirements
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(QB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/qb")
+set(QB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cube")
 option(CMAKE_BUILD_TYPE Release)
 
 # Add qb framework

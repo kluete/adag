@@ -70,6 +70,8 @@ I use C++11 PRNGs instead of `/dev/urandom/` so that each run is deterministic.
 
 * compiles with gcc 8.3 in C++14
 
+from root dir:
+
 ```
 git submodule update --init --recursive
 
@@ -82,7 +84,7 @@ sh build.sh
 from root dir:
 
 ```
-make -B build/release -H./ -DCMAKE_BUILD_TYPE=Release
+cmake -B build/release -H./ -DCMAKE_BUILD_TYPE=Release
 ```
 
 
