@@ -12,6 +12,16 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="qb">
+      <VirtualDirectory Name="ev">
+        <File Name="thirdparty/cube/modules/ev/event.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev_select.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev_port.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev_poll.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev_linuxaio.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev_kqueue.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev_epoll.c"/>
+        <File Name="thirdparty/cube/modules/ev/ev.c"/>
+      </VirtualDirectory>
       <VirtualDirectory Name="nanolog">
         <File Name="thirdparty/cube/modules/nanolog/nanolog.cpp"/>
       </VirtualDirectory>
@@ -217,8 +227,6 @@
     <Configuration Name="Release gcc" CompilerType="gcc8" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O3;-mtune=native;-Wno-unused-parameter" C_Options="-O3;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="NDEBUG"/>
-        <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
-        <Preprocessor Value="TREDZONE_CHECK_CYCLICAL_REFS=0"/>
       </Compiler>
       <Linker Options="-pthread" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
