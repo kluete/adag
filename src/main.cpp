@@ -5,31 +5,28 @@
 #include <random>
 #include <limits>
 #include <signal.h>
- 
-// #include "cube.h"    // useless
-#include "qb/actor.h"
-#include "qb/event.h"
+#include <qb/actor.h>
+#include <qb/main.h>
 
 #include "zamai.h"
-#include "waitcondition.h"
 
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
-constexpr uint32_t  BLOWUP                      = 10000;                    // try 1;
+constexpr uint32_t  BLOWUP                      = 1;                    // try 1;
 
 constexpr uint32_t  TOTAL_AVAIL_NODES            = 200 * BLOWUP;
 constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than physical # CPU cores
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5 * BLOWUP;
 
 using namespace std;
-using namespace zamai;
 using namespace qb;
+using namespace zamai;
 using namespace LX;
 
 //---- Compute Event (sent to ComputeActors) -----------------------------------
 
-struct ComputeEvent : public qb::Event
+struct ComputeEvent : Event
 {
 	ComputeEvent(const uint32_t v, const uint32_t n_computed = 0)
         : m_Val(v), m_NumComputed(n_computed)
@@ -42,20 +39,20 @@ struct ComputeEvent : public qb::Event
 
 //---- Register Node event ----------------------------------------------------
 
-struct RegisterNodeEvent : qb::Event
+struct RegisterNodeEvent : Event
 {
     RegisterNodeEvent(const uint32_t id, const ActorId actor_id)
         : m_Id(id), m_ActorId(actor_id)
     {
     }
     
-    const uint32_t   m_Id;
+    const uint32_t          m_Id;
     const ActorId    m_ActorId;
 };
 
 //---- Path Termination event (so can countdown til end) -----------------------
 
-struct PathTerminationEvent : qb::Event  { };
+struct PathTerminationEvent : Event  { };
 
 //---- Service Init ------------------------------------------------------------
 
@@ -63,27 +60,26 @@ struct
 ServiceInit
 {
     // ctor
-    ServiceInit(IDag *idag, shared_ptr<IWaitCondition> wait_cond)
-        : m_IDag(idag), m_IWaitCond(wait_cond)
+    ServiceInit(IDag *idag)
+        : m_IDag(idag)
     {
         assert(idag);
     }
     
     IDag                        *m_IDag;
-    shared_ptr<IWaitCondition>  m_IWaitCond;
 };
 
 //----Registry Service ---------------------------------------------------------
 
-struct Registry_serviceTag: public Service {};
+struct Registry_serviceTag {};
 
-class RegistryService: public qb::Actor
+class RegistryService: public ServiceActor<Registry_serviceTag>
 {
 public:
 
     // ctor
     RegistryService(const ServiceInit &init)
-        : m_Dag(init.m_IDag), m_WaitCondition(init.m_IWaitCond),
+        : m_Dag(init.m_IDag),
         m_TotalTerminations(m_Dag->GetTotatlTerminations()), m_TerminatedCount(0),
         m_NumNodesRegistered(0)
     {
@@ -92,7 +88,7 @@ public:
     }
     
     // register node -> actor id, start event loops when all registered
-    void    onEvent(const RegisterNodeEvent &e)
+    void    on(const RegisterNodeEvent &e)
     {
         m_Dag->RegisterActorId(e.m_Id, e.m_ActorId);
         
@@ -113,18 +109,15 @@ public:
             
             for (uint32_t i = 0; i < ROOT_NODES; i++)
             {
-                const auto    aid(m_Dag->GetNodeActorId(i));
-                
-                // auto &e = push<ComputeEvent>(aid, 0/*init val*/);
-                push<ComputeEvent>(aid, 0/*init val*/);
-                
-                // e.push<ComputeEvent>(0/*init val*/);
+                const auto    aid = m_Dag->GetNodeActorId(i);
+
+                push<ComputeEvent>(aid, 0);
             }
         }
     }
     
     // a DAG path has terminated (hit a leave)
-    void    onEvent(const PathTerminationEvent &e)
+    void    on(const PathTerminationEvent &e)
     {
         m_TerminatedCount++;
         
@@ -140,14 +133,13 @@ public:
             cout << "  elapsed = " << m_StartStamp.elap_str() << endl;
             
             // allow exit
-            m_WaitCondition->notify();
+            broadcast<KillEvent>();
         }
     }
     
 private:
 
     IDag                        *m_Dag;
-    shared_ptr<IWaitCondition>  m_WaitCondition;
     const uint32_t              m_TotalTerminations;
     uint32_t                    m_TerminatedCount;
     uint32_t                    m_NumNodesRegistered;
@@ -178,7 +170,8 @@ public:
 
 thread_local timestamp_t  t_LogStamp;
 
-class ComputeActor : public Actor, public ICallback
+class ComputeActor
+    : public Actor
 {
 public:
 
@@ -191,12 +184,12 @@ public:
         
         t_LogStamp.reset();
         
-        registerCallback(*this);	                    // callback once is instantiated on right cpu/core
 		registerEvent<ComputeEvent>(*this);
+        push<RegisterNodeEvent>(getServiceId<Registry_serviceTag>(0), m_Id, id());
     }
     
 	// called when ComputeEvent is received
-	void onEvent(const ComputeEvent& e)
+	void on(const ComputeEvent& e)
     {
 		if (t_LogStamp.elap_secs() > 2)
         {   cout << "ComputeEvent: " << hex << e.m_Val << dec << " from " << e.getSource() << endl;
@@ -208,17 +201,6 @@ public:
         const uint32_t  rolling = (uint32_t) ((e.m_Val + m_OpBias) * m_OpMul);
         
         BroadcastToChildren(rolling, e.m_NumComputed + 1);
-	}
-    
-    void onCallback()
-    {
-		// can register now that has true core position (should happen once), but not yet start events
-        // const auto	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
-        const auto	RegistryActorId = RegistryService::sid();
-        
-        push<ComputeEvent>(RegistryActorId, m_Id, getActorId());
-        
-        // Event::Pipe pipe_to_registry(*this, RegistryActorId, m_Id, getActorId());            
 	}
     
 private:
@@ -240,22 +222,16 @@ private:
                 return;
             }
             
-            const Actor::ActorId     child_actor_id = m_Dag->GetNodeActorId(child_id);
+            const auto     child_actor_id = m_Dag->GetNodeActorId(child_id);
             
-            Event::Pipe pipe_to_child(*this, child_actor_id);
-            
-            pipe_to_child.push<ComputeEvent>(val, n_computed);
+            push<ComputeEvent>(child_actor_id, val, n_computed);
         }
     }
     
     // send PathTerminationEvent to registry
     void    NotifyPathTermination(void)
     {
-        const ActorId	RegistryActorId = getEngine().getServiceIndex().getServiceActorId<Registry_serviceTag>();
-        
-        Event::Pipe pipe_to_registry(*this, RegistryActorId);
-            
-        pipe_to_registry.push<PathTerminationEvent>();
+        push<PathTerminationEvent>(getServiceId<Registry_serviceTag>(0));
     }
 
     const IDag          *m_Dag;
@@ -268,7 +244,7 @@ private:
 extern "C"
 void my_assert_handler(int)
 {
-    ::kill(0, SIGTRAP);
+    //::kill(0, SIGTRAP);
 }
 
 //---- MAIN --------------------------------------------------------------------
@@ -289,11 +265,10 @@ int main(int argc, char **argv)
     cout << "  RANDOM_BUCKET_SIZE = " << RANDOM_BUCKET_SIZE << endl << endl;
     
     unique_ptr<IDag>            IDag(IDag::CreateDAG(TOTAL_AVAIL_NODES, ROOT_NODES, RANDOM_BUCKET_SIZE));
-    shared_ptr<IWaitCondition>  wait_condition(IWaitCondition::Create());
     
-    Engine::StartSequence   startSequence;	        // configure initial Actor system
+    qb::Main engine({0, 1, 2, 3});     // will use only cores [0; 3]
     
-    startSequence.addServiceActor<Registry_serviceTag, RegistryService>(0, ServiceInit(IDag.get(), wait_condition));
+    engine.core(0).addActor<RegistryService>(ServiceInit(IDag.get()));
     
     auto	rnd_gen = bind(uniform_real_distribution<>(0, 1.0), default_random_engine{0/*seed*/});
     
@@ -308,14 +283,13 @@ int main(int argc, char **argv)
         const uint32_t  op_mul = rnd_gen() * 0xffffu;
         const uint32_t  op_bias = rnd_gen() * 0xffffu;
         
-        startSequence.addActor<ComputeActor>(cpu_core_id, ComputeInit(IDag.get(), i, op_mul, op_bias));
+        engine.addActor<ComputeActor>(cpu_core_id, ComputeInit(IDag.get(), i, op_mul, op_bias));
     }
     
     cout << " all nodes instantiated, starting CPU core event loop threads..." << endl;
     
-    Engine engine(startSequence);	                // start above actors
-
-    wait_condition->wait();
+    engine.start(false);
+    engine.join();
     
     cout << "demo done!" << endl;
     

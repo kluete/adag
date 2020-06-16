@@ -12,6 +12,9 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="qb">
+      <VirtualDirectory Name="nanolog">
+        <File Name="thirdparty/cube/modules/nanolog/nanolog.cpp"/>
+      </VirtualDirectory>
       <File Name="thirdparty/cube/source/io/src/async/listener.cpp"/>
       <File Name="thirdparty/cube/source/core/src/io.cpp"/>
       <File Name="thirdparty/cube/source/core/src/VirtualCore.cpp"/>
