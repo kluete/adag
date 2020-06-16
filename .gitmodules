@@ -1,3 +1,6 @@
 [submodule "thirdparty/lxUtils"]
 	path = thirdparty/lxUtils
 	url = https://github.com/kluete/lxUtils.git
+[submodule "thirdparty/cube"]
+	path = thirdparty/cube
+	url = git@github.com:kluete/cube.git
