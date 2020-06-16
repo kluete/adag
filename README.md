@@ -77,6 +77,15 @@ sh build.sh
 ```
 
 
+## for (private) `qb` branch
+
+from root dir:
+
+```
+make -B build/release -H./ -DCMAKE_BUILD_TYPE=Release
+```
+
+
 ## What Worked
 
 * preventing DAG loops
