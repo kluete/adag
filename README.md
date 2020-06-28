@@ -3,7 +3,7 @@
 
 ## Goal
 
-Traverse a randomly generated DAG with Machine-Learning-like, *butterfly*-like connections, with each node carrying out a simple compute operation -- at top speed, on a multi-CPU/multi-Core computer running a real-time Linux flavor.
+Traverse a randomly generated [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) with Machine Learning-like, butterfly-like, criss-crossing connections, with each node carrying out a simple compute operation -- at top speed, on a multi-CPU/multi-Core computer running a real-time Linux flavor.
 
 
 ## Overview
