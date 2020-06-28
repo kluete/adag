@@ -1,10 +1,14 @@
+# Asynchronous Direct Acyclic Graph (ADAG)
 
-# ZAMAI DAG challenge using Actor Model
+
+## Goal
+
+Traverse a randomly generated DAG with Machine-Learning, *butterfly*-like connections, with each node carrying out a simple compute operation -- at top speed, on a multi-CPU/multi-Core computer running a real-time Linux flavor.
 
 
 ## Overview
 
-For this challenge I use the [simplex framework](https://github.com/kluete/simplex), which is an [Actor Model](https://en.wikipedia.org/wiki/Actor_model): each thread should be pinned on a CPU core (with said cores masked out from the Linux kernel config), i.e. one core = one thread. Hyper-threading should be disabled as it just burdens L1/L2 caches and is only beneficial if a thread is stuck, say on an I/O operation.
+For this demo I use the [simplex framework](https://github.com/kluete/simplex), which is an [Actor Model](https://en.wikipedia.org/wiki/Actor_model): each thread is pinned on a CPU core (with said cores masked out from the Linux kernel config), i.e. one core = one thread. Hyper-threading should be disabled as it just burdens L1/L2 caches and is only beneficial if a thread is stuck, say on an I/O operation.
 
 Each thread runs an event loop whose templated event handlers have minimal overhead. All those threads communicate through a common (software) memory bus making efficient use of the L3 cache.
 
@@ -87,7 +91,7 @@ sh build.sh
 ## What Didn't Work
 
 * preventing a DAG edge from being traversed more than once. With both fanning and merging, it is possible for a path (A) to split into two paths (B1 and B2), each traversing whatever unrelated nodes for a few iterations and then remerging into the same node (C). Whatever happens downstream of that remerged node (C) will be executed twice. On a large-enough DAG (with a million nodes, say), these "reconvergences" can happen multiple times -- leading to *exponential* complexity and CPU cost. Exponential isn't the same as infinite but can sure feel the same on a human scale!
-* this [spreadsheet](https://github.com/kluete/zamai/blob/master/timings.xlsx) shows the complexity growth
+* this [spreadsheet](https://github.com/kluete/adag/blob/master/timings.xlsx) shows the complexity growth
 * trying to generate enough node crossings (fan out / merge) to be interesting without generating overwhelming complexity... it's a crapshoot!
 
 
@@ -106,7 +110,7 @@ sh build.sh
 ## What Alternatives I'd Have Considered If Given More Time
 
 * Chris Kohlhoff's [executors](https://github.com/executors/executors), whose integration into ISO C++ has been postponed to after C++20... but Kohlhoff wrote ASIO, so he knows his stuff.
-* my colleague Mohamed B's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but it's still lacking some features like cross-computer/cluster messaging.
+* my friend Moby's [qb](https://github.com/isndev/qb), his actor framework is faster & more modern than Simplex but is still in development hence lacking some features
 * entirely forgo to predict the # of exit nodes, instead embedding a countdown of maximum # of nodes to travel (but message size would be larger)
 * generating different node/actor class types to account for different computations (with different CPU costs)
 * balancing CPU core load... but since hopping cores (with a significant payload) means cash flushes/resyncs, it's a tough problem if nodes' computational cost can't be quantified ahead of time
@@ -117,7 +121,7 @@ sh build.sh
 
 ## Misc Notes
 
-* IDag's virtual interface no doubt has a runtime cost, but I generally don't speculate about performance without profiler reports at hand
+* IDag's pure virtual interface no doubt has a runtime cost, but I generally don't speculate about performance without profiler reports at hand
 
 
 

@@ -1,4 +1,4 @@
-// main zama challenge
+// asynchronous (ML-like) DAG traversal
 
 #include <iostream>
 #include <vector>
