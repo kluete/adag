@@ -8,7 +8,8 @@
  
 #include "simplx.h"
 
-#include "zamai.h"
+#include "adag.h"
+
 #include "trz/pattern/waitcondition.h"
 
 #include "lx/xutils.h"
@@ -22,7 +23,7 @@ constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5 * BLOWUP;
 
 using namespace std;
 using namespace tredzone;
-using namespace zamai;
+using namespace adag;
 using namespace LX;
 
 //---- Compute Event (sent to ComputeActors) -----------------------------------
@@ -278,7 +279,7 @@ int main(int argc, char **argv)
         signal(SIGABRT, &my_assert_handler);
     #endif
 
-    cout << "zamai DAG w/ actor model *************************************************************" << endl << endl;
+    cout << "asynchronous DAG w/ actor model *******************************" << endl << endl;
     
     cout << "  TOTAL_AVAIL_NODES = " << TOTAL_AVAIL_NODES << endl;
     cout << "  ROOT_NODES = " << ROOT_NODES << endl;

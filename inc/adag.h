@@ -4,7 +4,7 @@
 #include <vector>
 #include "simplx.h"
 
-namespace zamai
+namespace adag
 {
 // import into namespace
 using std::vector;
@@ -30,8 +30,6 @@ public:
     IDag*   CreateDAG(const uint32_t total_nodes, const uint32_t root_nodes, const uint32_t rnd_bucket_size);
 };
 
-//---- Threaded Logger interface -----------------------------------------------
-
-} // namespace zamai
+} // namespace adag
 
 // nada mas

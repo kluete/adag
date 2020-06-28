@@ -14,12 +14,12 @@
 
 #include "simplx.h"
 
-#include "zamai.h"
+#include "adag.h"
 
 #include "lx/xutils.h"
 #include "lx/xstring.h"
 
-namespace zamai
+namespace adag
 {
 using namespace std;
 using namespace tredzone;
@@ -271,7 +271,7 @@ IDag*    IDag::CreateDAG(const uint32_t total_nodes, const uint32_t root_nodes, 
     return new DAGImp(total_nodes, root_nodes, rnd_bucket_size);
 }
 
-} // namespace zamai
+} // namespace adag
 
 // nada mas
 
