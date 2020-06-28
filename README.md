@@ -26,7 +26,7 @@ Note that in an Actor Model, involved CPU cores always run at 100% -- even when 
 There is almost no cost for instantiated actors that aren't actually used, i.e. that aren't processing events, except for their memory footprint... which the OS will page out at a one-off cost.
 
 
-## Test Case
+## Test Case 1
 
 A randomized DAG with:
 

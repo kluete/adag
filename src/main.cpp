@@ -17,7 +17,7 @@
 
 constexpr uint32_t  BLOWUP                      = 10000;                    // try 1;
 
-constexpr uint32_t  TOTAL_AVAIL_NODES            = 200 * BLOWUP;
+constexpr uint32_t  TOTAL_AVAIL_NODES           = 200 * BLOWUP;
 constexpr uint32_t  ROOT_NODES                  = 4;                    // same as # of DAG "entry points", should be slightly smaller than physical # CPU cores
 constexpr uint32_t  RANDOM_BUCKET_SIZE          = 5 * BLOWUP;
 
