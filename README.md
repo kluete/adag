@@ -97,7 +97,7 @@ sh build.sh
 
 ## What I Wrote Off (and didn't try)
 
-* on the fly core-hopping whenever a path fanned out. With large enough payloads, this would have resulted in major slowdowns due to cache flushes -- both on fanning out and remerging. Either way, idle (powered-down) CPU cores aren't that valuable in back-end data-intensive calculations, but mostly in energy-sensitive environments like smartphones.
+* on the fly core-hopping whenever a path fanned out. With large enough payloads, this would have resulted in major slowdowns due to cache flushes -- both on fanning out and remerging. Either way, idle (powered-down) CPU cores aren't that valuable in back-end data-intensive calculations, but mostly in environments like smartphones where energy conservation is more important than speed.
 
 
 ## What Was Tricky
