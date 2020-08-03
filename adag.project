@@ -133,7 +133,7 @@
       <Compiler Options="-g;-O0;-Wall;-pthread;-stdlib=libc++" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
       </Compiler>
-      <Linker Options="-pthread" Required="yes">
+      <Linker Options="-pthread;-lm" Required="yes">
         <Library Value="c++"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
@@ -215,12 +215,12 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Debug gcc" CompilerType="gcc8" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug gcc" CompilerType="gcc10" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall;-pthread;-Wno-error=class-memaccess;-Wno-class-memaccess;;-Wno-error=class-memaccess" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
         <Preprocessor Value="TREDZONE_CHECK_CYCLICAL_REFS=0"/>
       </Compiler>
-      <Linker Options="-pthread" Required="yes"/>
+      <Linker Options="-pthread;-lstdc++;-lm" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="adagd.bin" IntermediateDirectory="./.Debug" Command="adagd.bin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments=" " WorkingDirectory="$(WorkspacePath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
