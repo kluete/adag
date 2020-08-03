@@ -131,6 +131,7 @@
     </Configuration>
     <Configuration Name="Debug clang libcxx" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall;-pthread;-stdlib=libc++" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="/usr/include/x86_64-linux-gnu/c++/10/"/>
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
       </Compiler>
       <Linker Options="-pthread;-lm" Required="yes">
