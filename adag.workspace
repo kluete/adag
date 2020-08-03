@@ -2,7 +2,7 @@
 <CodeLite_Workspace Name="adag" Database="" Version="10.0.0">
   <Project Name="adag" Path="adag.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug gcc" Selected="yes">
+    <WorkspaceConfiguration Name="Debug gcc" Selected="no">
       <Environment/>
       <Project Name="adag" ConfigName="Debug gcc"/>
       <Project Name="adag" ConfigName="Debug gcc"/>

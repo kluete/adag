@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="adag" Version="10.0.0" InternalType="Console">
+<CodeLite_Project Name="adag" Version="11000" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00010001N0009Debug gcc000000000000]]>
@@ -81,9 +81,9 @@
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-Wextra;-std=c++14;-Wno-unused-parameter;-Wno-noexcept-type;-Wno-error=class-memaccess" C_Options="" Assembler="">
+      <Compiler Options="-Wextra;-std=c++14;-Wno-unused-parameter;-Wno-noexcept-type" C_Options="" Assembler="">
         <IncludePath Value="inc"/>
-        <IncludePath Value="$(SIMPLX_DIR)/include"/>
+        <IncludePath Value="thirdparty/simplex//include"/>
         <IncludePath Value="thirdparty/lxUtils/inc"/>
       </Compiler>
       <Linker Options=""/>
@@ -173,8 +173,11 @@
     <Configuration Name="Debug clang stdcxx" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall;-pthread" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
+        <Preprocessor Value="TREDZONE_PARALLEL_API_PTHREAD"/>
+        <Preprocessor Value="TREDZONE_PARALLEL_API_PTHREAD"/>
+        <Preprocessor Value="TREDZONE_PARALLEL_API"/>
       </Compiler>
-      <Linker Options="-pthread" Required="yes">
+      <Linker Options="-pthread;-lstdc++;-lm" Required="yes">
         <LibraryPath Value="$(LXBUILD)/gtest_gcc/"/>
         <Library Value="gtest"/>
       </Linker>
@@ -213,7 +216,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Debug gcc" CompilerType="gcc8" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-Wall;-pthread;-Wno-error=class-memaccess;-Wno-class-memaccess" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g;-O0;-Wall;-pthread;-Wno-error=class-memaccess;-Wno-class-memaccess;;-Wno-error=class-memaccess" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <Preprocessor Value="TREDZONE_PLATFORM_LINUX"/>
         <Preprocessor Value="TREDZONE_CHECK_CYCLICAL_REFS=0"/>
       </Compiler>
