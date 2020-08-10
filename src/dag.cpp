@@ -147,7 +147,8 @@ private:
         for (auto &children : m_NodeToChildNodesTab)
         {
             sort(children.begin(), children.end());
-            children.erase(unique( children.begin(), children.end() ), children.end());
+            // removes duplicates and returns end iterator, then used to delete garbage
+            children.erase(unique(children.begin(), children.end()), children.end());
         }
     }
     
