@@ -178,10 +178,7 @@
         <Preprocessor Value="TREDZONE_PARALLEL_API_PTHREAD"/>
         <Preprocessor Value="TREDZONE_PARALLEL_API"/>
       </Compiler>
-      <Linker Options="-pthread;-lstdc++;-lm" Required="yes">
-        <LibraryPath Value="$(LXBUILD)/gtest_gcc/"/>
-        <Library Value="gtest"/>
-      </Linker>
+      <Linker Options="-pthread;-lstdc++;-lm" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="dtor_bugd_clang_stdcxx.bin" IntermediateDirectory="./Debug" Command="./dtor_bugd_clang_stdcxx.bin" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
